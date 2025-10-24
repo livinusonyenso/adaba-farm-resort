@@ -6,12 +6,14 @@ import FAQSection from "@/components/FAQSection"
 import GallerySection from "@/components/GallerySection"
 import CTASection from "@/components/CTASection"
 import Footer from "@/components/Footer"
+import AboutSection from "@/components/about-section"
 
 export default function Home() {
   return (
     <main className="min-h-screen">
       <Navbar />
       <HeroSection />
+      <AboutSection/>
       <InvestmentPlans />
       <HowItWorks />
       <GallerySection />

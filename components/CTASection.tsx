@@ -23,7 +23,7 @@ export default function CTASection() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
-                href="/dashboard"
+                href="/book-visit"
                 className="inline-block px-8 py-4 bg-secondary text-foreground font-bold rounded-xl hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 Start Investing Now

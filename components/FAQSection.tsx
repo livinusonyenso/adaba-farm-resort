@@ -78,7 +78,7 @@ function AccordionItem({ item, index, isOpen, onToggle }: AccordionItemProps) {
             transition={{ duration: 0.3 }}
             className="border-t border-border"
           >
-            <div className="px-6 py-4 bg-background text-muted">{item.answer}</div>
+            <div className="px-6 py-4 bg-background text-primary">{item.answer}</div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -95,7 +95,7 @@ export default function FAQSection() {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">Frequently Asked Questions</h2>
-          <p className="text-lg text-muted max-w-2xl mx-auto">
+          <p className="text-lg text-muted max-w-2xl mx-auto text-primary">
             Find answers to common questions about investing with Adaba.
           </p>
         </div>

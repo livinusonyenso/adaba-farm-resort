@@ -62,9 +62,9 @@ export default function Navbar() {
         {/* CTA Button */}
         <div className="hidden md:block">
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link href="/dashboard" className="btn-primary">
+            {/* <Link href="/dashboard" className="btn-primary">
               Investor Dashboard
-            </Link>
+            </Link> */}
           </motion.div>
         </div>
 
@@ -97,9 +97,9 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
-            <Link href="/dashboard" className="btn-primary text-center">
+            {/* <Link href="/dashboard" className="btn-primary text-center">
               Investor Dashboard
-            </Link>
+            </Link> */}
           </div>
         </motion.div>
       )}

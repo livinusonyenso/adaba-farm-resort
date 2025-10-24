@@ -1,17 +1,18 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Check } from "lucide-react"
+import { motion } from "framer-motion";
+import { Check } from "lucide-react";
+import Link from "next/link";
 
 interface InvestmentCardProps {
-  title: string
-  acreage: number
-  price: number
-  roi: number
-  duration: string
-  features: string[]
-  isPopular?: boolean
-  index?: number
+  title: string;
+  acreage: number;
+  price: number;
+  roi: number;
+  duration: string;
+  features: string[];
+  isPopular?: boolean;
+  index?: number;
 }
 
 export default function InvestmentCard({
@@ -31,7 +32,9 @@ export default function InvestmentCard({
       transition={{ duration: 0.5, delay: index * 0.1 }}
       viewport={{ once: true }}
       whileHover={{ y: -8, boxShadow: "0 20px 40px rgba(46, 125, 50, 0.15)" }}
-      className={`card relative overflow-hidden ${isPopular ? "ring-2 ring-accent md:scale-105" : ""}`}
+      className={`card relative overflow-hidden ${
+        isPopular ? "ring-2 ring-accent md:scale-105" : ""
+      }`}
     >
       {/* Popular badge */}
       {isPopular && (
@@ -47,14 +50,18 @@ export default function InvestmentCard({
       {/* Header */}
       <div className="mb-6">
         <h3 className="text-2xl font-bold text-primary mb-2">{title}</h3>
-        <p className="text-muted-foreground text-sm">{acreage} acres of premium land</p>
+        <p className="text-muted-foreground text-sm">
+          {acreage} acres of premium land
+        </p>
       </div>
 
       {/* Price and ROI */}
       <div className="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-border">
         <div>
           <p className="text-muted-foreground text-sm mb-1">Investment</p>
-          <p className="text-2xl font-bold text-primary">₦{price.toLocaleString()}</p>
+          <p className="text-2xl font-bold text-primary">
+            ₦{price.toLocaleString()}
+          </p>
         </div>
         <div>
           <p className="text-muted-foreground text-sm mb-1">Expected ROI</p>
@@ -64,7 +71,9 @@ export default function InvestmentCard({
 
       {/* Duration */}
       <div className="mb-6">
-        <p className="text-muted-foreground text-sm mb-1">Investment Duration</p>
+        <p className="text-muted-foreground text-sm mb-1">
+          Investment Duration
+        </p>
         <p className="text-lg font-semibold text-foreground">{duration}</p>
       </div>
 
@@ -88,8 +97,8 @@ export default function InvestmentCard({
             : "bg-background text-primary border-2 border-primary hover:bg-primary hover:text-white"
         }`}
       >
-        Invest Now
+        <Link href="/book-visit">Invest Now</Link>
       </motion.button>
     </motion.div>
-  )
+  );
 }

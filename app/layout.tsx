@@ -4,6 +4,7 @@ import { Poppins, Inter } from "next/font/google"
 import "../styles/globals.css"
 import CalculatorButton from "@/components/CalculatorButton"
 import ScrollToTop from "@/components/ScrollToTop"
+import { UserProvider } from "@/context/UserContext"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -31,9 +32,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.variable} ${inter.variable} font-sans antialiased`}>
-        {children}
-        <ScrollToTop />
-        <CalculatorButton />
+        <UserProvider>
+          {children}
+          <ScrollToTop />
+          <CalculatorButton />
+        </UserProvider>
       </body>
     </html>
   )
