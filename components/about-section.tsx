@@ -16,7 +16,7 @@ export default function AboutSection() {
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-5xl font-bold text-primary mb-4"
           >
-            About Adaba Farm and Resort
+            About Àdàbà Farm and Resort
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -48,7 +48,7 @@ export default function AboutSection() {
               <p className="text-base md:text-lg">
                 Welcome to <strong>Nigeria's First Hybrid Coconut Farm</strong> — a revolutionary lifetime investment
                 opportunity designed to deliver profits on the go for smart investors. Located in the serene and fertile
-                environment of <strong>Owode Egba, Ogun State</strong>, Adaba Farm and Resort combines cutting-edge
+                environment of <strong>Owode Egba, Ogun State</strong>, Àdàbà Farm and Resort combines cutting-edge
                 farming techniques with high-yield hybrid coconuts to ensure sustainable returns.
               </p>
 
@@ -97,7 +97,7 @@ export default function AboutSection() {
           >
             <Image
               src="https://cdn.leonardo.ai/users/817abbab-57f8-437c-a787-c50fbb7043b2/generations/294a9458-17c2-4b36-baa3-241c81594b76/segments/2:4:1/Lucid_Origin_A_proud_Nigerian_farmer_holding_a_young_coconut_p_1.jpg"
-              alt="Adaba Coconut Farm - Lush green coconut plantation in Owode Egba, Ogun State"
+              alt="Àdàbà Coconut Farm - Lush green coconut plantation in Owode Egba, Ogun State"
               fill
               className="object-cover"
               priority

@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Adaba Farm Color Palette - Green & White Theme */
+  /* Àdàbà Farm Color Palette - Green & White Theme */
   --background: #ffffff;
   --foreground: #2e7d32;
   --card: #f5f5f5;

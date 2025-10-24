@@ -40,7 +40,7 @@ export default function Navbar() {
           >
             <span className="text-white font-bold text-lg">🥥</span>
           </motion.div>
-          <span className="font-bold text-xl text-primary hidden sm:inline">Adaba Farm</span>
+          <span className="font-bold text-xl text-primary hidden sm:inline">Àdàbà Farm</span>
         </Link>
 
         {/* Desktop Navigation */}

@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div>
-            <h3 className="text-xl font-bold mb-4 text-secondary">Adaba Farm</h3>
+            <h3 className="text-xl font-bold mb-4 text-secondary">Àdàbà Farm</h3>
             <p className="text-white/80 text-sm leading-relaxed">
               Sustainable coconut farming for a better future. Invest with us and grow your wealth.
             </p>
@@ -47,7 +47,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} className="text-secondary" />
-                <span>info@adabafarm.com</span>
+                <span>info@Àdàbàfarm.com</span>
               </li>
               <li className="flex items-center gap-2">
                 <MapPin size={16} className="text-secondary" />
@@ -82,7 +82,7 @@ export default function Footer() {
         {/* Divider */}
         <div className="border-t border-white/20 pt-8">
           <p className="text-center text-white/70 text-sm">
-            © {currentYear} Adaba Coconut Farm & Resort. All rights reserved.
+            © {currentYear} Àdàbà Coconut Farm & Resort. All rights reserved.
           </p>
         </div>
       </div>

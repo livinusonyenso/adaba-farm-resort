@@ -96,7 +96,7 @@ export default function FAQSection() {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">Frequently Asked Questions</h2>
           <p className="text-lg text-muted max-w-2xl mx-auto text-primary">
-            Find answers to common questions about investing with Adaba.
+            Find answers to common questions about investing with Àdàbà.
           </p>
         </div>
 

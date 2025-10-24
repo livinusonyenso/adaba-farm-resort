@@ -13,7 +13,7 @@ const heroSlides = [
     title: "Invest in Sustainable",
     highlight: "Coconut Farming",
     description:
-      "Join thousands of investors growing their wealth through Adaba's hybrid coconut farm. Transparent returns, real-time updates, and sustainable growth.",
+      "Join thousands of investors growing their wealth through Àdàbà's hybrid coconut farm. Transparent returns, real-time updates, and sustainable growth.",
   },
   {
     id: 2,

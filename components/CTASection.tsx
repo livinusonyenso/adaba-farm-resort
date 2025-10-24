@@ -16,7 +16,7 @@ export default function CTASection() {
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to Start Your Investment Journey?</h2>
           <p className="text-lg text-white/90 mb-8">
-            Join hundreds of successful investors who are already growing their wealth with Adaba. Secure, transparent,
+            Join hundreds of successful investors who are already growing their wealth with Àdàbà. Secure, transparent,
             and profitable.
           </p>
 

@@ -19,8 +19,8 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "Adaba Coconut Farm & Resort",
-  description: "Invest in sustainable coconut farming with Adaba",
+  title: "Àdàbà Coconut Farm & Resort",
+  description: "Invest in sustainable coconut farming with Àdàbà",
     generator: 'v0.app'
 }
 
