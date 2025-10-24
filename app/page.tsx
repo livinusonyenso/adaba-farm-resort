@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import AboutSection from "@/components/about-section";
 import HowItWorksMain from "@/components/HowItWorksMain";
 import Why from "@/components/Why";
+import Partners from "@/components/Partners";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <HowItWorksMain />
       <GallerySection />
       <Why />
+      <Partners/>
       <FAQSection />
       <CTASection />
       <Footer />

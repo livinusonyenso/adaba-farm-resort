@@ -23,6 +23,7 @@ export default function Navbar() {
     { label: "How It Works", href: "#how-it-works" },
     { label: "Gallery", href: "#gallery" },
     { label: "FAQ", href: "#faq" },
+    { label: "Contact", href: "/contact" },
   ]
 
   return (
