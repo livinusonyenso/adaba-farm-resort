@@ -32,8 +32,8 @@ export default function HowItWorks() {
       <div className="section-container">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">How It Works</h2>
-          <p className="text-lg text-muted max-w-2xl mx-auto">
+        
+          <p className="text-lg  max-w-2xl mx-auto text-primary">
             Simple, transparent, and secure. Get started in four easy steps.
           </p>
         </div>

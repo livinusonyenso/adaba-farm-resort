@@ -7,6 +7,7 @@ import GallerySection from "@/components/GallerySection"
 import CTASection from "@/components/CTASection"
 import Footer from "@/components/Footer"
 import AboutSection from "@/components/about-section"
+import HowItWorksMain from "@/components/HowItWorksMain"
 
 export default function Home() {
   return (
@@ -15,7 +16,7 @@ export default function Home() {
       <HeroSection />
       <AboutSection/>
       <InvestmentPlans />
-      <HowItWorks />
+      <HowItWorksMain/>
       <GallerySection />
       <FAQSection />
       <CTASection />
