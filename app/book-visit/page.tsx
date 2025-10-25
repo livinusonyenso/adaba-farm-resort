@@ -19,8 +19,8 @@ export default function BookVisitPage() {
             className="text-center mb-12"
           >
             <h1 className="text-5xl md:text-6xl font-bold text-primary mb-4">Book Your Farm Visit</h1>
-            <p className="text-lg text-muted max-w-2xl mx-auto">
-              Experience our state-of-the-art facilities firsthand. Schedule a guided tour of Adaba Coconut Farm.
+            <p className="text-lg  max-w-2xl mx-auto text-primary">
+              Experience our state-of-the-art facilities firsthand. Schedule a guided tour of Àdàbà Coconut Farm.
             </p>
           </motion.div>
 

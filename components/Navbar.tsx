@@ -23,13 +23,13 @@ export default function Navbar() {
     { label: "How It Works", href: "#how-it-works" },
     { label: "Gallery", href: "#gallery" },
     { label: "FAQ", href: "#faq" },
+    { label: "Contact", href: "#contact" },
   ]
 
   return (
     <nav
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-surface shadow-lg" : "bg-surface/95 shadow-md"
-      }`}
+       className="sticky top-0 z-50 bg-white shadow-md transition-all duration-300"
+
     >
       <div className="section-container flex items-center justify-between h-16">
         {/* Logo */}
@@ -40,7 +40,7 @@ export default function Navbar() {
           >
             <span className="text-white font-bold text-lg">🥥</span>
           </motion.div>
-          <span className="font-bold text-xl text-primary hidden sm:inline">Adaba Farm</span>
+          <span className="font-bold text-xl text-primary hidden sm:inline">Àdàbà Farm</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -62,9 +62,9 @@ export default function Navbar() {
         {/* CTA Button */}
         <div className="hidden md:block">
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link href="/dashboard" className="btn-primary">
+            {/* <Link href="/dashboard" className="btn-primary">
               Investor Dashboard
-            </Link>
+            </Link> */}
           </motion.div>
         </div>
 
@@ -97,9 +97,9 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
-            <Link href="/dashboard" className="btn-primary text-center">
+            {/* <Link href="/dashboard" className="btn-primary text-center">
               Investor Dashboard
-            </Link>
+            </Link> */}
           </div>
         </motion.div>
       )}

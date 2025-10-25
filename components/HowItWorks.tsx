@@ -7,7 +7,7 @@ const steps = [
   {
     icon: Users,
     title: "Register & Verify",
-    description: "Create your account and complete KYC verification in minutes.",
+    description: "Create your account and complete verification in minutes.",
   },
   {
     icon: FileCheck,
@@ -28,12 +28,12 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-20 bg-primary/5">
+    <section  className="py-20 bg-primary/5">
       <div className="section-container">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">How It Works</h2>
-          <p className="text-lg text-muted max-w-2xl mx-auto">
+        
+          <p className="text-lg  max-w-2xl mx-auto text-primary">
             Simple, transparent, and secure. Get started in four easy steps.
           </p>
         </div>
@@ -62,7 +62,7 @@ export default function HowItWorks() {
                     <Icon size={32} className="text-primary" />
                   </div>
                   <h3 className="text-xl font-bold text-primary mb-2">{step.title}</h3>
-                  <p className="text-muted text-sm">{step.description}</p>
+                  <p className="text-mutedtext-primary text-sm">{step.description}</p>
                   <div className="mt-4 text-2xl font-bold text-accent">{idx + 1}</div>
                 </div>
               </motion.div>
