@@ -132,14 +132,7 @@ export default function HeroCarousel() {
                 </motion.p>
 
                 <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Link
-                      href="/book-visit"
-                      className="inline-block px-8 py-4 bg-primary text-white font-bold rounded-xl hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl"
-                    >
-                      Start Investing
-                    </Link>
-                  </motion.div>
+                 
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                     <a
                       href="#plans"
@@ -147,6 +140,14 @@ export default function HeroCarousel() {
                     >
                       View Plans
                     </a>
+                  </motion.div>
+                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Link
+                      href="/book-visit"
+                      className="inline-block px-8 py-4 bg-primary text-white font-bold rounded-xl hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl"
+                    >
+                      Start Investing
+                    </Link>
                   </motion.div>
                 </motion.div>
               </motion.div>

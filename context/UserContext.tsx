@@ -21,7 +21,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [tempUser, setTempUser] = useState<boolean>(false);
+  const [tempUser, setTempUser] = useState<boolean>(true);
 
   const logout = () => {
     setUser(null);

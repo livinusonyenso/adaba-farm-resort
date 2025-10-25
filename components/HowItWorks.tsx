@@ -6,22 +6,22 @@ import { Users, FileCheck, TrendingUp, Award } from "lucide-react"
 const steps = [
   {
     icon: Users,
-    title: "Register & Verify",
+    title: "Go to the application form",
     description: "Create your account and complete verification in minutes.",
   },
   {
     icon: FileCheck,
-    title: "Choose Your Plan",
+    title: "Fill the form",
     description: "Select an investment plan that matches your financial goals.",
   },
   {
     icon: TrendingUp,
-    title: "Monitor Progress",
+    title: "Attach the payment Recipt with the application forn",
     description: "Track your investment and farm progress in real-time via dashboard.",
   },
   {
     icon: Award,
-    title: "Receive Returns",
+    title: "Submit the payment Recipt with the application form",
     description: "Enjoy regular ROI payouts directly to your account.",
   },
 ]
@@ -33,8 +33,8 @@ export default function HowItWorks() {
         {/* Header */}
         <div className="text-center mb-16">
         
-          <p className="text-lg  max-w-2xl mx-auto text-primary">
-            Simple, transparent, and secure. Get started in four easy steps.
+          <p className="text-4xl  max-w-2xl mx-auto text-primary underline">
+            Simple steps to get started.
           </p>
         </div>
 

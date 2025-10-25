@@ -8,7 +8,8 @@ interface InvestmentCardProps {
   title: string;
   acreage: number;
   price: number;
-  roi: number;
+  roi: string;
+  maturity: string;
   duration: string;
   features: string[];
   isPopular?: boolean;
@@ -20,6 +21,7 @@ export default function InvestmentCard({
   acreage,
   price,
   roi,
+  maturity,   // ✅ added here
   duration,
   features,
   isPopular = false,
@@ -59,14 +61,22 @@ export default function InvestmentCard({
       <div className="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-border">
         <div>
           <p className="text-muted-foreground text-sm mb-1">Investment</p>
-          <p className="text-2xl font-bold text-primary">
-            ₦{price.toLocaleString()}
+          <p className="text-lg font-bold text-primary">
+            ₦{price.toLocaleString()}/acre
           </p>
         </div>
         <div>
           <p className="text-muted-foreground text-sm mb-1">Expected ROI</p>
-          <p className="text-2xl font-bold text-secondary">{roi}%</p>
+          <p className="text-2xl font-bold text-secondary">{roi}</p>
         </div>
+      </div>
+
+      {/* ✅ Maturity */}
+      <div className="mb-6">
+        <p className="text-muted-foreground text-sm mb-1">
+          Investment Maturity
+        </p>
+        <p className="text-lg font-semibold text-foreground">{maturity}</p>
       </div>
 
       {/* Duration */}

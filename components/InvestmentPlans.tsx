@@ -1,15 +1,16 @@
-import InvestmentCard from "./InvestmentCard"
+import InvestmentCard from "./InvestmentCard";
 
 const plans = [
   {
     title: "Starter",
     acreage: 1,
-    price: 500000,
-    roi: 25,
-    duration: "2 years",
+    price: 3700000,
+    roi: "6m -12m",
+    maturity: "4–5 years", 
+    duration: "50years and above",
     features: [
-      "1 acre or more of premium land",
-      "Annual  ROI payouts",
+      "1-9 acre of premium land",
+      "Annual ROI payouts",
       "Farm progress updates",
       "Access to investor portal",
       "Certificate of ownership",
@@ -17,37 +18,34 @@ const plans = [
   },
   {
     title: "Premium",
-    acreage: 2,
-    price: 2000000,
-    roi: 30,
-    duration: "3 years",
+    acreage: 10,
+    price: 3700000,
+    roi: "6m -12m",
+   maturity: "4–5 years", 
+    duration: "50years and above",
     features: [
-      "2 acres of premium land",
-      "Monthly ROI payouts",
+      "10 -49 acres of premium land",
       "Priority farm updates",
       "Exclusive investor events",
-      "Farm visit privileges",
       "Dedicated account manager",
     ],
     isPopular: true,
   },
   {
     title: "Elite",
-    acreage: 5,
-    price: 5000000,
-    roi: 35,
-    duration: "5 years",
+    acreage: 50,
+    price:3700000,
+    roi: "6m -12m",
+   maturity: "4–5 years", 
+    duration: "50years and above",
     features: [
-      "5 acres of premium land",
-      "Weekly ROI payouts",
-      "Real-time farm analytics",
+      "50 -100 acres of premium land",
+      "Annual ROI payouts",
       "VIP investor status",
-      "Unlimited farm visits",
       "Personal investment advisor",
-      "Profit sharing opportunities",
     ],
   },
-]
+];
 
 export default function InvestmentPlans() {
   return (
@@ -55,7 +53,9 @@ export default function InvestmentPlans() {
       <div className="section-container">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">Investment Plans</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+            Investment Plans
+          </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto text-primary">
             Choose the perfect plan that matches your investment goals and timeline.
           </p>
@@ -69,5 +69,5 @@ export default function InvestmentPlans() {
         </div>
       </div>
     </section>
-  )
+  );
 }

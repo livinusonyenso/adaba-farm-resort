@@ -28,7 +28,7 @@ const investors = [
     name: "Ahmed Hassan",
     email: "ahmed@example.com",
     plan: "Starter",
-    amount: "₦500,000",
+    amount: "₦3,700,000",
     status: "Pending",
     joinDate: "2024-10-01",
   },

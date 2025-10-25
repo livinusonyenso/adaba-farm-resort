@@ -16,7 +16,7 @@ const investments = [
   {
     id: 2,
     plan: "Starter",
-    amount: "₦500,000",
+    amount: "₦3,700,000",
     date: "2024-03-20",
     roi: "25%",
     status: "Active",
