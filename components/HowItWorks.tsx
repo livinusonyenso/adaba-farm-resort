@@ -7,22 +7,18 @@ const steps = [
   {
     icon: Users,
     title: "Go to the application form",
-    description: "Create your account and complete verification in minutes.",
   },
   {
     icon: FileCheck,
     title: "Fill the form",
-    description: "Select an investment plan that matches your financial goals.",
   },
   {
     icon: TrendingUp,
     title: "Attach the payment Recipt with the application forn",
-    description: "Track your investment and farm progress in real-time via dashboard.",
   },
   {
     icon: Award,
     title: "Submit the payment Recipt with the application form",
-    description: "Enjoy regular ROI payouts directly to your account.",
   },
 ]
 
@@ -61,8 +57,7 @@ export default function HowItWorks() {
                   <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Icon size={32} className="text-primary" />
                   </div>
-                  <h3 className="text-xl font-bold text-primary mb-2">{step.title}</h3>
-                  <p className="text-mutedtext-primary text-sm">{step.description}</p>
+                  <h3 className="text-lg font-bold text-primary mb-2">{step.title}</h3>
                   <div className="mt-4 text-2xl font-bold text-accent">{idx + 1}</div>
                 </div>
               </motion.div>

@@ -107,7 +107,7 @@ export default function InvestmentCard({
             : "bg-background text-primary border-2 border-primary hover:bg-primary hover:text-white"
         }`}
       >
-        <Link href="/book-visit">Invest Now</Link>
+        <Link href="/BookInvestment">Invest Now</Link>
       </motion.button>
     </motion.div>
   );

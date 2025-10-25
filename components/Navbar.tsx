@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { motion } from "framer-motion"
+import Image from "next/image"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -34,14 +35,19 @@ export default function Navbar() {
       <div className="section-container flex items-center justify-between h-16">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center"
-          >
-            <span className="text-white font-bold text-lg">🥥</span>
-          </motion.div>
-          <span className="font-bold text-xl text-primary hidden sm:inline">Àdàbà Farm</span>
-        </Link>
+      <motion.div
+        whileHover={{ scale: 1.1 }}
+        className="w-30 h-10 bg-primary rounded-lg flex items-center justify-center overflow-hidden"
+      >
+        <Image
+          src="/adaba-logo.png"
+          alt="Adaba Farm Logo"
+          width={70}
+          height={70}
+          className="object-contain scale-200"
+        />
+      </motion.div>
+    </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
