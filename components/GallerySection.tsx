@@ -10,7 +10,7 @@ const galleryImages = [
     id: 1,
     title: "Lush Coconut Plantation",
     description: "Our thriving coconut plantation in full bloom",
-    url: "https://images.pexels.com/photos/8356090/pexels-photo-8356090.jpeg",
+    url: "https://images.pexels.com/photos/12564750/pexels-photo-12564750.jpeg",
   },
   {
     id: 2,
@@ -34,7 +34,7 @@ const galleryImages = [
     id: 5,
     title: "Farm Infrastructure",
     description: "Sustainable infrastructure and irrigation systems",
-    url: "https://images.pexels.com/photos/1591361/pexels-photo-1591361.jpeg",
+    url: "https://images.pexels.com/photos/4387821/pexels-photo-4387821.jpeg",
   },
   {
     id: 6,

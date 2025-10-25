@@ -105,7 +105,7 @@ export default function BookingForm() {
               onChange={handleChange}
               required
               className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="+234 XXX XXX XXXX"
+              placeholder="+234 816 437 1968"
             />
           </div>
         </div>

@@ -8,9 +8,23 @@ import DashboardStats from "@/components/dashboard/DashboardStats"
 import DashboardCharts from "@/components/dashboard/DashboardCharts"
 import InvestmentHistory from "@/components/dashboard/InvestmentHistory"
 import DocumentsSection from "@/components/dashboard/DocumentsSection"
+import AccessDenied from "@/components/dashboard/AccessDenied"
+import { useUser } from "@/context/UserContext"
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("overview")
+  const { tempUser } = useUser()
+
+  // If tempUser is false, show access denied
+  if (!tempUser) {
+    return (
+      <main className="min-h-screen bg-background">
+        <Navbar />
+        <AccessDenied />
+        <Footer />
+      </main>
+    )
+  }
 
   return (
     <main className="min-h-screen bg-background">

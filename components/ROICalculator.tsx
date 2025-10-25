@@ -34,7 +34,7 @@ export default function ROICalculator({ isOpen, onClose }: ROICalculatorProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-primary/50 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-primary/50 z-50 flex items-center justify-center p-4 overflow-y-auto"
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
@@ -42,7 +42,7 @@ export default function ROICalculator({ isOpen, onClose }: ROICalculatorProps) {
             exit={{ scale: 0.9, opacity: 0 }}
             transition={{ type: "spring", damping: 20 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-card rounded-2xl shadow-2xl max-w-md w-full p-8"
+            className="bg-card rounded-2xl shadow-2xl max-w-md w-full p-8 max-h-[90vh] overflow-y-auto my-auto"
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-6">

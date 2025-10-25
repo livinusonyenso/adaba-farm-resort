@@ -56,7 +56,7 @@ export default function InvestmentPlans() {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">Investment Plans</h2>
-          <p className="text-lg text-muted max-w-2xl mx-auto">
+          <p className="text-lg text-muted max-w-2xl mx-auto text-primary">
             Choose the perfect plan that matches your investment goals and timeline.
           </p>
         </div>
