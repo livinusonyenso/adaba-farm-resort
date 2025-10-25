@@ -3,13 +3,13 @@ import InvestmentCard from "./InvestmentCard"
 const plans = [
   {
     title: "Starter",
-    acreage: 0.5,
+    acreage: 1,
     price: 500000,
     roi: 25,
     duration: "2 years",
     features: [
-      "0.5 acres of premium land",
-      "Quarterly ROI payouts",
+      "1 acre or more of premium land",
+      "Annual  ROI payouts",
       "Farm progress updates",
       "Access to investor portal",
       "Certificate of ownership",
