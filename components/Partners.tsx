@@ -50,7 +50,7 @@ const Partners: React.FC = () => {
   }, [])
 
   return (
-    <section className="w-full bg-green-800 py-16 px-6 text-white overflow-hidden">
+    <section className="w-full bg-green-700 py-16 px-6 text-white overflow-hidden">
       <div className="max-w-6xl mx-auto">
         {/* Title */}
         <h2 className="text-3xl md:text-5xl font-bold mb-10 text-left">Our Partners</h2>

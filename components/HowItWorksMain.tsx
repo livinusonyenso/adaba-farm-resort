@@ -5,6 +5,7 @@ const HowItWorksMain: React.FC = () => {
   return (
     <>
    <section
+   id="how-it-works"
   className="
     w-full
     bg-cover

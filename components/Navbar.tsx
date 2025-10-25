@@ -23,14 +23,13 @@ export default function Navbar() {
     { label: "How It Works", href: "#how-it-works" },
     { label: "Gallery", href: "#gallery" },
     { label: "FAQ", href: "#faq" },
-    { label: "Contact", href: "/contact" },
+    { label: "Contact", href: "#contact" },
   ]
 
   return (
     <nav
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-surface shadow-lg" : "bg-surface/95 shadow-md"
-      }`}
+       className="sticky top-0 z-50 bg-white shadow-md transition-all duration-300"
+
     >
       <div className="section-container flex items-center justify-between h-16">
         {/* Logo */}

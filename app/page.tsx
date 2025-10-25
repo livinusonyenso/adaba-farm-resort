@@ -10,6 +10,8 @@ import AboutSection from "@/components/about-section";
 import HowItWorksMain from "@/components/HowItWorksMain";
 import Why from "@/components/Why";
 import Partners from "@/components/Partners";
+import ContactPage from "@/components/ContactPage";
+import InvestmentProjectionTable from "@/components/InvestmentProjectionTable";
 
 export default function Home() {
   return (
@@ -21,9 +23,11 @@ export default function Home() {
       <HowItWorksMain />
       <GallerySection />
       <Why />
+      <InvestmentProjectionTable/>
       <Partners/>
       <FAQSection />
       <CTASection />
+      <ContactPage/>
       <Footer />
     </main>
   );

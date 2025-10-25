@@ -1,22 +1,21 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { useState } from "react"
-import { FiMail, FiPhone, FiMapPin, FiSend } from "react-icons/fi"
-import Image from "next/image"
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { FiMail, FiPhone, FiMapPin, FiSend } from "react-icons/fi";
+import Image from "next/image";
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" })
-
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
 
   const handleSubmit = (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const phone = "2348139422159"
-    const url = `https://wa.me/${phone}?text=Hello,%0AI am ${form.name}.%0AMy Email: ${form.email}%0A${form.message}`
+    const phone = "2348139422159";
+    const url = `https://wa.me/${phone}?text=Hello,%0AI am ${form.name}.%0AMy Email: ${form.email}%0A${form.message}`;
 
-    window.open(url, "_blank")
-  }
+    window.open(url, "_blank");
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -24,21 +23,28 @@ export default function ContactPage() {
       opacity: 1,
       transition: { staggerChildren: 0.1 },
     },
-  }
+  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
-  }
+  };
 
   return (
-    <section className="min-h-screen bg-background py-20 px-6">
+    <section id="contact" className="min-h-screen bg-background py-20 px-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-4">Get in Touch</h1>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-16"
+        >
+          <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-4">
+            Get in Touch
+          </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Have questions about investing in Àdàbà Coconut Farm Estate? We'd love to hear from you.
+            Have questions about investing in Àdàbà Coconut Farm Estate? We'd
+            love to hear from you.
           </p>
         </motion.div>
 
@@ -73,7 +79,7 @@ export default function ContactPage() {
               </div>
               <h3 className="text-xl font-semibold text-foreground">Phone</h3>
             </div>
-            <p className="text-muted-foreground">+234 812 345 6789</p>
+            <p className="text-muted-foreground">+234 816 437 1968</p>
           </motion.div>
 
           <motion.div
@@ -98,10 +104,14 @@ export default function ContactPage() {
             animate={{ opacity: 1, x: 0 }}
             className="bg-card border border-border rounded-xl p-8 shadow-sm"
           >
-            <h2 className="text-2xl font-bold text-foreground mb-6">Send us a Message</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-6">
+              Send us a Message
+            </h2>
 
             <div className="mb-5">
-              <label className="block text-sm font-medium text-foreground mb-2">Full Name</label>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Full Name
+              </label>
               <input
                 required
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -111,7 +121,9 @@ export default function ContactPage() {
             </div>
 
             <div className="mb-5">
-              <label className="block text-sm font-medium text-foreground mb-2">Email</label>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Email
+              </label>
               <input
                 required
                 type="email"
@@ -122,7 +134,9 @@ export default function ContactPage() {
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium text-foreground mb-2">Message</label>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Message
+              </label>
               <textarea
                 required
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
@@ -148,11 +162,12 @@ export default function ContactPage() {
             <div>
               <h2 className="text-2xl font-bold mb-4">Visit the Estate</h2>
               <p className="text-primary-foreground/90 mb-6">
-                Come and experience the natural beauty and agricultural potential of Àdàbà Coconut Farm Estate.
+                Come and experience the natural beauty and agricultural
+                potential of Àdàbà Coconut Farm Estate.
               </p>
 
               <a
-                href="https://wa.me/2348123456789?text=I want to book an estate inspection"
+                href="https://wa.me/234816437 1968?text=I want to book an estate inspection"
                 target="_blank"
                 className="inline-flex items-center gap-2 bg-primary-foreground text-primary font-semibold px-6 py-3 rounded-lg hover:bg-primary-foreground/90 transition"
                 rel="noreferrer"
@@ -160,13 +175,20 @@ export default function ContactPage() {
                 Book Inspection
               </a>
             </div>
-
             <Image
-              src="/bus.png"
-              width={300}
-              height={200}
+              src="high-capacity.png"
+              width={600}
+              height={400}
               alt="Estate Bus"
-              className="absolute right-0 bottom-0 opacity-80"
+              className="
+    hidden lg:block             /* hide on mobile & tablet */
+    absolute top-1/2 left-1/2   /* center */
+     -translate-x-1/2 -translate-y-[5%]
+    w-[380px] xl:w-[460px] 2xl:w-[520px] /* scale bigger on desktop */
+    object-contain opacity-90
+    pointer-events-none select-none
+  "
+              priority
             />
           </motion.div>
         </div>
@@ -176,30 +198,42 @@ export default function ContactPage() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-card border border-border rounded-xl p-8 shadow-sm"
         >
-          <h2 className="text-2xl font-bold text-foreground mb-8 text-center">Bank Account Details</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-8 text-center">
+            Bank Account Details
+          </h2>
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Account Number */}
             <div className="text-center">
-              <p className="text-sm font-medium text-muted-foreground mb-2">ACCOUNT NUMBER</p>
-              <h3 className="text-3xl font-bold text-foreground font-mono">2007301592</h3>
+              <p className="text-sm font-medium text-muted-foreground mb-2">
+                ACCOUNT NUMBER
+              </p>
+              <h3 className="text-3xl font-bold text-foreground font-mono">
+                2007301592
+              </h3>
             </div>
 
             {/* Bank */}
             <div className="text-center">
-              <p className="text-sm font-medium text-muted-foreground mb-2">BANK</p>
+              <p className="text-sm font-medium text-muted-foreground mb-2">
+                BANK
+              </p>
               <h3 className="text-3xl font-bold text-foreground">FCMB</h3>
             </div>
 
             {/* Account Name */}
             <div className="text-center">
-              <p className="text-sm font-medium text-muted-foreground mb-2">ACCOUNT NAME</p>
+              <p className="text-sm font-medium text-muted-foreground mb-2">
+                ACCOUNT NAME
+              </p>
               <h3 className="text-2xl font-bold text-foreground">KAZFIELD</h3>
-              <p className="text-sm text-muted-foreground mt-1">INTEGRATED SERVICE LTD</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                INTEGRATED SERVICE LTD
+              </p>
             </div>
           </div>
         </motion.div>
       </div>
     </section>
-  )
+  );
 }
