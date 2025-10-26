@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import Navbar from "@/components/Navbar"
-import Footer from "@/components/Footer"
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Upload, Send } from "lucide-react"
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Upload, Send } from "lucide-react";
 
 export default function BookInvestmentPage() {
-  const [fullName, setFullName] = useState("")
-  const [email, setEmail] = useState("")
-  const [phone, setPhone] = useState("")
-  const [receiptFile, setReceiptFile] = useState<File | null>(null)
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [receiptFile, setReceiptFile] = useState<File | null>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!receiptFile) {
-      alert("Please upload a payment receipt!")
-      return
+      alert("Please upload a payment receipt!");
+      return;
     }
 
     const message = `
@@ -28,11 +28,13 @@ Email: ${email}
 Phone: ${phone}
 
 ✅ Receipt Attached
-`
+`;
 
-    const whatsapp = `https://wa.me/2348130000000?text=${encodeURIComponent(message)}`
-    window.open(whatsapp, "_blank")
-  }
+    const whatsapp = `https://wa.me/2348130000000?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsapp, "_blank");
+  };
 
   return (
     <main className="min-h-screen bg-background">
@@ -40,7 +42,6 @@ Phone: ${phone}
 
       <section className="py-20 bg-gradient-to-br from-primary/10 via-background to-accent/5">
         <div className="section-container">
-
           {/* HEADER */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -58,12 +59,20 @@ Phone: ${phone}
 
           {/* BANK DETAILS */}
           <div className="max-w-xl mx-auto bg-white shadow-lg rounded-xl p-6 mb-8 border">
-            <h3 className="text-xl font-bold text-primary mb-2">Bank Transfer Details</h3>
+            <h3 className="text-xl font-bold text-primary mb-2">
+              Bank Transfer Details
+            </h3>
 
             <div className="space-y-1 text-primary">
-              <p><strong>Account Name:</strong> Adaba Coconut Farm LTD</p>
-              <p><strong>Account Number:</strong> 0123456789</p>
-              <p><strong>Bank:</strong> GTBank</p>
+              <p>
+                <strong>Account Name:</strong> Adaba Coconut Farm LTD
+              </p>
+              <p>
+                <strong>Account Number:</strong> 0123456789
+              </p>
+              <p>
+                <strong>Bank:</strong> GTBank
+              </p>
             </div>
 
             <p className="text-sm text-gray-500 mt-3 italic">
@@ -80,10 +89,11 @@ Phone: ${phone}
             className="max-w-xl mx-auto bg-white/90 shadow-xl rounded-xl p-8 border backdrop-blur"
           >
             <div className="grid gap-6">
-
               {/* Full Name */}
               <div>
-                <label className="block font-medium text-primary mb-1">Full Name</label>
+                <label className="block font-medium text-primary mb-1">
+                  Full Name
+                </label>
                 <input
                   required
                   type="text"
@@ -96,11 +106,13 @@ Phone: ${phone}
 
               {/* Email */}
               <div>
-                <label className="block font-medium text-primary mb-1">Email Address</label>
+                <label className="block font-medium text-primary mb-1">
+                  Email Address
+                </label>
                 <input
                   required
                   type="email"
-                  className="input"
+                  className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition"
                   placeholder="example@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -109,11 +121,13 @@ Phone: ${phone}
 
               {/* Phone */}
               <div>
-                <label className="block font-medium text-primary mb-1">Phone Number</label>
+                <label className="block font-medium text-primary mb-1">
+                  Phone Number
+                </label>
                 <input
                   required
                   type="tel"
-                  className="input"
+                  className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition"
                   placeholder="0803 456 7890"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
@@ -122,14 +136,19 @@ Phone: ${phone}
 
               {/* Receipt Upload */}
               <div>
-                <label className="block font-medium text-primary mb-2">Upload Receipt</label>
+                <label className="block font-medium text-primary mb-2">
+                  Upload Receipt
+                </label>
                 <div className="border rounded-lg py-3 px-4 bg-white flex items-center gap-3">
                   <Upload className="text-primary opacity-70" />
                   <input
+                    className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition"
                     required
                     type="file"
                     accept="image/*,application/pdf"
-                    onChange={(e) => setReceiptFile(e.target.files?.[0] || null)}
+                    onChange={(e) =>
+                      setReceiptFile(e.target.files?.[0] || null)
+                    }
                   />
                 </div>
               </div>
@@ -143,7 +162,6 @@ Phone: ${phone}
               >
                 Submit Receipt <Send size={18} />
               </motion.button>
-
             </div>
           </motion.form>
         </div>
@@ -151,5 +169,5 @@ Phone: ${phone}
 
       <Footer />
     </main>
-  )
+  );
 }

@@ -142,12 +142,12 @@ export default function HeroCarousel() {
                     </a>
                   </motion.div>
                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Link
-                      href="/BookInvestment"
+                    <a href="#contact"
+                    
                       className="inline-block px-8 py-4 bg-primary text-white font-bold rounded-xl hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl"
                     >
                       Start Investing
-                    </Link>
+                    </a>
                   </motion.div>
                 </motion.div>
               </motion.div>

@@ -2,27 +2,33 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { FiMail, FiPhone, FiMapPin, FiSend } from "react-icons/fi";
-import Image from "next/image";
+import { FiMail, FiPhone, FiMapPin, FiSend, FiUser, FiUpload } from "react-icons/fi";
 
-export default function ContactPage() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+export default function InvestmentFormPage() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    gender: "",
+    message: "",
+  });
+
+  const [receiptFile, setReceiptFile] = useState<any>(null);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    const phone = "2348139422159";
-    const url = `https://wa.me/${phone}?text=Hello,%0AI am ${form.name}.%0AMy Email: ${form.email}%0A${form.message}`;
+    const phone = "2348164371968";
+    const url = `https://wa.me/${phone}?text=Hello,%0AI want to confirm my investment.%0A
+Full Name: ${form.name}%0A
+Email: ${form.email}%0A
+Phone: ${form.phone}%0A
+Address: ${form.address}%0A
+Gender: ${form.gender}%0A
+Message: ${form.message}%0A`;
 
     window.open(url, "_blank");
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 },
-    },
   };
 
   const itemVariants = {
@@ -32,174 +38,17 @@ export default function ContactPage() {
 
   return (
     <section id="contact" className="min-h-screen bg-background py-20 px-6">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
+      <div className="max-w-4xl mx-auto">
+        
+        {/* ================== ACCOUNT DETAILS ================== */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-4">
-            Get in Touch
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Have questions about investing in Àdàbà Coconut Farm Estate? We'd
-            love to hear from you.
-          </p>
-        </motion.div>
-
-        {/* Main Grid */}
-        <motion.div
-          variants={containerVariants}
+          variants={itemVariants}
           initial="hidden"
           animate="visible"
-          className="grid md:grid-cols-3 gap-8 mb-16"
+          className="bg-card border border-border rounded-xl p-8 shadow-sm mb-12"
         >
-          {/* Contact Info Cards */}
-          <motion.div
-            variants={itemVariants}
-            className="bg-card border border-border rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow"
-          >
-            <div className="flex items-center gap-4 mb-4">
-              <div className="bg-primary/10 p-3 rounded-lg">
-                <FiMail className="text-primary text-2xl" />
-              </div>
-              <h3 className="text-xl font-semibold text-foreground">Email</h3>
-            </div>
-            <p className="text-muted-foreground">support@adabafarm.com</p>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            className="bg-card border border-border rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow"
-          >
-            <div className="flex items-center gap-4 mb-4">
-              <div className="bg-primary/10 p-3 rounded-lg">
-                <FiPhone className="text-primary text-2xl" />
-              </div>
-              <h3 className="text-xl font-semibold text-foreground">Phone</h3>
-            </div>
-            <p className="text-muted-foreground">+234 816 437 1968</p>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            className="bg-card border border-border rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow"
-          >
-            <div className="flex items-center gap-4 mb-4">
-              <div className="bg-primary/10 p-3 rounded-lg">
-                <FiMapPin className="text-primary text-2xl" />
-              </div>
-              <h3 className="text-xl font-semibold text-foreground">Address</h3>
-            </div>
-            <p className="text-muted-foreground">Owode, Ogun State, Nigeria</p>
-          </motion.div>
-        </motion.div>
-
-        {/* Contact Form & Estate Visit */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <motion.form
-            onSubmit={handleSubmit}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="bg-card border border-border rounded-xl p-8 shadow-sm"
-          >
-            <h2 className="text-2xl font-bold text-foreground mb-6">
-              Send us a Message
-            </h2>
-
-            <div className="mb-5">
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Full Name
-              </label>
-              <input
-                required
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition"
-                placeholder="John Doe"
-              />
-            </div>
-
-            <div className="mb-5">
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Email
-              </label>
-              <input
-                required
-                type="email"
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition"
-                placeholder="email@example.com"
-              />
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Message
-              </label>
-              <textarea
-                required
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition"
-                rows={5}
-                placeholder="How can we help you?"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition"
-            >
-              <FiSend /> Contact via WhatsApp
-            </button>
-          </motion.form>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="bg-primary text-primary-foreground rounded-xl p-8 shadow-sm flex flex-col justify-between relative overflow-hidden"
-          >
-            <div>
-              <h2 className="text-2xl font-bold mb-4">Visit the Estate</h2>
-              <p className="text-primary-foreground/90 mb-6">
-                Come and experience the natural beauty and agricultural
-                potential of Àdàbà Coconut Farm Estate.
-              </p>
-
-              <a
-                href="https://wa.me/234816437 1968?text=I want to book an estate inspection"
-                target="_blank"
-                className="inline-flex items-center gap-2 bg-primary-foreground text-primary font-semibold px-6 py-3 rounded-lg hover:bg-primary-foreground/90 transition"
-                rel="noreferrer"
-              >
-                Book Inspection
-              </a>
-            </div>
-            <Image
-              src="high-capacity.png"
-              width={600}
-              height={400}
-              alt="Estate Bus"
-              className="
-    hidden lg:block             /* hide on mobile & tablet */
-    absolute top-1/2 left-1/2   /* center */
-     -translate-x-1/2 -translate-y-[5%]
-    w-[380px] xl:w-[460px] 2xl:w-[520px] /* scale bigger on desktop */
-    object-contain opacity-90
-    pointer-events-none select-none
-  "
-              priority
-            />
-          </motion.div>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-card border border-border rounded-xl p-8 shadow-sm"
-        >
-          <h2 className="text-2xl font-bold text-foreground mb-8 text-center">
-            Bank Account Details
+          <h2 className="text-2xl font-bold text-center mb-6 text-foreground">
+            Investment Payment Details
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -208,7 +57,7 @@ export default function ContactPage() {
               <p className="text-sm font-medium text-muted-foreground mb-2">
                 ACCOUNT NUMBER
               </p>
-              <h3 className="text-3xl font-bold text-foreground font-mono">
+              <h3 className="text-3xl font-bold font-mono text-foreground">
                 2007301592
               </h3>
             </div>
@@ -226,13 +75,129 @@ export default function ContactPage() {
               <p className="text-sm font-medium text-muted-foreground mb-2">
                 ACCOUNT NAME
               </p>
-              <h3 className="text-2xl font-bold text-foreground">KAZFIELD</h3>
-              <p className="text-sm text-muted-foreground mt-1">
+              <h3 className="text-xl font-bold text-foreground">KAZFIELD</h3>
+              <p className="text-xs text-muted-foreground mt-1">
                 INTEGRATED SERVICE LTD
               </p>
             </div>
           </div>
         </motion.div>
+
+        {/* ================== INVESTMENT FORM ================== */}
+        <motion.form
+          onSubmit={handleSubmit}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-card border border-border rounded-xl p-8 shadow-sm"
+        >
+          <h2 className="text-2xl font-bold text-foreground mb-6">
+            Submit Investment Details
+          </h2>
+
+          {/* Full Name */}
+          <div className="mb-5">
+            <label className="block text-sm font-medium text-foreground mb-2">
+              Full Name
+            </label>
+            <input
+              required
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+              placeholder="John Doe"
+            />
+          </div>
+
+          {/* Email */}
+          <div className="mb-5">
+            <label className="block text-sm font-medium text-foreground mb-2">
+              Email
+            </label>
+            <input
+              required
+              type="email"
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+              placeholder="email@example.com"
+            />
+          </div>
+
+          {/* Phone Number */}
+          <div className="mb-5">
+            <label className="block text-sm font-medium text-foreground mb-2">
+              Phone Number
+            </label>
+            <input
+              required
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+              placeholder="+234 801 234 5678"
+            />
+          </div>
+
+          {/* Address */}
+          <div className="mb-5">
+            <label className="block text-sm font-medium text-foreground mb-2">
+              Address
+            </label>
+            <input
+              required
+              onChange={(e) => setForm({ ...form, address: e.target.value })}
+              className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+              placeholder="City, State"
+            />
+          </div>
+
+          {/* Gender */}
+          <div className="mb-5">
+            <label className="block text-sm font-medium text-foreground mb-2">
+              Gender
+            </label>
+            <select
+              required
+              onChange={(e) => setForm({ ...form, gender: e.target.value })}
+              className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+            >
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+
+          {/* Receipt Upload */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-foreground mb-2">
+              Upload Payment Receipt
+            </label>
+            <input
+              type="file"
+              required
+              accept="image/*"
+              onChange={(e) => setReceiptFile(e.target.files?.[0])}
+              className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground cursor-pointer file:bg-primary file:text-primary-foreground"
+            />
+          </div>
+
+          {/* Additional Message */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-foreground mb-2">
+              Message (Optional)
+            </label>
+            <textarea
+              onChange={(e) => setForm({ ...form, message: e.target.value })}
+              className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+              rows={4}
+              placeholder="Any details we should know?"
+            />
+          </div>
+
+          {/* Submit */}
+          <button
+            type="submit"
+            className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition"
+          >
+            <FiSend /> Submit & Confirm on WhatsApp
+          </button>
+        </motion.form>
       </div>
     </section>
   );
