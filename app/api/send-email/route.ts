@@ -50,8 +50,11 @@ export async function POST(request: NextRequest) {
       receiptFile: receiptFile ? receiptFile.name : null,
       receiptFileName: receiptFile ? receiptFile.name.replace(/[^\w\s.-]/g, '').replace(/\s+/g, '_').toLowerCase() : null,
     };
-// Convert file to attachment (if exists)
-const attachments = [];
+
+
+    // Convert file to attachments (preview + download)
+const attachments: any[] = [];
+
 if (receiptFile && typeof receiptFile !== "string") {
   const buffer = Buffer.from(await receiptFile.arrayBuffer());
 
@@ -60,20 +63,25 @@ if (receiptFile && typeof receiptFile !== "string") {
     .replace(/\s+/g, "_")
     .toLowerCase();
 
+  // Attachment for download
   attachments.push({
     filename: cleanName,
     content: buffer,
-    contentType: receiptFile.type || "application/octet-stream",
+    contentType: receiptFile.type,
     disposition: "attachment",
   });
 
-  console.log("📎 Attachment ready:", {
-    originalName: receiptFile.name,
-    cleanName,
-    size: buffer.length,
-    type: receiptFile.type,
-  });
+  // Inline CID preview for image types
+  if (receiptFile.type.startsWith("image/")) {
+    attachments.push({
+      filename: cleanName,
+      content: buffer,
+      cid: "receipt_preview", // MUST MATCH TEMPLATE
+      contentType: receiptFile.type,
+    });
+  }
 }
+
 
 
     // Send to company

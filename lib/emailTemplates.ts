@@ -1,87 +1,123 @@
 export function companyEmailTemplate({ name, email, phone, address, gender, message, receiptFile }: any) {
   return `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">
-        New Investment Submission
-      </h2>
-      
-      <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="color: #007bff; margin-top: 0;">Investor Details</h3>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Address:</strong> ${address}</p>
-        <p><strong>Gender:</strong> ${gender}</p>
-        ${message ? `<p><strong>Message:</strong> ${message}</p>` : ""}
-      </div>
-
-      <div style="background-color: #e7f3ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="color: #007bff; margin-top: 0;">Payment Information</h3>
-        <p><strong>Account Number:</strong> 2007301592</p>
-        <p><strong>Bank:</strong> FCMB</p>
-        <p><strong>Account Name:</strong> KAZFIELD INTEGRATED SERVICE LTD</p>
-        ${receiptFile ? `
-          <div style="background-color: #d1ecf1; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #17a2b8;">
-            <h4 style="color: #0c5460; margin-top: 0;">📎 Payment Receipt Attached</h4>
-            <p style="color: #0c5460; margin-bottom: 5px;"><strong>File:</strong> ${receiptFile}</p>
-            <p style="color: #0c5460; margin-bottom: 0; font-size: 14px;">
-              <em>💡 Look for the attachment in your email client. You can download or preview it directly from the email.</em>
-            </p>
-          </div>
-        ` : "<p><strong>Receipt:</strong> ❌ No receipt uploaded</p>"}
-      </div>
-
-      <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 14px;">
-        <p>This email was sent from your investment form on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}.</p>
-      </div>
+  <div style="font-family: Arial, sans-serif; max-width: 620px; margin:0 auto; background:#ffffff; border-radius:10px; overflow:hidden;">
+    
+    <!-- Header -->
+    <div style="background:#007f3b; color:white; padding:18px; text-align:center;">
+      <h2 style="margin:0; font-size:24px;">New Investment Submission</h2>
+      <p style="color:#dfffe9; margin:0; font-size:14px;">Àdàbà Coconut Farm Estate</p>
     </div>
-  `;
-}
 
-export function clientEmailTemplate({ name, email, phone, address, gender, message, receiptFile }: any) {
-  return `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <div style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: #007bff; margin-bottom: 10px;">Thank You for Your Investment!</h1>
-        <p style="color: #666; font-size: 18px;">We have received your investment submission</p>
-      </div>
+    <!-- Body -->
+    <div style="padding:20px;">
       
-      <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="color: #007bff; margin-top: 0;">Your Investment Details</h3>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Address:</strong> ${address}</p>
-        <p><strong>Gender:</strong> ${gender}</p>
-        ${message ? `<p><strong>Message:</strong> ${message}</p>` : ""}
-        ${receiptFile ? `
-          <div style="background-color: #d4edda; padding: 10px; border-radius: 6px; margin: 10px 0; border-left: 3px solid #28a745;">
-            <p style="color: #155724; margin: 0;"><strong>✅ Receipt:</strong> Payment receipt received and forwarded to our team</p>
-          </div>
-        ` : ""}
+      <!-- Investor Section -->
+      <div style="background:#e6fff2; padding:20px; border-radius:8px; margin-bottom:18px;">
+        <h3 style="margin:0 0 10px; color:#007f3b; font-size:18px;">Investor Details</h3>
+        <p style="margin:4px 0;"><strong>Name:</strong> ${name}</p>
+        <p style="margin:4px 0;"><strong>Email:</strong> ${email}</p>
+        <p style="margin:4px 0;"><strong>Phone:</strong> ${phone}</p>
+        <p style="margin:4px 0;"><strong>Address:</strong> ${address}</p>
+        <p style="margin:4px 0;"><strong>Gender:</strong> ${gender}</p>
+        ${message ? `<p style="margin:4px 0;"><strong>Message:</strong> ${message}</p>` : ""}
       </div>
 
-      <div style="background-color: #e7f3ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="color: #007bff; margin-top: 0;">Next Steps</h3>
-        <p>1. Please make your payment to the account details below:</p>
-        <ul style="margin: 10px 0; padding-left: 20px;">
+      <!-- Payment Section -->
+      <div style="background:#f4fff8; padding:20px; border-radius:8px;">
+        <h3 style="margin-top:0; color:#007f3b;">Payment Information</h3>
+        <ul style="margin:8px 0; padding-left:20px; color:#333;">
           <li><strong>Account Number:</strong> 2007301592</li>
           <li><strong>Bank:</strong> FCMB</li>
           <li><strong>Account Name:</strong> KAZFIELD INTEGRATED SERVICE LTD</li>
         </ul>
-        <p>2. Upload your payment receipt using the form</p>
-        <p>3. Our team will review your submission and contact you within 24-48 hours</p>
+
+        ${
+          receiptFile
+            ? `
+          <div style="margin-top: 15px; background:white; padding:12px; border-left:4px solid #007f3b; border-radius:6px;">
+            <h4 style="margin:0; color:#007f3b;">Receipt Preview</h4>
+            <img src="cid:receipt_preview" style="max-width:100%; border-radius:6px; margin-top:8px;" />
+            <p style="font-size:12px; color:#555; margin-top:6px;">
+              📎 You can download the image attached below.
+            </p>
+          </div>`
+            : "<p style='margin-top:10px;'>❌ No receipt uploaded</p>"
+        }
       </div>
 
-      <div style="background-color: #d4edda; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #28a745;">
-        <h4 style="color: #155724; margin-top: 0;">Important Note</h4>
-        <p style="color: #155724; margin-bottom: 0;">Please keep this email as confirmation of your investment submission. If you have any questions, feel free to contact us.</p>
+      <!-- Brochure Notice -->
+      <div style="margin-top: 18px; background:#fff3cd; padding:14px; border-radius:6px; border-left:4px solid #ffcc00;">
+        <p style="margin:0; color:#665200; font-size:14px;">
+          📄 We've attached our official Àdàbà Farm brochure for full details on investment returns.
+        </p>
       </div>
 
-      <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 14px; text-align: center;">
-        <p>This is an automated confirmation email. Please do not reply to this email.</p>
-        <p>Submitted on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+      <div style="margin-top: 24px; font-size:13px; color:#777; text-align:center; border-top:1px solid #eee; padding-top:14px;">
+        Sent on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}
       </div>
+
     </div>
+  </div>
   `;
 }
+
+
+
+export function clientEmailTemplate({ name, email, phone, address, gender, message, receiptFile }: any) {
+  return `
+  <div style="font-family: Arial, sans-serif; max-width: 620px; margin:0 auto; background:#ffffff; border-radius:10px; overflow:hidden;">
+    
+    <div style="background:#007f3b; color:white; padding:18px; text-align:center;">
+      <h2 style="margin:0;">Thank You for Your Investment!</h2>
+      <p style="color:#dfffe9; margin:0; font-size:14px;">Àdàbà Coconut Farm Estate</p>
+    </div>
+
+    <div style="padding:20px;">
+      
+      <p style="font-size:15px; color:#333;">
+        Hello <strong>${name}</strong>,<br/>
+        We have successfully received your investment details.
+      </p>
+
+      <div style="background:#e6fff2; padding:18px; border-radius:8px;">
+        <h3 style="margin:0 0 10px; color:#007f3b;">Your Details</h3>
+        <p style="margin:4px 0;"><strong>Email:</strong> ${email}</p>
+        <p style="margin:4px 0;"><strong>Phone:</strong> ${phone}</p>
+        <p style="margin:4px 0;"><strong>Address:</strong> ${address}</p>
+        <p style="margin:4px 0;"><strong>Gender:</strong> ${gender}</p>
+        ${message ? `<p style="margin:4px 0;"><strong>Message:</strong> ${message}</p>` : ""}
+      </div>
+
+      ${
+        receiptFile
+          ? `
+      <div style="margin-top: 10px; background:#e8f8ff; padding:10px; border-radius:6px; border-left:3px solid #28a745;">
+        <p style="color:#155724; margin:0; font-size:14px;"><strong>✅ Receipt received</strong> & forwarded to our team.</p>
+      </div>`
+          : ""
+      }
+
+      <div style="background:#f4fff8; padding:18px; border-radius:8px; margin-top:18px;">
+        <h3 style="color:#007f3b; margin:0 0 8px;">Next Steps</h3>
+        <ol style="margin-left:20px; color:#333;">
+          <li>Your payment confirmation is being reviewed.</li>
+          <li>You’ll receive onboarding updates soon.</li>
+          <li>Quarterly updates on your coconut farm yield.</li>
+        </ol>
+      </div>
+
+      <div style="margin-top: 16px; background:#fff3cd; padding:14px; border-radius:6px; border-left:4px solid #ffcc00;">
+        <p style="margin:0; color:#665200; font-size:14px;">
+          📄 We've attached our official brochure for you to explore returns & benefits.
+        </p>
+      </div>
+
+      <div style="margin-top: 24px; font-size:13px; color:#777; text-align:center; border-top:1px solid #eee; padding-top:14px;">
+        Automated confirmation • Do not reply.
+      </div>
+
+    </div>
+  </div>
+  `;
+}
+
