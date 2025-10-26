@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { FiMail, FiPhone, FiMapPin, FiSend, FiUser, FiUpload } from "react-icons/fi";
+import { FiMail, FiPhone, FiMapPin, FiSend, FiUser, FiUpload, FiCheck, FiX } from "react-icons/fi";
 
 export default function InvestmentFormPage() {
   const [form, setForm] = useState({
@@ -15,21 +15,99 @@ export default function InvestmentFormPage() {
   });
 
   const [receiptFile, setReceiptFile] = useState<any>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitMessage, setSubmitMessage] = useState('');
+  const [fileError, setFileError] = useState('');
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-
-    const phone = "2348164371968";
-    const url = `https://wa.me/${phone}?text=Hello,%0AI want to confirm my investment.%0A
-Full Name: ${form.name}%0A
-Email: ${form.email}%0A
-Phone: ${form.phone}%0A
-Address: ${form.address}%0A
-Gender: ${form.gender}%0A
-Message: ${form.message}%0A`;
-
-    window.open(url, "_blank");
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setFileError('');
+    
+    if (file) {
+      // Validate file type
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+      if (!allowedTypes.includes(file.type)) {
+        setFileError('Please upload only JPEG or PNG files');
+        setReceiptFile(null);
+        return;
+      }
+      
+      // Validate file size (max 5MB)
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        setFileError('File size must be less than 5MB');
+        setReceiptFile(null);
+        return;
+      }
+      
+      setReceiptFile(file);
+    } else {
+      setReceiptFile(null);
+    }
   };
+
+  const handleSubmit = async (e: any) => {
+  e.preventDefault();
+
+  if (fileError) {
+    setSubmitStatus("error");
+    setSubmitMessage("Fix the file upload error before submitting.");
+    return;
+  }
+
+  setIsSubmitting(true);
+  setSubmitStatus("idle");
+  setSubmitMessage("");
+
+  try {
+    const formData = new FormData();
+
+    Object.entries(form).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    if (receiptFile) {
+      formData.append("receiptFile", receiptFile);
+    }
+
+    const res = await fetch("/api/send-email", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Failed to send email");
+    }
+
+    setSubmitStatus("success");
+    setSubmitMessage(
+      "✅ Submitted! Check your email for confirmation."
+    );
+
+    // Clear form
+    setForm({
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
+      gender: "",
+      message: "",
+    });
+    setReceiptFile(null);
+  } catch (err) {
+    console.error("Error submitting:", err);
+    setSubmitStatus("error");
+    setSubmitMessage(
+      "❌ Something went wrong. Please try again."
+    );
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -166,15 +244,27 @@ Message: ${form.message}%0A`;
           {/* Receipt Upload */}
           <div className="mb-6">
             <label className="block text-sm font-medium text-foreground mb-2">
-              Upload Payment Receipt
+              Upload Payment Receipt (JPEG/PNG only, max 5MB)
             </label>
             <input
               type="file"
               required
-              accept="image/*"
-              onChange={(e) => setReceiptFile(e.target.files?.[0])}
+              accept="image/jpeg,image/jpg,image/png"
+              onChange={handleFileChange}
               className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground cursor-pointer file:bg-primary file:text-primary-foreground"
             />
+            {fileError && (
+              <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
+                <FiX className="text-red-600" />
+                {fileError}
+              </p>
+            )}
+            {receiptFile && (
+              <p className="text-green-600 text-sm mt-2 flex items-center gap-1">
+                <FiCheck className="text-green-600" />
+                File selected: {receiptFile.name} ({(receiptFile.size / 1024 / 1024).toFixed(2)} MB)
+              </p>
+            )}
           </div>
 
           {/* Additional Message */}
@@ -190,12 +280,34 @@ Message: ${form.message}%0A`;
             />
           </div>
 
+          {/* Status Message */}
+          {submitMessage && (
+            <div className={`mb-6 p-4 rounded-lg flex items-center gap-2 ${
+              submitStatus === 'success' 
+                ? 'bg-green-50 text-green-800 border border-green-200' 
+                : 'bg-red-50 text-red-800 border border-red-200'
+            }`}>
+              {submitStatus === 'success' ? <FiCheck className="text-green-600" /> : <FiX className="text-red-600" />}
+              <span>{submitMessage}</span>
+            </div>
+          )}
+
           {/* Submit */}
           <button
             type="submit"
-            className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition"
+            disabled={isSubmitting}
+            className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <FiSend /> Submit & Confirm on WhatsApp
+            {isSubmitting ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                Submitting...
+              </>
+            ) : (
+              <>
+                <FiSend /> Submit Investment Details
+              </>
+            )}
           </button>
         </motion.form>
       </div>
