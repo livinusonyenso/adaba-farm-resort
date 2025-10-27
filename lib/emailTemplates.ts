@@ -1,4 +1,4 @@
-export function companyEmailTemplate({ name, email, phone, address, gender, message, receiptFile }: any) {
+export function companyEmailTemplate({ name, email, phone, address, gender, message, receiptFile, referralSource, sourceName, sourceContact, sourceEmail }: any) {
   return `
   <div style="font-family: Arial, sans-serif; max-width: 620px; margin:0 auto; background:#ffffff; border-radius:10px; overflow:hidden;">
     
@@ -20,6 +20,15 @@ export function companyEmailTemplate({ name, email, phone, address, gender, mess
         <p style="margin:4px 0;"><strong>Address:</strong> ${address}</p>
         <p style="margin:4px 0;"><strong>Gender:</strong> ${gender}</p>
         ${message ? `<p style="margin:4px 0;"><strong>Message:</strong> ${message}</p>` : ""}
+      </div>
+
+      <!-- Referral Information -->
+      <div style="background:#f0f8ff; padding:20px; border-radius:8px; margin-bottom:18px;">
+        <h3 style="margin:0 0 10px; color:#007f3b; font-size:18px;">Referral Information</h3>
+        <p style="margin:4px 0;"><strong>How did you know about us:</strong> ${referralSource || 'Not specified'}</p>
+        ${sourceName ? `<p style="margin:4px 0;"><strong>Source Name:</strong> ${sourceName}</p>` : ""}
+        ${sourceContact ? `<p style="margin:4px 0;"><strong>Source Contact:</strong> ${sourceContact}</p>` : ""}
+        ${sourceEmail ? `<p style="margin:4px 0;"><strong>Source Email:</strong> ${sourceEmail}</p>` : ""}
       </div>
 
       <!-- Payment Section -->
@@ -63,7 +72,7 @@ export function companyEmailTemplate({ name, email, phone, address, gender, mess
 
 
 
-export function clientEmailTemplate({ name, email, phone, address, gender, message, receiptFile }: any) {
+export function clientEmailTemplate({ name, email, phone, address, gender, message, receiptFile, referralSource, sourceName, sourceContact, sourceEmail }: any) {
   return `
   <div style="font-family: Arial, sans-serif; max-width: 620px; margin:0 auto; background:#ffffff; border-radius:10px; overflow:hidden;">
     
@@ -86,6 +95,15 @@ export function clientEmailTemplate({ name, email, phone, address, gender, messa
         <p style="margin:4px 0;"><strong>Address:</strong> ${address}</p>
         <p style="margin:4px 0;"><strong>Gender:</strong> ${gender}</p>
         ${message ? `<p style="margin:4px 0;"><strong>Message:</strong> ${message}</p>` : ""}
+      </div>
+
+      <!-- Referral Information -->
+      <div style="background:#f0f8ff; padding:18px; border-radius:8px; margin-top:18px;">
+        <h3 style="margin:0 0 10px; color:#007f3b;">Referral Information</h3>
+        <p style="margin:4px 0;"><strong>How did you know about us:</strong> ${referralSource || 'Not specified'}</p>
+        ${sourceName ? `<p style="margin:4px 0;"><strong>Source Name:</strong> ${sourceName}</p>` : ""}
+        ${sourceContact ? `<p style="margin:4px 0;"><strong>Source Contact:</strong> ${sourceContact}</p>` : ""}
+        ${sourceEmail ? `<p style="margin:4px 0;"><strong>Source Email:</strong> ${sourceEmail}</p>` : ""}
       </div>
 
       ${

@@ -19,6 +19,10 @@ export default function InvestmentFormPage() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [submitMessage, setSubmitMessage] = useState('');
   const [fileError, setFileError] = useState('');
+    const [referralSource, setReferralSource] = useState("");
+  const [sourceName, setSourceName] = useState("");
+  const [sourceContact, setSourceContact] = useState("");
+  const [sourceEmail, setSourceEmail] = useState("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -71,6 +75,12 @@ export default function InvestmentFormPage() {
       formData.append("receiptFile", receiptFile);
     }
 
+    // Add referral fields
+    formData.append("referralSource", referralSource);
+    formData.append("sourceName", sourceName);
+    formData.append("sourceContact", sourceContact);
+    formData.append("sourceEmail", sourceEmail);
+
     const res = await fetch("/api/send-email", {
       method: "POST",
       body: formData,
@@ -97,6 +107,10 @@ export default function InvestmentFormPage() {
       message: "",
     });
     setReceiptFile(null);
+    setReferralSource("");
+    setSourceName("");
+    setSourceContact("");
+    setSourceEmail("");
   } catch (err) {
     console.error("Error submitting:", err);
     setSubmitStatus("error");
@@ -280,6 +294,75 @@ export default function InvestmentFormPage() {
             />
           </div>
 
+          {/* How did you know about us */}
+          <div className="mb-5">
+            <label className="block text-sm font-medium text-foreground mb-2">
+              How did you know about us? *
+            </label>
+            <select
+              required
+              className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+              value={referralSource}
+              onChange={(e) => setReferralSource(e.target.value)}
+            >
+              <option value="">Select an option</option>
+              <option value="Social Media">Social Media</option>
+              <option value="Friend/Family">Friend/Family</option>
+              <option value="Advertisement">Advertisement</option>
+              <option value="Website">Website</option>
+              <option value="Referral">Referral</option>
+              <option value="Event">Event</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          {/* Referral Source Details - Show only if "Referral" is selected */}
+          {referralSource === "Referral" && (
+            <>
+              {/* Source Name */}
+              <div className="mb-5">
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Name of the source
+                </label>
+                <input
+                  type="text"
+                  className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  placeholder="Enter source name"
+                  value={sourceName}
+                  onChange={(e) => setSourceName(e.target.value)}
+                />
+              </div>
+
+              {/* Source Contact */}
+              <div className="mb-5">
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Contact
+                </label>
+                <input
+                  type="tel"
+                  className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  placeholder="Enter contact number"
+                  value={sourceContact}
+                  onChange={(e) => setSourceContact(e.target.value)}
+                />
+              </div>
+
+              {/* Source Email */}
+              <div className="mb-5">
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Mail
+                </label>
+                <input
+                  type="email"
+                  className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  placeholder="Enter email address"
+                  value={sourceEmail}
+                  onChange={(e) => setSourceEmail(e.target.value)}
+                />
+              </div>
+            </>
+          )}
+
           {/* Status Message */}
           {submitMessage && (
             <div className={`mb-6 p-4 rounded-lg flex items-center gap-2 ${
@@ -291,6 +374,8 @@ export default function InvestmentFormPage() {
               <span>{submitMessage}</span>
             </div>
           )}
+
+
 
           {/* Submit */}
           <button

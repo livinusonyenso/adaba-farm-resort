@@ -11,8 +11,12 @@ export default function BookInvestmentPage() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [receiptFile, setReceiptFile] = useState<File | null>(null);
+  const [referralSource, setReferralSource] = useState("");
+  const [sourceName, setSourceName] = useState("");
+  const [sourceContact, setSourceContact] = useState("");
+  const [sourceEmail, setSourceEmail] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!receiptFile) {
@@ -20,12 +24,50 @@ export default function BookInvestmentPage() {
       return;
     }
 
+    // Prepare form data for API
+    const formData = new FormData();
+    formData.append("name", fullName);
+    formData.append("email", email);
+    formData.append("phone", phone);
+    formData.append("address", ""); // Add address field if needed
+    formData.append("gender", ""); // Add gender field if needed
+    formData.append("message", ""); // Add message field if needed
+    formData.append("receiptFile", receiptFile);
+    formData.append("referralSource", referralSource);
+    formData.append("sourceName", sourceName);
+    formData.append("sourceContact", sourceContact);
+    formData.append("sourceEmail", sourceEmail);
+
+    try {
+      // Send to API
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert("Investment submission sent successfully! Check your email for confirmation.");
+      } else {
+        throw new Error("Failed to send submission");
+      }
+    } catch (error) {
+      console.error("Error sending submission:", error);
+      alert("Failed to send submission. Please try again or contact support.");
+    }
+
+    // Also send WhatsApp message
     const message = `
 📌 New Investment Submission
 
 Full Name: ${fullName}
 Email: ${email}
 Phone: ${phone}
+
+📋 Referral Information:
+How did you know about us: ${referralSource}
+${sourceName ? `Source Name: ${sourceName}` : ''}
+${sourceContact ? `Source Contact: ${sourceContact}` : ''}
+${sourceEmail ? `Source Email: ${sourceEmail}` : ''}
 
 ✅ Receipt Attached
 `;
@@ -133,6 +175,75 @@ Phone: ${phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
+
+              {/* How did you know about us */}
+              <div>
+                <label className="block font-medium text-primary mb-1">
+                  How did you know about us? *
+                </label>
+                <select
+                  required
+                  className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition"
+                  value={referralSource}
+                  onChange={(e) => setReferralSource(e.target.value)}
+                >
+                  <option value="">Select an option</option>
+                  <option value="Social Media">Social Media</option>
+                  <option value="Friend/Family">Friend/Family</option>
+                  <option value="Advertisement">Advertisement</option>
+                  <option value="Website">Website</option>
+                  <option value="Referral">Referral</option>
+                  <option value="Event">Event</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              {/* Referral Source Details - Show only if "Referral" is selected */}
+              {referralSource === "Referral" && (
+                <>
+                  {/* Source Name */}
+                  <div>
+                    <label className="block font-medium text-primary mb-1">
+                      Name of the source
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition"
+                      placeholder="Enter source name"
+                      value={sourceName}
+                      onChange={(e) => setSourceName(e.target.value)}
+                    />
+                  </div>
+
+                  {/* Source Contact */}
+                  <div>
+                    <label className="block font-medium text-primary mb-1">
+                      Contact
+                    </label>
+                    <input
+                      type="tel"
+                      className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition"
+                      placeholder="Enter contact number"
+                      value={sourceContact}
+                      onChange={(e) => setSourceContact(e.target.value)}
+                    />
+                  </div>
+
+                  {/* Source Email */}
+                  <div>
+                    <label className="block font-medium text-primary mb-1">
+                      Mail
+                    </label>
+                    <input
+                      type="email"
+                      className="w-full px-4 py-3 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition"
+                      placeholder="Enter email address"
+                      value={sourceEmail}
+                      onChange={(e) => setSourceEmail(e.target.value)}
+                    />
+                  </div>
+                </>
+              )}
 
               {/* Receipt Upload */}
               <div>

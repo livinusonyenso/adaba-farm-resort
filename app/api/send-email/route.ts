@@ -14,6 +14,10 @@ export async function POST(request: NextRequest) {
     const gender = formData.get("gender") as string;
     const message = formData.get("message") as string;
     const receiptFile = formData.get("receiptFile") as File | null;
+    const referralSource = formData.get("referralSource") as string;
+    const sourceName = formData.get("sourceName") as string;
+    const sourceContact = formData.get("sourceContact") as string;
+    const sourceEmail = formData.get("sourceEmail") as string;
 
     // Validate required fields
     if (!name || !email || !phone || !address || !gender) {
@@ -49,6 +53,10 @@ export async function POST(request: NextRequest) {
       message,
       receiptFile: receiptFile ? receiptFile.name : null,
       receiptFileName: receiptFile ? receiptFile.name.replace(/[^\w\s.-]/g, '').replace(/\s+/g, '_').toLowerCase() : null,
+      referralSource,
+      sourceName,
+      sourceContact,
+      sourceEmail,
     };
 
 
