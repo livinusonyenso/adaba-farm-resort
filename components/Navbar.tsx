@@ -20,11 +20,11 @@ export default function Navbar() {
 
   const navLinks = [
     { label: "Home", href: "/" },
-    { label: "Investment Plans", href: "#plans" },
-    { label: "How It Works", href: "#how-it-works" },
-    { label: "Gallery", href: "#gallery" },
-    { label: "FAQ", href: "#faq" },
-    { label: "Contact", href: "#contact" },
+    { label: "Investment Plans", href: "/#plans" },
+    { label: "How It Works", href: "/#how-it-works" },
+    { label: "Gallery", href: "/#gallery" },
+    { label: "FAQ", href: "/#faq" },
+    { label: "Contact", href: "/#contact" },
   ]
 
   return (
@@ -52,16 +52,19 @@ export default function Navbar() {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link, idx) => (
-            <motion.a
+            <motion.div
               key={link.href}
-              href={link.href}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
-              className="text-foreground hover:text-primary transition-colors duration-200 font-medium"
             >
-              {link.label}
-            </motion.a>
+              <Link
+                href={link.href}
+                className="text-foreground hover:text-primary transition-colors duration-200 font-medium"
+              >
+                {link.label}
+              </Link>
+            </motion.div>
           ))}
         </div>
 
@@ -94,14 +97,14 @@ export default function Navbar() {
         >
           <div className="section-container py-4 flex flex-col gap-4">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className="text-foreground hover:text-primary transition-colors py-2"
                 onClick={() => setIsOpen(false)}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
             {/* <Link href="/dashboard" className="btn-primary text-center">
               Investor Dashboard
