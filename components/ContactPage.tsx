@@ -1,10 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { FiMail, FiPhone, FiMapPin, FiSend, FiUser, FiUpload, FiCheck, FiX } from "react-icons/fi";
+import { useState, useEffect } from "react";
+import { FiMail, FiPhone, FiMapPin, FiSend, FiUser, FiUpload, FiCheck, FiX, FiWifi, FiWifiOff } from "react-icons/fi";
+import { useApi, InvestmentFormData } from "../context/ApiContext";
 
 export default function InvestmentFormPage() {
+  const { submitInvestmentForm, checkServerHealth, baseUrl } = useApi();
+  
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -23,6 +26,21 @@ export default function InvestmentFormPage() {
   const [sourceName, setSourceName] = useState("");
   const [sourceContact, setSourceContact] = useState("");
   const [sourceEmail, setSourceEmail] = useState("");
+  const [serverStatus, setServerStatus] = useState<'checking' | 'online' | 'offline'>('checking');
+
+  // Check server health on component mount
+  useEffect(() => {
+    const checkHealth = async () => {
+      try {
+        const isHealthy = await checkServerHealth();
+        setServerStatus(isHealthy ? 'online' : 'offline');
+      } catch (error) {
+        setServerStatus('offline');
+      }
+    };
+
+    checkHealth();
+  }, [checkServerHealth]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -51,76 +69,68 @@ export default function InvestmentFormPage() {
     }
   };
 
-  const handleSubmit = async (e: any) => {
-  e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  if (fileError) {
-    setSubmitStatus("error");
-    setSubmitMessage("Fix the file upload error before submitting.");
-    return;
-  }
-
-  setIsSubmitting(true);
-  setSubmitStatus("idle");
-  setSubmitMessage("");
-
-  try {
-    const formData = new FormData();
-
-    Object.entries(form).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
-
-    if (receiptFile) {
-      formData.append("receiptFile", receiptFile);
+    if (fileError) {
+      setSubmitStatus("error");
+      setSubmitMessage("Fix the file upload error before submitting.");
+      return;
     }
 
-    // Add referral fields
-    formData.append("referralSource", referralSource);
-    formData.append("sourceName", sourceName);
-    formData.append("sourceContact", sourceContact);
-    formData.append("sourceEmail", sourceEmail);
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+    setSubmitMessage("");
 
-    const res = await fetch("/api/send-email", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      // Prepare form data for API
+      const investmentData: InvestmentFormData = {
+        ...form,
+        referralSource,
+        sourceName: sourceName || undefined,
+        sourceContact: sourceContact || undefined,
+        sourceEmail: sourceEmail || undefined,
+      };
 
-    const data = await res.json();
+      // Submit through API context
+      const response = await submitInvestmentForm(investmentData, receiptFile || undefined);
 
-    if (!res.ok) {
-      throw new Error(data.error || "Failed to send email");
+      setSubmitStatus("success");
+      setSubmitMessage(
+        response.message || "✅ Submitted! Check your email for confirmation."
+      );
+
+      // Clear form
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        address: "",
+        gender: "",
+        message: "",
+      });
+      setReceiptFile(null);
+      setReferralSource("");
+      setSourceName("");
+      setSourceContact("");
+      setSourceEmail("");
+      
+      // Reset file input
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = '';
+      }
+      
+    } catch (err: any) {
+      console.error("Error submitting:", err);
+      setSubmitStatus("error");
+      setSubmitMessage(
+        err.message || "❌ Something went wrong. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setSubmitStatus("success");
-    setSubmitMessage(
-      "✅ Submitted! Check your email for confirmation."
-    );
-
-    // Clear form
-    setForm({
-      name: "",
-      email: "",
-      phone: "",
-      address: "",
-      gender: "",
-      message: "",
-    });
-    setReceiptFile(null);
-    setReferralSource("");
-    setSourceName("");
-    setSourceContact("");
-    setSourceEmail("");
-  } catch (err) {
-    console.error("Error submitting:", err);
-    setSubmitStatus("error");
-    setSubmitMessage(
-      "❌ Something went wrong. Please try again."
-    );
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
 
   const itemVariants = {
@@ -182,9 +192,31 @@ export default function InvestmentFormPage() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-card border border-border rounded-xl p-8 shadow-sm"
         >
-          <h2 className="text-2xl font-bold text-foreground mb-6">
-            Submit Investment Details
-          </h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-foreground">
+              Submit Investment Details
+            </h2>
+            <div className="flex items-center gap-2 text-sm">
+              {serverStatus === 'checking' && (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-300 border-t-primary"></div>
+                  <span className="text-muted-foreground">Checking server...</span>
+                </>
+              )}
+              {serverStatus === 'online' && (
+                <>
+                  <FiWifi className="text-green-500" />
+                  <span className="text-green-600">Server Online</span>
+                </>
+              )}
+              {serverStatus === 'offline' && (
+                <>
+                  <FiWifiOff className="text-red-500" />
+                  <span className="text-red-600">Server Offline</span>
+                </>
+              )}
+            </div>
+          </div>
 
           {/* Full Name */}
           <div className="mb-5">
@@ -363,6 +395,14 @@ export default function InvestmentFormPage() {
             </>
           )}
 
+          {/* Server Offline Warning */}
+          {serverStatus === 'offline' && (
+            <div className="mb-6 p-4 rounded-lg flex items-center gap-2 bg-red-50 text-red-800 border border-red-200">
+              <FiWifiOff className="text-red-600" />
+              <span>Server is currently offline. Please try again later or contact support.</span>
+            </div>
+          )}
+
           {/* Status Message */}
           {submitMessage && (
             <div className={`mb-6 p-4 rounded-lg flex items-center gap-2 ${
@@ -380,7 +420,7 @@ export default function InvestmentFormPage() {
           {/* Submit */}
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || serverStatus === 'offline'}
             className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (

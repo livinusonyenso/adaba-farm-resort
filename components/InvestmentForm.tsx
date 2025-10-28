@@ -5,8 +5,11 @@ import Footer from "@/components/Footer";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Upload, Send } from "lucide-react";
+import { useApi, InvestmentFormData } from "../context/ApiContext";
 
 export default function BookInvestmentPage() {
+  const { submitInvestmentForm } = useApi();
+  
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -15,6 +18,7 @@ export default function BookInvestmentPage() {
   const [sourceName, setSourceName] = useState("");
   const [sourceContact, setSourceContact] = useState("");
   const [sourceEmail, setSourceEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,35 +28,49 @@ export default function BookInvestmentPage() {
       return;
     }
 
-    // Prepare form data for API
-    const formData = new FormData();
-    formData.append("name", fullName);
-    formData.append("email", email);
-    formData.append("phone", phone);
-    formData.append("address", ""); // Add address field if needed
-    formData.append("gender", ""); // Add gender field if needed
-    formData.append("message", ""); // Add message field if needed
-    formData.append("receiptFile", receiptFile);
-    formData.append("referralSource", referralSource);
-    formData.append("sourceName", sourceName);
-    formData.append("sourceContact", sourceContact);
-    formData.append("sourceEmail", sourceEmail);
+    setIsSubmitting(true);
 
     try {
-      // Send to API
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        body: formData,
-      });
+      // Prepare form data for API
+      const investmentData: InvestmentFormData = {
+        name: fullName,
+        email,
+        phone,
+        address: "", // Add address field if needed
+        gender: "", // Add gender field if needed
+        message: "", // Add message field if needed
+        referralSource,
+        sourceName: sourceName || undefined,
+        sourceContact: sourceContact || undefined,
+        sourceEmail: sourceEmail || undefined,
+      };
 
-      if (response.ok) {
-        alert("Investment submission sent successfully! Check your email for confirmation.");
-      } else {
-        throw new Error("Failed to send submission");
+      // Submit through API context
+      const response = await submitInvestmentForm(investmentData, receiptFile);
+      
+      alert(response.message || "Investment submission sent successfully! Check your email for confirmation.");
+      
+      // Clear form
+      setFullName("");
+      setEmail("");
+      setPhone("");
+      setReceiptFile(null);
+      setReferralSource("");
+      setSourceName("");
+      setSourceContact("");
+      setSourceEmail("");
+      
+      // Reset file input
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = '';
       }
-    } catch (error) {
+      
+    } catch (error: any) {
       console.error("Error sending submission:", error);
-      alert("Failed to send submission. Please try again or contact support.");
+      alert(error.message || "Failed to send submission. Please try again or contact support.");
+    } finally {
+      setIsSubmitting(false);
     }
 
     // Also send WhatsApp message
@@ -267,11 +285,21 @@ ${sourceEmail ? `Source Email: ${sourceEmail}` : ''}
               {/* Submit */}
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
-                className="bg-primary text-white w-full py-3 rounded-xl flex justify-center items-center gap-2 text-lg font-semibold"
+                disabled={isSubmitting}
+                whileHover={{ scale: isSubmitting ? 1 : 1.03 }}
+                whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                className="bg-primary text-white w-full py-3 rounded-xl flex justify-center items-center gap-2 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Submit Receipt <Send size={18} />
+                {isSubmitting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                    Submitting...
+                  </>
+                ) : (
+                  <>
+                    Submit Receipt <Send size={18} />
+                  </>
+                )}
               </motion.button>
             </div>
           </motion.form>

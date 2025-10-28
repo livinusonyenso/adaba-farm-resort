@@ -5,6 +5,7 @@ import "../styles/globals.css"
 import CalculatorButton from "@/components/CalculatorButton"
 import ScrollToTop from "@/components/ScrollToTop"
 import { UserProvider } from "@/context/UserContext"
+import { ApiProvider } from "@/context/ApiContext"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -33,9 +34,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.variable} ${inter.variable} font-sans antialiased`}>
         <UserProvider>
-          {children}
-          <ScrollToTop />
-          <CalculatorButton />
+          <ApiProvider>
+            {children}
+            <ScrollToTop />
+            <CalculatorButton />
+          </ApiProvider>
         </UserProvider>
       </body>
     </html>
