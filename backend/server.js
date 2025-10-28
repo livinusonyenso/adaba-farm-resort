@@ -12,13 +12,13 @@ const PORT = process.env.PORT || 3001;
 // Security middleware
 app.use(helmet());
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // limit each IP to 10 requests per windowMs
-  message: 'Too many requests from this IP, please try again later.',
-});
-app.use('/api/', limiter);
+// Rate limiting (disabled for now to avoid connection issues)
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 100, // Increased limit to 100 requests per 15 minutes
+//   message: { error: 'Request limit exceeded. Please wait a moment before trying again.' },
+// });
+// app.use('/api/', limiter);
 
 // CORS configuration
 const corsOptions = {
@@ -377,7 +377,10 @@ app.post('/api/send-email', upload.single('receiptFile'), async (req, res) => {
 
   } catch (error) {
     console.error('Error sending emails:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ 
+      error: 'Failed to process your request. Please check your information and try again.',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 });
 
@@ -389,7 +392,10 @@ app.use((error, req, res, next) => {
     }
   }
   console.error('Unhandled error:', error);
-  res.status(500).json({ error: 'Internal server error' });
+  res.status(500).json({ 
+    error: 'Service temporarily unavailable. Please try again in a moment.',
+    details: process.env.NODE_ENV === 'development' ? error.message : undefined
+  });
 });
 
 // Start server

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { FiMail, FiPhone, FiMapPin, FiSend, FiUser, FiUpload, FiCheck, FiX, FiWifi, FiWifiOff } from "react-icons/fi";
+import { FiMail, FiPhone, FiMapPin, FiSend, FiUser, FiUpload, FiCheck, FiX } from "react-icons/fi";
 import { useApi, InvestmentFormData } from "../context/ApiContext";
 
 export default function InvestmentFormPage() {
@@ -26,21 +26,7 @@ export default function InvestmentFormPage() {
   const [sourceName, setSourceName] = useState("");
   const [sourceContact, setSourceContact] = useState("");
   const [sourceEmail, setSourceEmail] = useState("");
-  const [serverStatus, setServerStatus] = useState<'checking' | 'online' | 'offline'>('checking');
 
-  // Check server health on component mount
-  useEffect(() => {
-    const checkHealth = async () => {
-      try {
-        const isHealthy = await checkServerHealth();
-        setServerStatus(isHealthy ? 'online' : 'offline');
-      } catch (error) {
-        setServerStatus('offline');
-      }
-    };
-
-    checkHealth();
-  }, [checkServerHealth]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -196,26 +182,6 @@ export default function InvestmentFormPage() {
             <h2 className="text-2xl font-bold text-foreground">
               Submit Investment Details
             </h2>
-            <div className="flex items-center gap-2 text-sm">
-              {serverStatus === 'checking' && (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-300 border-t-primary"></div>
-                  <span className="text-muted-foreground">Checking server...</span>
-                </>
-              )}
-              {serverStatus === 'online' && (
-                <>
-                  <FiWifi className="text-green-500" />
-                  <span className="text-green-600">Server Online</span>
-                </>
-              )}
-              {serverStatus === 'offline' && (
-                <>
-                  <FiWifiOff className="text-red-500" />
-                  <span className="text-red-600">Server Offline</span>
-                </>
-              )}
-            </div>
           </div>
 
           {/* Full Name */}
@@ -395,13 +361,6 @@ export default function InvestmentFormPage() {
             </>
           )}
 
-          {/* Server Offline Warning */}
-          {serverStatus === 'offline' && (
-            <div className="mb-6 p-4 rounded-lg flex items-center gap-2 bg-red-50 text-red-800 border border-red-200">
-              <FiWifiOff className="text-red-600" />
-              <span>Server is currently offline. Please try again later or contact support.</span>
-            </div>
-          )}
 
           {/* Status Message */}
           {submitMessage && (
@@ -420,7 +379,7 @@ export default function InvestmentFormPage() {
           {/* Submit */}
           <button
             type="submit"
-            disabled={isSubmitting || serverStatus === 'offline'}
+            disabled={isSubmitting}
             className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (
