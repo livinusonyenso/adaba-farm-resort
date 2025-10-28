@@ -221,6 +221,19 @@ function clientEmailTemplate({ name, email, phone, address, gender, message, rec
   `;
 }
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Adaba Farm Resort API is running!', 
+    status: 'active',
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: '/health',
+      sendEmail: '/api/send-email'
+    }
+  });
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
