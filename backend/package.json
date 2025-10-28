@@ -4,6 +4,7 @@
   "description": "Express.js backend for Adaba Farm Resort",
   "main": "index.js",
   "scripts": {
+    "build": "npm install",
     "start": "node index.js",
     "dev": "nodemon server.js"
   },
