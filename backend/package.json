@@ -2,9 +2,9 @@
   "name": "adaba-farm-backend",
   "version": "1.0.0",
   "description": "Express.js backend for Adaba Farm Resort",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node index.js",
     "dev": "nodemon server.js"
   },
   "dependencies": {
