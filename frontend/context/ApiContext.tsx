@@ -35,8 +35,8 @@ class ApiService {
   private baseUrl: string;
 
   constructor() {
-    // Use environment variable for production, localhost for development
-    this.baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://taskmaster-todoapp-1.onrender.com';
+    // Temporarily use localhost for testing - change back to deployed URL when backend is fixed
+    this.baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
   }
 
   async submitInvestmentForm(formData: InvestmentFormData, receiptFile?: File): Promise<ApiResponse> {
