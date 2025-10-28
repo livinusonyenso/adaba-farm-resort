@@ -23,7 +23,7 @@ app.use(helmet());
 // CORS configuration
 const corsOptions = {
   origin: [
-    'https://taskmaster-todoapp-1.onrender.com',
+    'https://adaba-farm-resort.onrender.com',
     'http://localhost:3000',
     'http://localhost:3001',
     process.env.FRONTEND_URL
@@ -402,7 +402,7 @@ app.use((error, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`🚀 Backend server running on port ${PORT}`);
   console.log(`📧 Email service ready`);
-  console.log(`🌐 CORS enabled for: https://taskmaster-todoapp-1.onrender.com and localhost`);
+  console.log(`🌐 CORS enabled for: https://adaba-farm-resort.onrender.com and localhost`);
 });
 
 module.exports = app;

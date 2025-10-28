@@ -35,6 +35,7 @@ class ApiService {
   private baseUrl: string;
 
   constructor() {
+    // Use environment variable for production, localhost for development
     this.baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://taskmaster-todoapp-1.onrender.com';
   }
 
