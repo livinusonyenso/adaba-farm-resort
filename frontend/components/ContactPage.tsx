@@ -139,36 +139,40 @@ export default function InvestmentFormPage() {
             Investment Payment Details
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Account Number */}
-            <div className="text-center">
-              <p className="text-sm font-medium text-muted-foreground mb-2">
-                ACCOUNT NUMBER
-              </p>
-              <h3 className="text-3xl font-bold font-mono text-foreground">
+        <div className="grid md:grid-cols-3 gap-8">
+  {/* Account Number */}
+  <div className="text-center">
+    <p className="text-sm font-medium text-muted-foreground mb-2">
+      USD ACCOUNT NUMBER
+    </p>
+    <h3 className="text-3xl font-bold font-mono text-foreground">
                 2007301592
-              </h3>
-            </div>
+    </h3>
+  </div>
 
-            {/* Bank */}
-            <div className="text-center">
-              <p className="text-sm font-medium text-muted-foreground mb-2">
-                BANK
-              </p>
-              <h3 className="text-3xl font-bold text-foreground">FCMB</h3>
-            </div>
+  {/* Bank */}
+  <div className="text-center">
+    <p className="text-sm font-medium text-muted-foreground mb-2">
+      BANK
+    </p>
+    <h3 className="text-3xl font-bold text-foreground">FCMB</h3>
+    <p className="text-xs text-muted-foreground mt-1">
+      (USD Domiciliary Account)
+    </p>
+  </div>
 
-            {/* Account Name */}
-            <div className="text-center">
-              <p className="text-sm font-medium text-muted-foreground mb-2">
-                ACCOUNT NAME
-              </p>
-              <h3 className="text-xl font-bold text-foreground">KAZFIELD</h3>
+  {/* Account Name */}
+  <div className="text-center">
+    <p className="text-sm font-medium text-muted-foreground mb-2">
+      ACCOUNT NAME
+    </p>
+  <h3 className="text-xl font-bold text-foreground">KAZFIELD</h3>
               <p className="text-xs text-muted-foreground mt-1">
                 INTEGRATED SERVICE LTD
               </p>
-            </div>
-          </div>
+  </div>
+</div>
+
         </motion.div>
 
         {/* ================== INVESTMENT FORM ================== */}

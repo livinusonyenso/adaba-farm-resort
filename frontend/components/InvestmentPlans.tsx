@@ -6,7 +6,7 @@ const plans = [
     acreage: 1,
     price: 3700000,
     roi: "6m -12m",
-    maturity: "4–5 years", 
+    maturity: "4–5 years",
     duration: "50years and above",
     features: [
       "1-9 acre of premium land",
@@ -21,10 +21,11 @@ const plans = [
     acreage: 10,
     price: 3700000,
     roi: "6m -12m",
-   maturity: "4–5 years", 
+    maturity: "4–5 years",
     duration: "50years and above",
     features: [
       "10 -49 acres of premium land",
+      "Annual ROI payouts",
       "Priority farm updates",
       "Exclusive investor events",
       "Dedicated account manager",
@@ -34,9 +35,9 @@ const plans = [
   {
     title: "Elite",
     acreage: 50,
-    price:3700000,
+    price: 3700000,
     roi: "6m -12m",
-   maturity: "4–5 years", 
+    maturity: "4–5 years",
     duration: "50years and above",
     features: [
       "50 -100 acres of premium land",
@@ -57,7 +58,8 @@ export default function InvestmentPlans() {
             Investment Plans
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto text-primary">
-            Choose the perfect plan that matches your investment goals and timeline.
+            Choose the perfect plan that matches your investment goals and
+            timeline.
           </p>
         </div>
 
