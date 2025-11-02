@@ -106,7 +106,7 @@ export default function HeroCarousel() {
           >
             <Image src={slide.image || "/placeholder.svg"} alt={slide.title} fill className="object-cover" priority />
 
-            <div className="absolute inset-0 bg-primary/30" />
+<div className="absolute inset-0 bg-[#007f3b]/60 z-[1]" />
 
             {/* Background decorative elements */}
             <div className="absolute inset-0 overflow-hidden">
