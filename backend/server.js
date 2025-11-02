@@ -1,92 +1,50 @@
-const express = require('express');
-const cors = require('cors');
-const multer = require('multer');
-const nodemailer = require('nodemailer');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
-require('dotenv').config();
+// ---------------- Core dependencies ----------------
+const express = require("express");
+const cors = require("cors");
+const multer = require("multer");
+const nodemailer = require("nodemailer");
+const helmet = require("helmet");
+require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Security middleware
+// ---------------- Security & Middleware ----------------
 app.use(helmet());
+app.use(
+  cors({
+    origin: [
+      "https://kazfieldisl.com",
+      "https://kazfieldisl.com/adabafarmresort",
+      "https://adaba-farm-resort.onrender.com",
+      "http://localhost:3000",
+      "http://localhost:3001",
+      process.env.FRONTEND_URL,
+    ].filter(Boolean),
+    credentials: true,
+  })
+);
 
-// Rate limiting (disabled for now to avoid connection issues)
-// const limiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: 100, // Increased limit to 100 requests per 15 minutes
-//   message: { error: 'Request limit exceeded. Please wait a moment before trying again.' },
-// });
-// app.use('/api/', limiter);
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-// CORS configuration
-const corsOptions = {
-  origin: [
-    'https://adaba-farm-resort.onrender.com',
-    'http://localhost:3000',
-    'http://localhost:3001',
-    process.env.FRONTEND_URL
-  ].filter(Boolean), // Remove any undefined values
-  credentials: true,
-  optionsSuccessStatus: 200
-};
-app.use(cors(corsOptions));
-
-// Body parsing middleware
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
-// Multer configuration for file uploads
+// ---------------- Multer (upload) config ----------------
 const storage = multer.memoryStorage();
 const upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB limit
-  },
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
-    // Allow only image files
-    if (file.mimetype.startsWith('image/')) {
-      cb(null, true);
-    } else {
-      cb(new Error('Only image files are allowed!'), false);
-    }
-  }
+    if (file.mimetype.startsWith("image/")) cb(null, true);
+    else cb(new Error("Only image files are allowed!"), false);
+  },
 });
 
-// Email configuration
-function createTransporter() {
-  if (!process.env.SMTP_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    throw new Error('Missing SMTP configuration variables!');
-  }
-
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: parseInt(process.env.SMTP_PORT || '587'),
-    secure: process.env.SMTP_SECURE === 'true',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-    tls: {
-      rejectUnauthorized: process.env.SMTP_TLS_REJECT_UNAUTHORIZED !== 'false',
-    },
-  });
-
-  return transporter;
+// ---------------- Helper: environment guards ----------------
+function assertEnv(name) {
+  if (!process.env[name]) throw new Error(`Missing environment variable: ${name}`);
 }
 
-async function verifySMTP(transporter) {
-  try {
-    await transporter.verify();
-    console.log('✅ SMTP Verified');
-  } catch (error) {
-    console.error('SMTP Verification Failed ❌', error);
-    throw error;
-  }
-}
-
-// Email templates
+// ---------------- ✉️ Email HTML Templates (as requested) ----------------
 function companyEmailTemplate({ name, email, phone, address, gender, message, receiptFile, referralSource, sourceName, sourceContact, sourceEmail }) {
   return `
   <div style="font-family: Arial, sans-serif; max-width: 620px; margin:0 auto; background:#ffffff; border-radius:10px; overflow:hidden;">
@@ -226,26 +184,68 @@ function clientEmailTemplate({ name, email, phone, address, gender, message, rec
   `;
 }
 
-// Root route
-app.get('/', (req, res) => {
-  res.json({ 
-    message: 'Adaba Farm Resort API is running!', 
-    status: 'active',
-    timestamp: new Date().toISOString(),
-    endpoints: {
-      health: '/health',
-      sendEmail: '/api/send-email'
-    }
+// ---------------- Nodemailer Transporter Factory ----------------
+async function createTransporter() {
+  assertEnv("EMAIL_USER");
+  assertEnv("EMAIL_PASS");
+
+  const {
+    SMTP_HOST,
+    SMTP_PORT,
+    SMTP_SECURE,
+    EMAIL_USER,
+    EMAIL_PASS,
+    SMTP_TLS_REJECT_UNAUTHORIZED,
+  } = process.env;
+
+  // Use the safer internal host for cPanel
+  const primaryHost = SMTP_HOST || "mail.kazfieldisl.com";
+
+  const transporter = nodemailer.createTransport({
+    host: primaryHost,
+    port: parseInt(SMTP_PORT, 10) || 465,
+    secure: SMTP_SECURE === "true", // true for 465, false for 587
+    auth: {
+      user: EMAIL_USER,
+      pass: EMAIL_PASS,
+    },
+    tls: {
+      rejectUnauthorized: SMTP_TLS_REJECT_UNAUTHORIZED !== "false",
+    },
   });
+
+  // Try verifying before returning, else fallback to localhost relay
+  try {
+    await transporter.verify();
+    console.log(`✅ SMTP Verified Successfully via ${primaryHost}`);
+    return transporter;
+  } catch (err) {
+    console.warn(`⚠️ Primary SMTP failed (${primaryHost}): ${err.message}`);
+    console.warn("➡️ Falling back to localhost relay (port 25, no auth)...");
+
+    const fallback = nodemailer.createTransport({
+      host: "localhost",
+      port: 25,
+      secure: false,
+      tls: { rejectUnauthorized: false },
+    });
+
+    await fallback.verify();
+    console.log("✅ Localhost mail relay verified.");
+    return fallback;
+  }
+}
+
+// ---------------- Sub-router for /adabafarmresort ----------------
+const router = express.Router();
+
+// ✅ GET /adabafarmresort/
+router.get("/", (req, res) => {
+  res.send("<h3>✅ Adaba Farm Resort API is active and reachable.</h3>");
 });
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
-});
-
-// Email submission endpoint
-app.post('/api/send-email', upload.single('receiptFile'), async (req, res) => {
+// ✅ POST /adabafarmresort/api/send-email
+router.post("/api/send-email", upload.single("receiptFile"), async (req, res) => {
   try {
     const {
       name,
@@ -257,152 +257,128 @@ app.post('/api/send-email', upload.single('receiptFile'), async (req, res) => {
       referralSource,
       sourceName,
       sourceContact,
-      sourceEmail
+      sourceEmail,
     } = req.body;
-
     const receiptFile = req.file;
 
-    // Validate required fields
-    if (!name || !email || !phone || !address || !gender) {
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
+    // ---------- Validation guards ----------
+    if (!name || !email || !phone || !address || !gender)
+      return res.status(400).json({ error: "Missing required fields." });
 
-    // Optional: validate email format
-    if (!email.includes('@')) {
-      return res.status(400).json({ error: 'Invalid email address' });
-    }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))
+      return res.status(400).json({ error: "Invalid email address." });
 
-    // Validate file size limit (5MB)
-    if (receiptFile && receiptFile.size > 5_000_000) {
-      return res.status(400).json({ error: 'Receipt file too large (max 5MB)' });
-    }
+    if (receiptFile && receiptFile.size > 5_000_000)
+      return res.status(400).json({ error: "Receipt file too large (max 5 MB)." });
 
-    const transporter = createTransporter();
-    await verifySMTP(transporter);
+    const transporter = await createTransporter();
+    const COMPANY_EMAIL = process.env.COMPANY_EMAIL || process.env.EMAIL_USER;
 
-    // Format email data passed to templates
-    const emailData = {
+    // ---------- Build HTML from your templates ----------
+    const companyHtml = companyEmailTemplate({
       name,
       email,
       phone,
       address,
       gender,
       message,
-      receiptFile: receiptFile ? receiptFile.originalname : null,
-      receiptFileName: receiptFile ? receiptFile.originalname.replace(/[^\w\s.-]/g, '').replace(/\s+/g, '_').toLowerCase() : null,
+      receiptFile,
       referralSource,
       sourceName,
       sourceContact,
       sourceEmail,
-    };
+    });
 
-    // Convert file to attachments (preview + download)
-    const attachments = [];
+    const clientHtml = clientEmailTemplate({
+      name,
+      email,
+      phone,
+      address,
+      gender,
+      message,
+      receiptFile,
+      referralSource,
+      sourceName,
+      sourceContact,
+      sourceEmail,
+    });
 
+    // ---------- Attachments ----------
+    const attachmentsForCompany = [];
     if (receiptFile) {
-      const cleanName = receiptFile.originalname
-        .replace(/[^\w\s.-]/g, '')
-        .replace(/\s+/g, '_')
-        .toLowerCase();
-
-      // Attachment for download
-      attachments.push({
-        filename: cleanName,
+      attachmentsForCompany.push({
+        filename: receiptFile.originalname,
         content: receiptFile.buffer,
         contentType: receiptFile.mimetype,
-        disposition: 'attachment',
+        cid: "receipt_preview", // used in the company template's <img src="cid:receipt_preview">
       });
-
-      // Inline CID preview for image types
-      if (receiptFile.mimetype.startsWith('image/')) {
-        attachments.push({
-          filename: cleanName,
-          content: receiptFile.buffer,
-          cid: 'receipt_preview', // MUST MATCH TEMPLATE
-          contentType: receiptFile.mimetype,
-        });
-      }
     }
 
-    // Send to company
-    try {
-      console.log('📧 Sending company email with attachments:', attachments.length > 0 ? `${attachments.length} file(s)` : 'no files');
-      
-      await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: process.env.COMPANY_EMAIL || process.env.EMAIL_USER,
-        subject: `New Investment Submission from ${name}`,
-        html: companyEmailTemplate(emailData),
-        attachments,
-      });
-      console.log('✅ Company email sent successfully with attachments');
-    } catch (error) {
-      console.error('❌ Failed to send company email:', error);
-      throw error;
-    }
+    // ---------- Send to company ----------
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: COMPANY_EMAIL,
+      subject: `New Investment Submission from ${name}`,
+      html: companyHtml,
+      attachments: attachmentsForCompany,
+    });
 
-    // Rate limiting delay for Mailtrap
-    console.log('⏳ Waiting 5 seconds for rate limiting...');
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    // ---------- Confirmation to client ----------
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Thank You – Adaba Farm Estate Investment Confirmation",
+      html: clientHtml,
+      // If you want to also send the receipt back to client, uncomment below:
+      // attachments: receiptFile ? [{
+      //   filename: receiptFile.originalname,
+      //   content: receiptFile.buffer,
+      //   contentType: receiptFile.mimetype,
+      // }] : [],
+    });
 
-    // Send to client with retry mechanism
-    let clientEmailSent = false;
-    let retryCount = 0;
-    const maxRetries = 2;
-
-    while (!clientEmailSent && retryCount < maxRetries) {
-      try {
-        await transporter.sendMail({
-          from: process.env.EMAIL_USER,
-          to: email,
-          subject: 'Investment Submission Confirmation - Adaba Farm Estate',
-          html: clientEmailTemplate(emailData),
-        });
-        console.log('✅ Client email sent successfully');
-        clientEmailSent = true;
-      } catch (error) {
-        retryCount++;
-        console.error(`❌ Failed to send client email (attempt ${retryCount}):`, error);
-        
-        if (retryCount < maxRetries) {
-          console.log(`⏳ Retrying in 3 seconds... (${retryCount}/${maxRetries})`);
-          await new Promise(resolve => setTimeout(resolve, 3000));
-        } else {
-          console.log('⚠️ Company email was sent, but client email failed after retries');
-        }
-      }
-    }
-
-    res.json({ message: 'Emails sent successfully!' });
-
+    res.json({ message: "✅ Emails sent successfully!" });
   } catch (error) {
-    console.error('Error sending emails:', error);
-    res.status(500).json({ 
-      error: 'Failed to process your request. Please check your information and try again.',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    console.error("❌ Error sending emails:", error);
+    res.status(500).json({
+      error: "Failed to process your request.",
+      reason: error.message,
+      suggestion:
+        "If this persists, use host=localhost and port=25 (no auth). Check that Exim mail relay is enabled in cPanel.",
     });
   }
 });
 
-// Error handling middleware
-app.use((error, req, res, next) => {
-  if (error instanceof multer.MulterError) {
-    if (error.code === 'LIMIT_FILE_SIZE') {
-      return res.status(400).json({ error: 'File too large' });
-    }
-  }
-  console.error('Unhandled error:', error);
-  res.status(500).json({ 
-    error: 'Service temporarily unavailable. Please try again in a moment.',
-    details: process.env.NODE_ENV === 'development' ? error.message : undefined
+// Mount the router under /adabafarmresort
+app.use("/adabafarmresort", router);
+
+// ---------------- Health + Root ----------------
+app.get("/", (req, res) => {
+  res.json({
+    message: "🌴 Adaba Farm Resort Backend Running",
+    endpoints: [
+      "/adabafarmresort/",
+      "/adabafarmresort/api/send-email",
+      "/health",
+    ],
   });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Backend server running on port ${PORT}`);
-  console.log(`📧 Email service ready`);
-  console.log(`🌐 CORS enabled for: https://adaba-farm-resort.onrender.com and localhost`);
+app.get("/health", (req, res) =>
+  res.json({ status: "OK", timestamp: new Date().toISOString() })
+);
+
+// ---------------- Global Error Handler ----------------
+app.use((err, req, res, next) => {
+  console.error("Unhandled Error:", err);
+  if (err instanceof multer.MulterError)
+    return res.status(400).json({ error: "File upload too large." });
+  res.status(500).json({ error: "Internal Server Error." });
 });
 
-module.exports = app;
+// ---------------- Start Server ----------------
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🌐 https://kazfieldisl.com/adabafarmresort/api/send-email`);
+  console.log("📧 Email service ready");
+});
