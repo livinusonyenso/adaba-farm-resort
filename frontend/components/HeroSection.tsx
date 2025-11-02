@@ -9,37 +9,42 @@ import { useState, useEffect, useRef } from "react"
 const heroSlides = [
   {
     id: 1,
-    image: "https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/48/2025/06/04094408/Bay-Mau-Coconut-Forest.jpg",
-    title: "Invest in Sustainable",
-    highlight: "Coconut Farming",
+    image:
+      "https://i0.wp.com/coconutseller.in/wp-content/uploads/2021/06/Coconut-cultivation.jpg?w=1280&ssl=1",
+    title: "Welcome to Àdàbà",
+    highlight: "Coconut Farm Estate",
     description:
-      "Join thousands of investors growing their wealth through Àdàbà's hybrid coconut farm. Transparent returns, real-time updates, and sustainable growth.",
+      "We’re delighted to have you here! Àdàbà is more than an investment platform — it’s a gateway to sustainable agriculture and wealth creation. Start your journey toward financial freedom today.",
   },
   {
     id: 2,
-    image: "https://images.pexels.com/photos/34059975/pexels-photo-34059975.jpeg",
-    title: "Grow Your Wealth",
-    highlight: "With Confidence",
+    image:
+      "https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/48/2025/06/04094408/Bay-Mau-Coconut-Forest.jpg",
+    title: "Invest in a Future",
+    highlight: "That Grows Naturally",
     description:
-      "Experience transparent investment opportunities with real-time tracking and sustainable returns. Your financial future starts here.",
+      "At Àdàbà, every seed you invest helps grow our thriving hybrid coconut farms — delivering consistent ROI while empowering local communities and promoting green sustainability.",
   },
   {
     id: 3,
-    image: "https://images.pexels.com/photos/1189507/pexels-photo-1189507.jpeg",
-    title: "Join Our Community",
-    highlight: "Of Smart Investors",
+    image:
+      "https://images.pexels.com/photos/1189507/pexels-photo-1189507.jpeg",
+    title: "Build Wealth",
+    highlight: "With Purpose & Impact",
     description:
-      "Be part of a growing network of investors who believe in sustainable agriculture and long-term wealth creation.",
+      "We combine transparency, modern technology, and responsible farming to give you secure, trackable, and high-yield investment opportunities. Watch your money grow as nature thrives.",
   },
   {
     id: 4,
-    image: "https://images.pexels.com/photos/2562158/pexels-photo-2562158.jpeg",
-    title: "Join Our Community",
-    highlight: "Of Smart Investors",
+    image:
+      "https://images.pexels.com/photos/2562158/pexels-photo-2562158.jpeg",
+    title: "Join Our Thriving",
+    highlight: "Community of Investors",
     description:
-      "Be part of a growing network of investors who believe in sustainable agriculture and long-term wealth creation.",
+      "Thousands of smart investors are already earning with Àdàbà. Join a trusted network where your investments grow, your impact matters, and your success is celebrated.",
   },
-]
+];
+
 
 export default function HeroCarousel() {
   const [current, setCurrent] = useState(0)

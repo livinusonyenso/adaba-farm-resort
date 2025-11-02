@@ -36,7 +36,8 @@ class ApiService {
 
   constructor() {
     // Temporarily use localhost for testing - change back to deployed URL when backend is fixed
-    this.baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+    // this.baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://kazfieldisl.com/adabafarmresort';
+    this.baseUrl ='https://kazfieldisl.com/adabafarmresort';
   }
 
   async submitInvestmentForm(formData: InvestmentFormData, receiptFile?: File): Promise<ApiResponse> {
