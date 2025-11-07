@@ -60,7 +60,7 @@ export default function ContactPage() {
               </div>
               <h3 className="text-xl font-semibold text-foreground">Email</h3>
             </div>
-            <p className="text-muted-foreground">support@adabafarm.com</p>
+            <p className="text-muted-foreground">adabafarmresort@kazfieldisl.com</p>
           </motion.div>
 
           <motion.div
@@ -73,7 +73,8 @@ export default function ContactPage() {
               </div>
               <h3 className="text-xl font-semibold text-foreground">Phone</h3>
             </div>
-            <p className="text-muted-foreground">+234 812 345 6789</p>
+            <p className="text-muted-foreground">+234 905 299 7192
+</p>
           </motion.div>
 
           <motion.div
@@ -162,43 +163,16 @@ export default function ContactPage() {
             </div>
 
             <Image
-              src="/bus.png"
-              width={300}
-              height={200}
+              src="https://res.cloudinary.com/dikhomv7m/image/upload/high-capacity_evl9eg.png"
+              width={400}
+              height={300}
               alt="Estate Bus"
-              className="absolute right-0 bottom-0 opacity-80"
+              className="absolute right-25 bottom-0 top-70 opacity-80"
             />
           </motion.div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-card border border-border rounded-xl p-8 shadow-sm"
-        >
-          <h2 className="text-2xl font-bold text-foreground mb-8 text-center">Bank Account Details</h2>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Account Number */}
-            <div className="text-center">
-              <p className="text-sm font-medium text-muted-foreground mb-2">ACCOUNT NUMBER</p>
-              <h3 className="text-3xl font-bold text-foreground font-mono">2007301592</h3>
-            </div>
-
-            {/* Bank */}
-            <div className="text-center">
-              <p className="text-sm font-medium text-muted-foreground mb-2">BANK</p>
-              <h3 className="text-3xl font-bold text-foreground">FCMB</h3>
-            </div>
-
-            {/* Account Name */}
-            <div className="text-center">
-              <p className="text-sm font-medium text-muted-foreground mb-2">ACCOUNT NAME</p>
-              <h3 className="text-2xl font-bold text-foreground">KAZFIELD</h3>
-              <p className="text-sm text-muted-foreground mt-1">INTEGRATED SERVICE LTD</p>
-            </div>
-          </div>
-        </motion.div>
+  
       </div>
     </section>
   )

@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Upload, Send } from "lucide-react";
+import ContactPage from "../contact/page";
+import InvestmentFormPage from "@/components/ContactPage";
 
 export default function BookInvestmentPage() {
   const [fullName, setFullName] = useState("");
@@ -39,143 +41,8 @@ Phone: ${phone}
   return (
     <main className="min-h-screen bg-background">
       <Navbar />
-
-      <section className="py-20 bg-gradient-to-br from-primary/10 via-background to-accent/5">
-        <div className="section-container">
-          {/* TOP HEADING */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h1 className="text-5xl md:text-3xl font-bold text-primary mb-4">
-              Complete Your Investment
-            </h1>
-            <p className="text-lg max-w-2xl mx-auto text-primary">
-              Make a secure transfer to the account below and upload your
-              payment receipt to confirm your investment.
-            </p>
-          </motion.div>
-
-          {/* MAX WIDTH BOX */}
-          <div className="max-w-2xl mx-auto space-y-8">
-            {/* BANK DETAILS */}
-            <div className="bg-white shadow-lg rounded-xl p-6 border">
-              <h3 className="text-xl font-bold text-primary mb-2">
-                Bank Transfer Details
-              </h3>
-              <div className="space-y-1 text-primary">
-                <p>
-                  <strong>Account Name:</strong> Adaba Coconut Farm LTD
-                </p>
-                <p>
-                  <strong>Account Number:</strong> 0123456789
-                </p>
-                <p>
-                  <strong>Bank:</strong> GTBank
-                </p>
-              </div>
-              <p className="text-sm text-gray-500 mt-3 italic">
-                Transfer first, then submit the receipt below.
-              </p>
-            </div>
-
-            {/* FORM */}
-            <motion.form
-              onSubmit={handleSubmit}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="bg-white/90 shadow-xl rounded-xl p-8 border backdrop-blur"
-            >
-              <div className="grid gap-6">
-                {/* NAME */}
-                <div>
-                  <label className="block font-medium text-primary mb-1">
-                    Full Name
-                  </label>
-                  <input
-                    required
-                    type="text"
-                    className="input"
-                    placeholder="Enter full name"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                  />
-                </div>
-
-                {/* EMAIL */}
-                <div>
-                  <label className="block font-medium text-primary mb-1">
-                    Email Address
-                  </label>
-                  <input
-                    required
-                    type="email"
-                    className="input"
-                    placeholder="example@gmail.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-
-                {/* PHONE */}
-                <div>
-                  <label className="block font-medium text-primary mb-1">
-                    Phone Number
-                  </label>
-                  <input
-                    required
-                    type="tel"
-                    className="input"
-                    placeholder="0803 456 7890"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
-                </div>
-
-                {/* RECEIPT */}
-                <div className="w-full mt-6">
-                  {/* Upload Section */}
-                  <div className="mb-6">
-                    <label className="block font-medium text-primary mb-2 text-base sm:text-lg">
-                      Upload Receipt
-                    </label>
-                    <div className="border border-border rounded-lg bg-background px-4 py-3 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full">
-                      <div className="flex items-center gap-2">
-                        <Upload className="text-primary opacity-80" size={20} />
-                        <span className="text-sm sm:text-base text-muted-foreground">
-                          Choose file
-                        </span>
-                      </div>
-                      <input
-                        required
-                        type="file"
-                        accept="image/*,application/pdf"
-                        onChange={(e) =>
-                          setReceiptFile(e.target.files?.[0] || null)
-                        }
-                        className="w-full sm:w-auto text-sm sm:text-base border-none bg-transparent focus:outline-none file:mr-3 file:px-4 file:py-2 file:border-0 file:rounded-md file:bg-primary file:text-white file:cursor-pointer file:hover:bg-primary/90 transition"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Submit Button */}
-                  <motion.button
-                    type="submit"
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="bg-primary text-white w-full py-3 sm:py-4 rounded-xl flex justify-center items-center gap-2 text-base sm:text-lg font-semibold transition"
-                  >
-                    Submit Receipt <Send size={18} />
-                  </motion.button>
-                </div>
-              </div>
-            </motion.form>
-          </div>
-        </div>
-      </section>
+      <InvestmentFormPage />
+      <ContactPage />
 
       <Footer />
     </main>

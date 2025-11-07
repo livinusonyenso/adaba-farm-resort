@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  output: "export",
   trailingSlash: true,
   typescript: {
     ignoreBuildErrors: true,
@@ -10,4 +10,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig; // ✅ valid for .mjs files
+export default nextConfig; 
