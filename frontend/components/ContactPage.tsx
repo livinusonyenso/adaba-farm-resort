@@ -2,12 +2,22 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { FiMail, FiPhone, FiMapPin, FiSend, FiUser, FiUpload, FiCheck, FiX } from "react-icons/fi";
+import {
+  FiMail,
+  FiPhone,
+  FiMapPin,
+  FiSend,
+  FiUser,
+  FiUpload,
+  FiCheck,
+  FiX,
+} from "react-icons/fi";
 import { useApi, InvestmentFormData } from "../context/ApiContext";
+import InvestmentPaymentDetails from "./InvestmentPaymentDetails";
 
 export default function InvestmentFormPage() {
   const { submitInvestmentForm, checkServerHealth, baseUrl } = useApi();
-  
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -19,36 +29,37 @@ export default function InvestmentFormPage() {
 
   const [receiptFile, setReceiptFile] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [submitMessage, setSubmitMessage] = useState('');
-  const [fileError, setFileError] = useState('');
-    const [referralSource, setReferralSource] = useState("");
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
+  const [fileError, setFileError] = useState("");
+  const [referralSource, setReferralSource] = useState("");
   const [sourceName, setSourceName] = useState("");
   const [sourceContact, setSourceContact] = useState("");
   const [sourceEmail, setSourceEmail] = useState("");
 
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    setFileError('');
-    
+    setFileError("");
+
     if (file) {
       // Validate file type
-      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+      const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
       if (!allowedTypes.includes(file.type)) {
-        setFileError('Please upload only JPEG or PNG files');
+        setFileError("Please upload only JPEG or PNG files");
         setReceiptFile(null);
         return;
       }
-      
+
       // Validate file size (max 5MB)
       const maxSize = 5 * 1024 * 1024; // 5MB
       if (file.size > maxSize) {
-        setFileError('File size must be less than 5MB');
+        setFileError("File size must be less than 5MB");
         setReceiptFile(null);
         return;
       }
-      
+
       setReceiptFile(file);
     } else {
       setReceiptFile(null);
@@ -79,7 +90,10 @@ export default function InvestmentFormPage() {
       };
 
       // Submit through API context
-      const response = await submitInvestmentForm(investmentData, receiptFile || undefined);
+      const response = await submitInvestmentForm(
+        investmentData,
+        receiptFile || undefined
+      );
 
       setSubmitStatus("success");
       setSubmitMessage(
@@ -100,13 +114,14 @@ export default function InvestmentFormPage() {
       setSourceName("");
       setSourceContact("");
       setSourceEmail("");
-      
+
       // Reset file input
-      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+      const fileInput = document.querySelector(
+        'input[type="file"]'
+      ) as HTMLInputElement;
       if (fileInput) {
-        fileInput.value = '';
+        fileInput.value = "";
       }
-      
     } catch (err: any) {
       console.error("Error submitting:", err);
       setSubmitStatus("error");
@@ -118,7 +133,6 @@ export default function InvestmentFormPage() {
     }
   };
 
-
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
@@ -127,53 +141,8 @@ export default function InvestmentFormPage() {
   return (
     <section id="contact" className="min-h-screen bg-background py-20 px-6">
       <div className="max-w-4xl mx-auto">
-        
         {/* ================== ACCOUNT DETAILS ================== */}
-        <motion.div
-          variants={itemVariants}
-          initial="hidden"
-          animate="visible"
-          className="bg-card border border-border rounded-xl p-8 shadow-sm mb-12"
-        >
-          <h2 className="text-2xl font-bold text-center mb-6 text-foreground">
-            Investment Payment Details
-          </h2>
-
-        <div className="grid md:grid-cols-3 gap-8">
-  {/* Account Number */}
-  <div className="text-center">
-    <p className="text-sm font-medium text-muted-foreground mb-2">
-      USD ACCOUNT NUMBER
-    </p>
-    <h3 className="text-3xl font-bold font-mono text-foreground">
-                2007301592
-    </h3>
-  </div>
-
-  {/* Bank */}
-  <div className="text-center">
-    <p className="text-sm font-medium text-muted-foreground mb-2">
-      BANK
-    </p>
-    <h3 className="text-3xl font-bold text-foreground">FCMB</h3>
-    <p className="text-xs text-muted-foreground mt-1">
-      (USD Domiciliary Account)
-    </p>
-  </div>
-
-  {/* Account Name */}
-  <div className="text-center">
-    <p className="text-sm font-medium text-muted-foreground mb-2">
-      ACCOUNT NAME
-    </p>
-  <h3 className="text-xl font-bold text-foreground">KAZFIELD</h3>
-              <p className="text-xs text-muted-foreground mt-1">
-                INTEGRATED SERVICE LTD
-              </p>
-  </div>
-</div>
-
-        </motion.div>
+        <InvestmentPaymentDetails />
 
         {/* ================== INVESTMENT FORM ================== */}
         <motion.form
@@ -278,7 +247,8 @@ export default function InvestmentFormPage() {
             {receiptFile && (
               <p className="text-green-600 text-sm mt-2 flex items-center gap-1">
                 <FiCheck className="text-green-600" />
-                File selected: {receiptFile.name} ({(receiptFile.size / 1024 / 1024).toFixed(2)} MB)
+                File selected: {receiptFile.name} (
+                {(receiptFile.size / 1024 / 1024).toFixed(2)} MB)
               </p>
             )}
           </div>
@@ -365,20 +335,23 @@ export default function InvestmentFormPage() {
             </>
           )}
 
-
           {/* Status Message */}
           {submitMessage && (
-            <div className={`mb-6 p-4 rounded-lg flex items-center gap-2 ${
-              submitStatus === 'success' 
-                ? 'bg-green-50 text-green-800 border border-green-200' 
-                : 'bg-red-50 text-red-800 border border-red-200'
-            }`}>
-              {submitStatus === 'success' ? <FiCheck className="text-green-600" /> : <FiX className="text-red-600" />}
+            <div
+              className={`mb-6 p-4 rounded-lg flex items-center gap-2 ${
+                submitStatus === "success"
+                  ? "bg-green-50 text-green-800 border border-green-200"
+                  : "bg-red-50 text-red-800 border border-red-200"
+              }`}
+            >
+              {submitStatus === "success" ? (
+                <FiCheck className="text-green-600" />
+              ) : (
+                <FiX className="text-red-600" />
+              )}
               <span>{submitMessage}</span>
             </div>
           )}
-
-
 
           {/* Submit */}
           <button

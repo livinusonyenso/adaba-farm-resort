@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import Navbar from "@/components/Navbar"
-import Footer from "@/components/Footer"
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Upload, Send } from "lucide-react"
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Upload, Send } from "lucide-react";
 
 export default function BookInvestmentPage() {
-  const [fullName, setFullName] = useState("")
-  const [email, setEmail] = useState("")
-  const [phone, setPhone] = useState("")
-  const [receiptFile, setReceiptFile] = useState<File | null>(null)
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [receiptFile, setReceiptFile] = useState<File | null>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!receiptFile) {
-      alert("Please upload a payment receipt!")
-      return
+      alert("Please upload a payment receipt!");
+      return;
     }
 
     const message = `
@@ -28,11 +28,13 @@ Email: ${email}
 Phone: ${phone}
 
 ✅ Receipt Attached
-`
+`;
 
-    const whatsapp = `https://wa.me/2348130000000?text=${encodeURIComponent(message)}`
-    window.open(whatsapp, "_blank")
-  }
+    const whatsapp = `https://wa.me/2348130000000?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsapp, "_blank");
+  };
 
   return (
     <main className="min-h-screen bg-background">
@@ -47,24 +49,32 @@ Phone: ${phone}
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h1 className="text-5xl md:text-6xl font-bold text-primary mb-4">
+            <h1 className="text-5xl md:text-3xl font-bold text-primary mb-4">
               Complete Your Investment
             </h1>
             <p className="text-lg max-w-2xl mx-auto text-primary">
-              Make a secure transfer to the account below and upload your payment receipt to confirm your investment.
+              Make a secure transfer to the account below and upload your
+              payment receipt to confirm your investment.
             </p>
           </motion.div>
 
           {/* MAX WIDTH BOX */}
           <div className="max-w-2xl mx-auto space-y-8">
-            
             {/* BANK DETAILS */}
             <div className="bg-white shadow-lg rounded-xl p-6 border">
-              <h3 className="text-xl font-bold text-primary mb-2">Bank Transfer Details</h3>
+              <h3 className="text-xl font-bold text-primary mb-2">
+                Bank Transfer Details
+              </h3>
               <div className="space-y-1 text-primary">
-                <p><strong>Account Name:</strong> Adaba Coconut Farm LTD</p>
-                <p><strong>Account Number:</strong> 0123456789</p>
-                <p><strong>Bank:</strong> GTBank</p>
+                <p>
+                  <strong>Account Name:</strong> Adaba Coconut Farm LTD
+                </p>
+                <p>
+                  <strong>Account Number:</strong> 0123456789
+                </p>
+                <p>
+                  <strong>Bank:</strong> GTBank
+                </p>
               </div>
               <p className="text-sm text-gray-500 mt-3 italic">
                 Transfer first, then submit the receipt below.
@@ -80,10 +90,11 @@ Phone: ${phone}
               className="bg-white/90 shadow-xl rounded-xl p-8 border backdrop-blur"
             >
               <div className="grid gap-6">
-
                 {/* NAME */}
                 <div>
-                  <label className="block font-medium text-primary mb-1">Full Name</label>
+                  <label className="block font-medium text-primary mb-1">
+                    Full Name
+                  </label>
                   <input
                     required
                     type="text"
@@ -96,7 +107,9 @@ Phone: ${phone}
 
                 {/* EMAIL */}
                 <div>
-                  <label className="block font-medium text-primary mb-1">Email Address</label>
+                  <label className="block font-medium text-primary mb-1">
+                    Email Address
+                  </label>
                   <input
                     required
                     type="email"
@@ -109,7 +122,9 @@ Phone: ${phone}
 
                 {/* PHONE */}
                 <div>
-                  <label className="block font-medium text-primary mb-1">Phone Number</label>
+                  <label className="block font-medium text-primary mb-1">
+                    Phone Number
+                  </label>
                   <input
                     required
                     type="tel"
@@ -121,28 +136,41 @@ Phone: ${phone}
                 </div>
 
                 {/* RECEIPT */}
-                <div>
-                  <label className="block font-medium text-primary mb-2">Upload Receipt</label>
-                  <div className="border rounded-lg py-3 px-4 bg-white flex items-center gap-3">
-                    <Upload className="text-primary opacity-70" />
-                    <input
-                      required
-                      type="file"
-                      accept="image/*,application/pdf"
-                      onChange={(e) => setReceiptFile(e.target.files?.[0] || null)}
-                    />
+                <div className="w-full mt-6">
+                  {/* Upload Section */}
+                  <div className="mb-6">
+                    <label className="block font-medium text-primary mb-2 text-base sm:text-lg">
+                      Upload Receipt
+                    </label>
+                    <div className="border border-border rounded-lg bg-background px-4 py-3 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full">
+                      <div className="flex items-center gap-2">
+                        <Upload className="text-primary opacity-80" size={20} />
+                        <span className="text-sm sm:text-base text-muted-foreground">
+                          Choose file
+                        </span>
+                      </div>
+                      <input
+                        required
+                        type="file"
+                        accept="image/*,application/pdf"
+                        onChange={(e) =>
+                          setReceiptFile(e.target.files?.[0] || null)
+                        }
+                        className="w-full sm:w-auto text-sm sm:text-base border-none bg-transparent focus:outline-none file:mr-3 file:px-4 file:py-2 file:border-0 file:rounded-md file:bg-primary file:text-white file:cursor-pointer file:hover:bg-primary/90 transition"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                {/* SUBMIT */}
-                <motion.button
-                  type="submit"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="bg-primary text-white w-full py-3 rounded-xl flex justify-center items-center gap-2 text-lg font-semibold"
-                >
-                  Submit Receipt <Send size={18} />
-                </motion.button>
+                  {/* Submit Button */}
+                  <motion.button
+                    type="submit"
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="bg-primary text-white w-full py-3 sm:py-4 rounded-xl flex justify-center items-center gap-2 text-base sm:text-lg font-semibold transition"
+                  >
+                    Submit Receipt <Send size={18} />
+                  </motion.button>
+                </div>
               </div>
             </motion.form>
           </div>
@@ -151,5 +179,5 @@ Phone: ${phone}
 
       <Footer />
     </main>
-  )
+  );
 }

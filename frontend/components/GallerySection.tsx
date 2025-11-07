@@ -1,58 +1,67 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { X } from "lucide-react"
-import Image from "next/image"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { X } from "lucide-react";
+import Image from "next/image";
 
 const galleryImages = [
   {
     id: 1,
+    title: "Àdàbà Coconut Farm & Resort",
+    description:
+      "With high local demand and global market potential, owning a coconut farm today means securing steady returns for years to come. Welcome to Àdàbà Coconut Farm & Resort, located in Owode, Ogun State, less than an hour’s drive from Epe.",
+    url: "https://res.cloudinary.com/dikhomv7m/image/upload/%C3%80d%C3%A0b%C3%A0Dove_pg94ra.jpg",
+  },
+  {
+    id: 2,
     title: "Lush Coconut Plantation",
     description: "Our thriving coconut plantation in full bloom",
     url: "https://images.pexels.com/photos/12564750/pexels-photo-12564750.jpeg",
   },
   {
-    id: 2,
+    id: 3,
     title: "Modern Farming Equipment",
     description: "State-of-the-art equipment for optimal yield",
     url: "https://images.pexels.com/photos/15923487/pexels-photo-15923487.jpeg",
   },
   {
-    id: 3,
+    id: 4,
     title: "Harvest Season",
     description: "Fresh coconuts ready for processing",
     url: "https://images.pexels.com/photos/12421272/pexels-photo-12421272.jpeg",
   },
   {
-    id: 4,
+    id: 5,
     title: "Processing Facility",
     description: "Advanced processing and packaging facility",
     url: "https://images.pexels.com/photos/11495414/pexels-photo-11495414.jpeg",
   },
   {
-    id: 5,
+    id: 7,
     title: "Farm Infrastructure",
     description: "Sustainable infrastructure and irrigation systems",
     url: "https://images.pexels.com/photos/4387821/pexels-photo-4387821.jpeg",
   },
   {
-    id: 6,
+    id: 8,
     title: "Resort Amenities",
     description: "Comfortable facilities for farm visitors",
     url: "https://images.pexels.com/photos/33191056/pexels-photo-33191056.jpeg",
   },
-]
+];
 
 export default function GallerySection() {
-  const [selectedImage, setSelectedImage] = useState<number | null>(null)
+  const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   return (
     <section id="gallery" className="py-20 bg-primary/5">
       <div className="section-container">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">Farm Gallery</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+            Farm Gallery
+          </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Explore our state-of-the-art facilities and thriving plantation.
           </p>
@@ -102,7 +111,9 @@ export default function GallerySection() {
             className="relative max-w-4xl w-full"
           >
             <Image
-              src={galleryImages.find((img) => img.id === selectedImage)?.url || ""}
+              src={
+                galleryImages.find((img) => img.id === selectedImage)?.url || ""
+              }
               alt="Gallery"
               width={800}
               height={600}
@@ -119,5 +130,5 @@ export default function GallerySection() {
         </motion.div>
       )}
     </section>
-  )
+  );
 }
