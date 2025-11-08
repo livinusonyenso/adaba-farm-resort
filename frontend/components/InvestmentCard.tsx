@@ -23,6 +23,17 @@ export default function InvestmentCard({
   duration,
   features,
 }: InvestmentCardProps) {
+  const details = [
+    {
+      label: "Investment",
+      value: `₦${price.toLocaleString()}/acre`,
+      color: "text-primary",
+    },
+    { label: "Expected ROI", value: roi, color: "text-secondary" },
+    { label: "Maturity", value: maturity, color: "text-foreground" },
+    { label: "Duration", value: duration, color: "text-foreground" },
+  ];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -38,31 +49,39 @@ export default function InvestmentCard({
       <div className="mb-8 text-center">
         <h3 className="text-3xl font-bold text-primary mb-2">{title}</h3>
         <p className="text-muted-foreground text-sm">
-          {acreage} acre{acreage > 1 ? "s" : ""} of premium land
+          From {acreage} acre{acreage > 1 ? "s" : ""} and above
         </p>
       </div>
 
-      {/* Price & ROI */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 pb-8 border-b border-border text-center">
-        <div>
-          <p className="text-muted-foreground text-sm mb-1">Investment</p>
-          <p className="text-xl font-bold text-primary">
-            ₦{price.toLocaleString()}/acre
-          </p>
-        </div>
-        <div>
-          <p className="text-muted-foreground text-sm mb-1">Expected ROI</p>
-          <p className="text-2xl font-bold text-secondary">{roi}</p>
-        </div>
-        <div>
-          <p className="text-muted-foreground text-sm mb-1">Maturity</p>
-          <p className="text-lg font-semibold text-foreground">{maturity}</p>
-        </div>
-        <div>
-          <p className="text-muted-foreground text-sm mb-1">Duration</p>
-          <p className="text-lg font-semibold text-foreground">{duration}</p>
-        </div>
+      {/* Investment Details (Responsive block layout) */}
+      {/* Investment Details (Responsive block layout) */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4 pb-6 border-b border-border">
+        {details.map((item, i) => (
+          <div
+            key={i}
+            className="flex flex-col justify-center items-center border border-border rounded-lg px-4 py-5 bg-background/40 hover:bg-background/70 transition text-center"
+          >
+            {/* Title */}
+            <p className="text-muted-foreground text-sm mb-1">{item.label}</p>
+
+            {/* Value */}
+            <p className={`text-lg font-semibold ${item.color}`}>
+              {item.value}
+            </p>
+
+            {/* Pre-Launch tag only for Investment */}
+            {item.label === "Investment" && (
+              <p className="text-xs text-muted-foreground mt-1">(Pre-Launch)</p>
+            )}
+          </div>
+        ))}
       </div>
+
+      {/* Note under all details */}
+      <p className="text-xs text-muted-foreground text-center italic mt-2 mb-8 px-4">
+        Note: You are allowed to invest in as many acres as you are capable. The
+        higher the investment, the higher the return.
+      </p>
 
       {/* Features */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
@@ -71,10 +90,7 @@ export default function InvestmentCard({
             key={idx}
             className="flex items-start gap-2 border border-border rounded-lg px-4 py-3 bg-background/40 hover:bg-background/70 transition"
           >
-            <Check
-              size={18}
-              className="text-primary flex-shrink-0 mt-0.5"
-            />
+            <Check size={18} className="text-primary flex-shrink-0 mt-0.5" />
             <span className="text-sm text-foreground">{feature}</span>
           </div>
         ))}

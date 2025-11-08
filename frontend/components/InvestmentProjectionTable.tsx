@@ -10,7 +10,7 @@ export default function InvestmentProjectionTable() {
       fruits: "12,000",
       avgRevenue: "₦6,000,000",
       maxRevenue: "₦12,000,000",
-      processing: "₦1.8M / ₦3.6M",
+      processing: "30%",
       profit: "₦4.2M / ₦8.4M",
     },
     {
@@ -19,7 +19,7 @@ export default function InvestmentProjectionTable() {
       fruits: "60,000",
       avgRevenue: "₦30,000,000",
       maxRevenue: "₦60,000,000",
-      processing: "₦9M / ₦18M",
+      processing: "30%",
       profit: "₦21M / ₦52M",
     },
     {
@@ -28,7 +28,7 @@ export default function InvestmentProjectionTable() {
       fruits: "120,000",
       avgRevenue: "₦60,000,000",
       maxRevenue: "₦120,000,000",
-      processing: "₦18M / ₦36M",
+      processing: "30%",
       profit: "₦42M / ₦84M",
     },
     {
@@ -37,7 +37,7 @@ export default function InvestmentProjectionTable() {
       fruits: "240,000",
       avgRevenue: "₦120,000,000",
       maxRevenue: "₦240,000,000",
-      processing: "₦36M / ₦72M",
+      processing: "30%",
       profit: "₦84M / ₦168M",
     },
     {
@@ -46,7 +46,7 @@ export default function InvestmentProjectionTable() {
       fruits: "300,000",
       avgRevenue: "₦300,000,000",
       maxRevenue: "₦600,000,000",
-      processing: "₦90M / ₦180M",
+      processing: "30%",
       profit: "₦210M / ₦420M",
     },
   ];

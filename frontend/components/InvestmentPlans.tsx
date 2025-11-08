@@ -9,11 +9,8 @@ export default function InvestmentPlans() {
     maturity: "4–5 years",
     duration: "50 years and above",
     features: [
-      "1–9 acre of premium land",
       "Annual ROI payouts",
       "Farm progress updates",
-      "Access to investor portal",
-      "Certificate of ownership",
     ],
   };
 
