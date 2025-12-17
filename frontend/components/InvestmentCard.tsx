@@ -29,7 +29,7 @@ export default function InvestmentCard({
       value: `₦${price.toLocaleString()}/acre`,
       color: "text-primary",
     },
-    { label: "Expected ROI", value: roi, color: "text-secondary" },
+    { label: "Expected ROI Per Acre", value: roi, color: "text-secondary" },
     { label: "Maturity", value: maturity, color: "text-foreground" },
     { label: "Duration", value: duration, color: "text-foreground" },
   ];

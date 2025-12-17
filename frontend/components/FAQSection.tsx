@@ -11,36 +11,47 @@ interface FAQItem {
 
 const faqs: FAQItem[] = [
   {
-    question: "What is the minimum investment amount?",
+    question: "What is the name of the company developing Àdàbà Farm and Resort?",
     answer:
-      "The minimum investment starts at ₦500,000 for our Starter plan. We offer flexible options to suit different investment capacities.",
+      "Kazfield Integrated Services Limited — a duly incorporated firm under the Corporate Affairs Commission (CAC).",
   },
   {
-    question: "How often will I receive ROI payouts?",
+    question: "Where is Àdàbà Farm and Resort located?",
     answer:
-      "ROI payouts depend on your plan: Starter (quarterly), Premium (monthly), and Elite (weekly). All payouts are made directly to your registered bank account.",
+      "Àdàbà Farm and Resort is situated at Owode Obafe, less than 30 minutes from Shagamu, Ogun State, on approved farmland.",
   },
   {
-    question: "Is my investment insured?",
+    question: "Who will manage the farm for me?",
     answer:
-      "Yes, all investments are protected by our comprehensive insurance policy. We also maintain transparent records and regular third-party audits.",
+      "The Àdàbà management team will oversee the farm operations, while investors are welcome to visit periodically. Note: The management bears the cost for the first 4 years, after which 30% will be deducted annually from proceeds to cover maintenance, processing, marketing, sales, and logistics starting from the first harvest year.",
   },
   {
-    question: "Can I withdraw my investment early?",
+    question: "What type of coconut are you planting, and how long before it starts fruiting?",
     answer:
-      "Early withdrawal is possible with a 10% penalty. We recommend contacting our support team to discuss your specific situation.",
+      "We are planting hybrid coconut varieties, which typically begin fruiting within 3 to 4 years. In rare cases due to climate conditions, fruiting may extend to 5 years.",
   },
   {
-    question: "How do I track my farm progress?",
+    question: "When do I start earning returns from the farm?",
     answer:
-      "You can monitor real-time farm updates, ROI calculations, and progress reports through your investor dashboard. We also send monthly newsletters.",
+      "Projected returns are expected to begin between the 4th and 5th year after planting, once the trees start fruiting.",
   },
   {
-    question: "What happens after the investment period ends?",
+    question: "What is the expected fruiting ratio for each coconut tree?",
     answer:
-      "Upon completion, you receive your full principal plus final ROI payout. You can then choose to reinvest or withdraw your funds.",
+      "Each hybrid coconut tree can produce between 150 to 200 nuts annually under optimal farm conditions.",
   },
-]
+  {
+    question: "What are the risks involved, and how are they managed?",
+    answer:
+      "Potential risks include:\n1. Economic instability, which may affect selling prices.\n2. Changes in government policies.\n3. Theft.\n\nHowever, our legal and survey teams have confirmed that the land is free from any government encumbrances. We also have CCTV installations and on-site security personnel to ensure maximum protection.",
+  },
+  {
+    question: "If I want to visit the project, how do I go about it?",
+    answer:
+      "We organize four (4) official farm visits each year — one per quarter. Investors can join any of the visits by sending an email to our support team for scheduling and logistics.",
+  },
+];
+
 
 interface AccordionItemProps {
   item: FAQItem
