@@ -368,13 +368,17 @@ app.get("/health", (req, res) =>
   res.json({ status: "OK", timestamp: new Date().toISOString() })
 );
 
+// ---------------- Sina API Integration ----------------
+const sinaRoutes = require("./src/routes");
+const errorHandler = require("./src/middleware/errorHandler");
+
+// Mount Sina routes under /api (e.g., /api/sina/contact)
+// Mount Sina routes under /adabafarmresort/api to match existing structure
+app.use("/adabafarmresort/api", sinaRoutes);
+
 // ---------------- Global Error Handler ----------------
-app.use((err, req, res, next) => {
-  console.error("Unhandled Error:", err);
-  if (err instanceof multer.MulterError)
-    return res.status(400).json({ error: "File upload too large." });
-  res.status(500).json({ error: "Internal Server Error." });
-});
+// Using the centralized error handler from clean architecture
+app.use(errorHandler);
 
 // ---------------- Start Server ----------------
 app.listen(PORT, () => {
