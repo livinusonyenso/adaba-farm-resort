@@ -12,7 +12,7 @@ import Why from "@/components/Why";
 import Partners from "@/components/Partners";
 import ContactPage from "@/components/ContactPage";
 import InvestmentProjectionTable from "@/components/InvestmentProjectionTable";
-
+import AdabaSubscriptionForm from "@/components/AdabaSubscriptionForm";
 export default function Home() {
   return (
     <main className="min-h-screen">
@@ -27,7 +27,8 @@ export default function Home() {
       <Partners/>
       <FAQSection />
       <CTASection />
-      <ContactPage/>
+      {/* <ContactPage/> */}
+      <AdabaSubscriptionForm/>
       <Footer />
     </main>
   );

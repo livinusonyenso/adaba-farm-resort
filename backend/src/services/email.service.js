@@ -9,38 +9,81 @@ class EmailService {
   async createTransporter() {
     if (this.transporter) return this.transporter;
 
-    if (!config.SMTP.USER || !config.SMTP.PASS) {
-      console.warn('⚠️ SMTP credentials not found. Email service may not work.');
+    console.log('📧 Initializing Sina Email Transporter...');
+    console.log(`   Host: ${config.SINA_SMTP.HOST}`);
+    console.log(`   Port: ${config.SINA_SMTP.PORT}`);
+    console.log(`   Secure: ${config.SINA_SMTP.SECURE}`);
+    console.log(`   User: ${config.SINA_SMTP.USER ? config.SINA_SMTP.USER.substring(0, 5) + '***' : 'NOT SET'}`);
+
+    if (!config.SINA_SMTP.USER || !config.SINA_SMTP.PASS) {
+      console.warn('⚠️ Sina SMTP credentials not found. Email service may not work.');
+      console.warn('   Please set SINA_SMTP_USER and SINA_SMTP_PASS in .env');
     }
 
-    this.transporter = nodemailer.createTransport({
-      host: config.SMTP.HOST,
-      port: config.SMTP.PORT,
-      secure: config.SMTP.SECURE,
+    // Try primary SMTP configuration (Sina-specific)
+    const primaryTransporter = nodemailer.createTransport({
+      host: config.SINA_SMTP.HOST,
+      port: config.SINA_SMTP.PORT,
+      secure: config.SINA_SMTP.SECURE,
       auth: {
-        user: config.SMTP.USER,
-        pass: config.SMTP.PASS,
+        user: config.SINA_SMTP.USER,
+        pass: config.SINA_SMTP.PASS,
       },
       tls: {
-        rejectUnauthorized: config.SMTP.TLS_REJECT_UNAUTHORIZED,
+        rejectUnauthorized: config.SINA_SMTP.TLS_REJECT_UNAUTHORIZED,
       },
     });
 
     try {
-      await this.transporter.verify();
-      console.log(`✅ SMTP Verified Successfully via ${config.SMTP.HOST}`);
+      await primaryTransporter.verify();
+      console.log(`✅ Sina SMTP Verified Successfully via ${config.SINA_SMTP.HOST}`);
+      this.transporter = primaryTransporter;
+      return this.transporter;
     } catch (err) {
-      console.error('❌ SMTP Verification failed:', err.message);
-      // In production, we might want to throw or handle this differently
-      // For now, we log it.
-    }
+      console.error('❌ Primary SMTP Verification failed:', err.message);
+      console.warn('➡️ Attempting fallback to localhost relay (port 25, no auth)...');
+      
+      // Fallback to localhost mail relay (common in cPanel/production environments)
+      try {
+        const fallbackTransporter = nodemailer.createTransport({
+          host: 'localhost',
+          port: 25,
+          secure: false,
+          tls: { rejectUnauthorized: false },
+        });
 
-    return this.transporter;
+        await fallbackTransporter.verify();
+        console.log('✅ Localhost mail relay verified and will be used.');
+        this.transporter = fallbackTransporter;
+        return this.transporter;
+      } catch (fallbackErr) {
+        console.error('❌ Localhost relay also failed:', fallbackErr.message);
+        console.error('⚠️ EMAIL SERVICE IS NOT FUNCTIONAL - Check SMTP configuration!');
+        // Return the primary transporter anyway - let it fail when sending
+        this.transporter = primaryTransporter;
+        return this.transporter;
+      }
+    }
   }
 
   async sendMail(options) {
     const transporter = await this.createTransporter();
-    return transporter.sendMail(options);
+    
+    try {
+      console.log(`📤 Sending email to: ${options.to}`);
+      console.log(`   Subject: ${options.subject}`);
+      const info = await transporter.sendMail(options);
+      console.log(`✅ Email sent successfully! MessageId: ${info.messageId}`);
+      return info;
+    } catch (error) {
+      console.error('❌ Failed to send email:');
+      console.error(`   To: ${options.to}`);
+      console.error(`   Subject: ${options.subject}`);
+      console.error(`   Error: ${error.message}`);
+      if (error.code) console.error(`   Code: ${error.code}`);
+      if (error.response) console.error(`   Response: ${error.response}`);
+      throw error; // Re-throw to be caught by controller
+    }
   }
 }
 

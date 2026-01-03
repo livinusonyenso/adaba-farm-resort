@@ -15,6 +15,7 @@ app.use(
   cors({
     origin: [
       "https://kazfieldisl.com",
+      "https://adabafarmresort.com",
       "https://kazfieldisl.com/adabafarmresort",
       "https://adaba-farm-resort.onrender.com",
       "http://localhost:3000",
@@ -371,9 +372,18 @@ app.get("/health", (req, res) =>
 // ---------------- Sina API Integration ----------------
 const sinaRoutes = require("./src/routes");
 const errorHandler = require("./src/middleware/errorHandler");
+const sinaConfig = require("./src/config");
 
-// Mount Sina routes under /api (e.g., /api/sina/contact)
+// Log and validate Sina API configuration
+console.log("\n🔧 Validating Sina API Configuration...");
+sinaConfig.logConfig();
+const configValidation = sinaConfig.validate();
+if (!configValidation.valid) {
+  console.error("⚠️ WARNING: Sina API may not function correctly due to configuration errors!");
+}
+
 // Mount Sina routes under /adabafarmresort/api to match existing structure
+console.log("📍 Mounting Sina routes at: /adabafarmresort/api/sina/*");
 app.use("/adabafarmresort/api", sinaRoutes);
 
 // ---------------- Global Error Handler ----------------
