@@ -3,6 +3,12 @@
 import React, { useState } from 'react';
 
 const AdabaSubscriptionForm = () => {
+  const [passportPhoto, setPassportPhoto] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState('idle');
+  const [submitMessage, setSubmitMessage] = useState('');
+  const [fileError, setFileError] = useState('');
+
   const [formData, setFormData] = useState({
     title: '',
     surname: '',
@@ -10,7 +16,7 @@ const AdabaSubscriptionForm = () => {
     otherNames: '',
     nin: '',
     maritalStatus: '',
-    dob: { day: '', month: '', year: '' },
+    dob: { full: '' },
     sex: '',
     spouseSurname: '',
     spouseFirstName: '',
@@ -38,9 +44,10 @@ const AdabaSubscriptionForm = () => {
     nokPhoneNumber2: '',
     noOfAcres: '',
     paymentPlan: '',
-    signatureDate: { day: '', month: '', year: '' },
+    signatureDate: { full: '' },
+    finalDate: '',
     referredBy: '',
-    referralDate: { day: '', month: '', year: '' },
+    referralDateFull: '',
     referralPhone: '',
     referralCid: '',
     modeOfPayment: '',
@@ -54,17 +61,142 @@ const AdabaSubscriptionForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleNestedChange = (parent, field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [parent]: { ...prev[parent], [field]: value }
-    }));
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    setFileError('');
+
+    if (file) {
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+      if (!allowedTypes.includes(file.type)) {
+        setFileError('Please upload only JPEG or PNG files');
+        setPassportPhoto(null);
+        return;
+      }
+
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        setFileError('File size must be less than 5MB');
+        setPassportPhoto(null);
+        return;
+      }
+
+      setPassportPhoto(file);
+    } else {
+      setPassportPhoto(null);
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert('Form submitted successfully! Check console for data.');
+
+    if (fileError) {
+      setSubmitStatus('error');
+      setSubmitMessage('Please fix the file upload error before submitting.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setSubmitMessage('');
+
+    try {
+      const form = new FormData();
+
+      // Flatten nested date objects
+      const flattenedData = {
+        ...formData,
+        dob: formData.dob.full,
+        signatureDate: formData.signatureDate.full,
+      };
+
+      // Add all form fields to FormData
+      Object.entries(flattenedData).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+          form.append(key, value);
+        }
+      });
+
+      // Add passport photo if provided
+      if (passportPhoto) {
+        form.append('passportPhoto', passportPhoto);
+      }
+
+      const response = await fetch('https://kazfieldisl.com/adabafarmresort/api/sina/subscription', {
+        method: 'POST',
+        body: form,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || `HTTP error! status: ${response.status}`);
+      }
+
+      setSubmitStatus('success');
+      setSubmitMessage(data.message || '✅ Subscription submitted successfully! Check your email for confirmation.');
+
+      setFormData({
+        title: '',
+        surname: '',
+        middleName: '',
+        otherNames: '',
+        nin: '',
+        maritalStatus: '',
+        dob: { full: '' },
+        sex: '',
+        spouseSurname: '',
+        spouseFirstName: '',
+        nationality: 'Nigerian',
+        otherNationality: '',
+        occupation: '',
+        employerName: '',
+        residentialAddress: '',
+        cityTown: '',
+        lga: '',
+        state: '',
+        postalCode: '',
+        countryOfResidence: 'Nigeria',
+        otherCountry: '',
+        language: '',
+        email: '',
+        phoneNumber1: '',
+        phoneNumber2: '',
+        nokSurname: '',
+        nokFirstName: '',
+        nokAddress: '',
+        nokCityTown: '',
+        nokLga: '',
+        nokPhoneNumber1: '',
+        nokPhoneNumber2: '',
+        noOfAcres: '',
+        paymentPlan: '',
+        signatureDate: { full: '' },
+        finalDate: '',
+        referredBy: '',
+        referralDateFull: '',
+        referralPhone: '',
+        referralCid: '',
+        modeOfPayment: '',
+        accountName: '',
+        accountNumber: '',
+        bank: '',
+      });
+      setPassportPhoto(null);
+
+      // Reset file input
+      const fileInput = document.querySelector('input[type="file"]');
+      if (fileInput) {
+        fileInput.value = '';
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (error) {
+      console.error('Error submitting:', error);
+      setSubmitStatus('error');
+      setSubmitMessage(error.message || '❌ Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -165,6 +297,71 @@ const AdabaSubscriptionForm = () => {
           <p style={styles.formInstruction}>Please complete all fields in BLOCK LETTERS.</p>
         </div>
 
+        {/* Status Message */}
+        {submitMessage && (
+          <div style={{
+            ...styles.section,
+            background: submitStatus === 'success' ? '#d4edda' : '#f8d7da',
+            borderLeft: `4px solid ${submitStatus === 'success' ? '#28a745' : '#dc3545'}`,
+            padding: '15px 30px',
+            margin: '0',
+          }}>
+            <p style={{
+              margin: 0,
+              color: submitStatus === 'success' ? '#155724' : '#721c24',
+              fontSize: '14px',
+              fontWeight: '600',
+            }}>
+              {submitMessage}
+            </p>
+          </div>
+        )}
+
+        {/* Passport Photo Upload Section */}
+        <div style={styles.section}>
+          <div style={styles.sectionHeader}>
+            <span style={styles.sectionTitle}>Upload Passport Photograph</span>
+          </div>
+          <div style={styles.fieldRow}>
+            <div style={styles.fieldGroupFull}>
+              <label style={styles.label}>Passport Photograph (JPEG/PNG only, max 5MB)</label>
+              <input
+                type="file"
+                accept="image/jpeg,image/jpg,image/png"
+                onChange={handleFileChange}
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                  border: '2px solid #2d5016',
+                  borderRadius: '4px',
+                  background: '#fffef5',
+                  cursor: 'pointer',
+                }}
+              />
+              {fileError && (
+                <p style={{
+                  color: '#dc3545',
+                  fontSize: '13px',
+                  marginTop: '5px',
+                  marginBottom: 0,
+                }}>
+                  ❌ {fileError}
+                </p>
+              )}
+              {passportPhoto && !fileError && (
+                <p style={{
+                  color: '#28a745',
+                  fontSize: '13px',
+                  marginTop: '5px',
+                  marginBottom: 0,
+                }}>
+                  ✅ File selected: {passportPhoto.name} ({(passportPhoto.size / 1024 / 1024).toFixed(2)} MB)
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+
         {/* Subscriber's Information */}
         <div style={styles.section}>
           <div style={styles.sectionHeader}>
@@ -185,45 +382,38 @@ const AdabaSubscriptionForm = () => {
             </div>
             <div style={styles.fieldGroup}>
               <label style={styles.label}>*Date</label>
-              <div style={styles.dateInputs}>
-                <input type="text" maxLength="2" placeholder="D" className="char-box small-char-box" 
-                  onChange={(e) => handleNestedChange('signatureDate', 'day', e.target.value)} />
-                <input type="text" maxLength="2" placeholder="D" className="char-box small-char-box"
-                  onChange={(e) => handleNestedChange('signatureDate', 'day', e.target.value)} />
-                <span style={styles.dateSeparator}>/</span>
-                <input type="text" maxLength="2" placeholder="M" className="char-box small-char-box"
-                  onChange={(e) => handleNestedChange('signatureDate', 'month', e.target.value)} />
-                <input type="text" maxLength="2" placeholder="M" className="char-box small-char-box"
-                  onChange={(e) => handleNestedChange('signatureDate', 'month', e.target.value)} />
-                <span style={styles.dateSeparator}>/</span>
-                <input type="text" maxLength="1" placeholder="Y" className="char-box small-char-box"
-                  onChange={(e) => handleNestedChange('signatureDate', 'year', e.target.value)} />
-                <input type="text" maxLength="1" placeholder="Y" className="char-box small-char-box" />
-                <input type="text" maxLength="1" placeholder="Y" className="char-box small-char-box" />
-                <input type="text" maxLength="1" placeholder="Y" className="char-box small-char-box" />
-              </div>
+              <input
+                type="date"
+                name="signatureDate"
+                style={styles.inputMedium}
+                value={formData.signatureDate?.full || ''}
+                onChange={(e) => setFormData(prev => ({
+                  ...prev,
+                  signatureDate: { ...prev.signatureDate, full: e.target.value }
+                }))}
+              />
             </div>
           </div>
 
           <div style={styles.fieldRow}>
             <div style={styles.fieldGroupWide}>
               <label style={styles.label}>(Surname)</label>
-              <input type="text" name="surname" style={styles.inputWide} onChange={handleChange} />
+              <input type="text" name="surname" value={formData.surname} style={styles.inputWide} onChange={handleChange} />
             </div>
             <div style={styles.fieldGroupMedium}>
               <label style={styles.label}>(Middle Name)</label>
-              <input type="text" name="middleName" style={styles.inputMedium} onChange={handleChange} />
+              <input type="text" name="middleName" value={formData.middleName} style={styles.inputMedium} onChange={handleChange} />
             </div>
           </div>
 
           <div style={styles.fieldRow}>
             <div style={styles.fieldGroupWide}>
               <label style={styles.label}>Other names</label>
-              <input type="text" name="otherNames" style={styles.inputWide} onChange={handleChange} />
+              <input type="text" name="otherNames" value={formData.otherNames} style={styles.inputWide} onChange={handleChange} />
             </div>
             <div style={styles.fieldGroup}>
               <label style={styles.label}>*NIN</label>
-              <input type="text" name="nin" maxLength="11" style={styles.inputMedium} onChange={handleChange} />
+              <input type="text" name="nin" value={formData.nin} maxLength="11" style={styles.inputMedium} onChange={handleChange} />
             </div>
           </div>
 
@@ -241,21 +431,16 @@ const AdabaSubscriptionForm = () => {
             </div>
             <div style={styles.fieldGroup}>
               <label style={styles.label}>*D.O.B</label>
-              <div style={styles.dateInputs}>
-                <input type="text" maxLength="2" placeholder="D" className="char-box small-char-box"
-                  onChange={(e) => handleNestedChange('dob', 'day', e.target.value)} />
-                <input type="text" maxLength="2" placeholder="D" className="char-box small-char-box" />
-                <span style={styles.dateSeparator}>/</span>
-                <input type="text" maxLength="2" placeholder="M" className="char-box small-char-box"
-                  onChange={(e) => handleNestedChange('dob', 'month', e.target.value)} />
-                <input type="text" maxLength="2" placeholder="M" className="char-box small-char-box" />
-                <span style={styles.dateSeparator}>/</span>
-                <input type="text" maxLength="1" placeholder="Y" className="char-box small-char-box"
-                  onChange={(e) => handleNestedChange('dob', 'year', e.target.value)} />
-                <input type="text" maxLength="1" placeholder="Y" className="char-box small-char-box" />
-                <input type="text" maxLength="1" placeholder="Y" className="char-box small-char-box" />
-                <input type="text" maxLength="1" placeholder="Y" className="char-box small-char-box" />
-              </div>
+              <input
+                type="date"
+                name="dob"
+                style={styles.inputMedium}
+                value={formData.dob?.full || ''}
+                onChange={(e) => setFormData(prev => ({
+                  ...prev,
+                  dob: { ...prev.dob, full: e.target.value }
+                }))}
+              />
             </div>
             <div style={styles.fieldGroup}>
               <label style={styles.label}>*Sex</label>
@@ -363,7 +548,7 @@ const AdabaSubscriptionForm = () => {
           <div style={styles.fieldRow}>
             <div style={styles.fieldGroupFull}>
               <label style={styles.label}>*Email</label>
-              <input type="email" name="email" style={styles.inputFull} onChange={handleChange} />
+              <input type="email" name="email" value={formData.email} style={styles.inputFull} onChange={handleChange} required />
             </div>
           </div>
 
@@ -371,9 +556,9 @@ const AdabaSubscriptionForm = () => {
             <div style={styles.fieldGroupFull}>
               <label style={styles.label}>*Phone Number</label>
               <div style={styles.phoneFields}>
-                <input type="tel" name="phoneNumber1" style={styles.inputMedium} onChange={handleChange} />
+                <input type="tel" name="phoneNumber1" value={formData.phoneNumber1} style={styles.inputMedium} onChange={handleChange} required />
                 <span style={styles.orText}>or</span>
-                <input type="tel" name="phoneNumber2" style={styles.inputMedium} onChange={handleChange} />
+                <input type="tel" name="phoneNumber2" value={formData.phoneNumber2} style={styles.inputMedium} onChange={handleChange} />
               </div>
             </div>
           </div>
@@ -440,7 +625,7 @@ const AdabaSubscriptionForm = () => {
           <div style={styles.fieldRow}>
             <div style={styles.fieldGroup}>
               <label style={styles.label}>*No of Acres</label>
-              <input type="number" name="noOfAcres" min="1" style={styles.inputSmall} onChange={handleChange} />
+              <input type="number" name="noOfAcres" value={formData.noOfAcres} min="1" style={styles.inputSmall} onChange={handleChange} required />
             </div>
           </div>
 
@@ -449,15 +634,15 @@ const AdabaSubscriptionForm = () => {
               <label style={styles.label}>*Payment Plan:</label>
               <div style={styles.paymentOptions}>
                 <label style={styles.paymentOption}>
-                  <input type="radio" name="paymentPlan" value="Outright" onChange={handleChange} />
+                  <input type="radio" name="paymentPlan" value="Outright" checked={formData.paymentPlan === 'Outright'} onChange={handleChange} required />
                   <span style={styles.paymentLabel}>Outright</span>
                 </label>
                 <label style={styles.paymentOption}>
-                  <input type="radio" name="paymentPlan" value="3 Months" onChange={handleChange} />
+                  <input type="radio" name="paymentPlan" value="3 Months" checked={formData.paymentPlan === '3 Months'} onChange={handleChange} required />
                   <span style={styles.paymentLabel}>3 Months</span>
                 </label>
                 <label style={styles.paymentOption}>
-                  <input type="radio" name="paymentPlan" value="6 Months" onChange={handleChange} />
+                  <input type="radio" name="paymentPlan" value="6 Months" checked={formData.paymentPlan === '6 Months'} onChange={handleChange} required />
                   <span style={styles.paymentLabel}>6 Months</span>
                   <span style={styles.interestBadge}>(Attract 5% Interest)</span>
                 </label>
@@ -614,9 +799,27 @@ const AdabaSubscriptionForm = () => {
 
         {/* Submit Button */}
         <div style={styles.submitSection}>
-          <button type="submit" style={styles.submitButton}>
-            Submit Application
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            style={{
+              ...styles.submitButton,
+              opacity: isSubmitting ? 0.6 : 1,
+              cursor: isSubmitting ? 'not-allowed' : 'pointer',
+            }}
+          >
+            {isSubmitting ? 'Submitting...' : 'Submit Application'}
           </button>
+          {isSubmitting && (
+            <p style={{
+              textAlign: 'center',
+              color: '#666',
+              fontSize: '14px',
+              marginTop: '10px'
+            }}>
+              Please wait while we process your subscription...
+            </p>
+          )}
         </div>
 
         {/* Footer */}

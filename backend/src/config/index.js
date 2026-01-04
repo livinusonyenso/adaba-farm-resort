@@ -28,6 +28,7 @@ const config = {
     OWNER: process.env.OWNER_EMAIL || 'admin@sinaconsultingservices.co.uk',
     FROM_CONTACT: `"Sina Consulting Website" <${process.env.SINA_SMTP_USER || 'admin@sinaconsultingservices.co.uk'}>`,
     FROM_CAREER: `"Sina Consulting Careers" <${process.env.SINA_SMTP_USER || 'admin@sinaconsultingservices.co.uk'}>`,
+    FROM_SUBSCRIPTION: `"Àdàbà Farm and Resort" <${process.env.SINA_SMTP_USER || 'admin@sinaconsultingservices.co.uk'}>`,
     FROM_SERVICE: `"Sina Consulting Services" <${process.env.SINA_SMTP_USER || 'admin@sinaconsultingservices.co.uk'}>`,
   },
   UPLOAD: {
