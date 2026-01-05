@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useApi } from '../context/ApiContext';
 
 const AdabaSubscriptionForm = () => {
+  const { submitSubscriptionForm } = useApi();
   const [passportPhoto, setPassportPhoto] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState('idle');
@@ -100,8 +102,6 @@ const AdabaSubscriptionForm = () => {
     setSubmitMessage('');
 
     try {
-      const form = new FormData();
-
       // Flatten nested date objects
       const flattenedData = {
         ...formData,
@@ -109,28 +109,8 @@ const AdabaSubscriptionForm = () => {
         signatureDate: formData.signatureDate.full,
       };
 
-      // Add all form fields to FormData
-      Object.entries(flattenedData).forEach(([key, value]) => {
-        if (value !== undefined && value !== null && value !== '') {
-          form.append(key, value);
-        }
-      });
-
-      // Add passport photo if provided
-      if (passportPhoto) {
-        form.append('passportPhoto', passportPhoto);
-      }
-
-      const response = await fetch('https://kazfieldisl.com/adabafarmresort/api/sina/subscription', {
-        method: 'POST',
-        body: form,
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || `HTTP error! status: ${response.status}`);
-      }
+      // Use the API context to submit the form
+      const data = await submitSubscriptionForm(flattenedData, passportPhoto);
 
       setSubmitStatus('success');
       setSubmitMessage(data.message || '✅ Subscription submitted successfully! Check your email for confirmation.');

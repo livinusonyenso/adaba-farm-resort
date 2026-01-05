@@ -16,6 +16,10 @@ export interface InvestmentFormData {
   sourceEmail?: string;
 }
 
+export interface SubscriptionFormData {
+  [key: string]: any;
+}
+
 export interface ApiResponse {
   message?: string;
   error?: string;
@@ -23,6 +27,7 @@ export interface ApiResponse {
 
 export interface ApiContextType {
   submitInvestmentForm: (formData: InvestmentFormData, receiptFile?: File) => Promise<ApiResponse>;
+  submitSubscriptionForm: (formData: SubscriptionFormData, passportPhoto?: File) => Promise<ApiResponse>;
   checkServerHealth: () => Promise<boolean>;
   baseUrl: string;
 }
@@ -37,7 +42,8 @@ class ApiService {
   constructor() {
     // Temporarily use localhost for testing - change back to deployed URL when backend is fixed
     // this.baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://kazfieldisl.com/adabafarmresort';
-    this.baseUrl ='https://kazfieldisl.com/adabafarmresort';
+    // this.baseUrl ='https://kazfieldisl.com/adabafarmresort';
+    this.baseUrl ='http://localhost:3001/adabafarmresort';
   }
 
   async submitInvestmentForm(formData: InvestmentFormData, receiptFile?: File): Promise<ApiResponse> {
@@ -74,6 +80,40 @@ class ApiService {
     }
   }
 
+  async submitSubscriptionForm(formData: SubscriptionFormData, passportPhoto?: File): Promise<ApiResponse> {
+    try {
+      const form = new FormData();
+
+      // Add all form fields
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+          form.append(key, value);
+        }
+      });
+
+      // Add passport photo if provided
+      if (passportPhoto) {
+        form.append('passportPhoto', passportPhoto);
+      }
+
+      const response = await fetch(`${this.baseUrl}/api/sina/subscription`, {
+        method: 'POST',
+        body: form,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || `HTTP error! status: ${response.status}`);
+      }
+
+      return data;
+    } catch (error) {
+      console.error('API Error:', error);
+      throw error;
+    }
+  }
+
   async checkServerHealth(): Promise<boolean> {
     try {
       const response = await fetch(`${this.baseUrl}/health`, {
@@ -97,6 +137,7 @@ export const ApiProvider = ({ children }: { children: ReactNode }) => {
 
   const contextValue: ApiContextType = {
     submitInvestmentForm: apiService.submitInvestmentForm.bind(apiService),
+    submitSubscriptionForm: apiService.submitSubscriptionForm.bind(apiService),
     checkServerHealth: apiService.checkServerHealth.bind(apiService),
     baseUrl: apiService.getBaseUrl(),
   };
