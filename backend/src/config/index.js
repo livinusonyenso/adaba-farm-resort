@@ -14,22 +14,22 @@ const config = {
     TLS_REJECT_UNAUTHORIZED: process.env.SINA_SMTP_TLS_REJECT_UNAUTHORIZED !== 'false',
   },
   
-  // Main SMTP configuration (for other endpoints like /api/send-email)
+  // Main SMTP configuration (Adaba Farm SMTP)
   SMTP: {
-    HOST: process.env.SMTP_HOST || 'smtp.gmail.com',
+    HOST: process.env.SMTP_HOST || 'server201.web-hosting.com',
     PORT: parseInt(process.env.SMTP_PORT) || 587,
-    USER: process.env.SMTP_USER || process.env.EMAIL_USER,
-    PASS: process.env.SMTP_PASS || process.env.EMAIL_PASS,
-    SECURE: process.env.SMTP_PORT == 465,
+    USER: process.env.EMAIL_USER,
+    PASS: process.env.EMAIL_PASS,
+    SECURE: process.env.SMTP_SECURE === 'true',
     TLS_REJECT_UNAUTHORIZED: process.env.SMTP_TLS_REJECT_UNAUTHORIZED !== 'false',
   },
   
   EMAIL: {
-    OWNER: process.env.OWNER_EMAIL || 'admin@sinaconsultingservices.co.uk',
-    FROM_CONTACT: `"Sina Consulting Website" <${process.env.SINA_SMTP_USER || 'admin@sinaconsultingservices.co.uk'}>`,
-    FROM_CAREER: `"Sina Consulting Careers" <${process.env.SINA_SMTP_USER || 'admin@sinaconsultingservices.co.uk'}>`,
-    FROM_SUBSCRIPTION: `"Àdàbà Farm and Resort" <${process.env.SINA_SMTP_USER || 'admin@sinaconsultingservices.co.uk'}>`,
-    FROM_SERVICE: `"Sina Consulting Services" <${process.env.SINA_SMTP_USER || 'admin@sinaconsultingservices.co.uk'}>`,
+    OWNER: process.env.OWNER_EMAIL || process.env.COMPANY_EMAIL || 'admin@sinaconsultingservices.co.uk',
+    FROM_CONTACT: `"Àdàbà Farm and Resort" <${process.env.EMAIL_USER || 'adabafarmresort@kazfieldisl.com'}>`,
+    FROM_CAREER: `"Àdàbà Farm and Resort" <${process.env.EMAIL_USER || 'adabafarmresort@kazfieldisl.com'}>`,
+    FROM_SUBSCRIPTION: `"Àdàbà Farm and Resort" <${process.env.EMAIL_USER || 'adabafarmresort@kazfieldisl.com'}>`,
+    FROM_SERVICE: `"Àdàbà Farm and Resort" <${process.env.EMAIL_USER || 'adabafarmresort@kazfieldisl.com'}>`,
   },
   UPLOAD: {
     MAX_SIZE: 5 * 1024 * 1024, // 5MB

@@ -9,40 +9,40 @@ class EmailService {
   async createTransporter() {
     if (this.transporter) return this.transporter;
 
-    console.log('📧 Initializing Sina Email Transporter...');
-    console.log(`   Host: ${config.SINA_SMTP.HOST}`);
-    console.log(`   Port: ${config.SINA_SMTP.PORT}`);
-    console.log(`   Secure: ${config.SINA_SMTP.SECURE}`);
-    console.log(`   User: ${config.SINA_SMTP.USER ? config.SINA_SMTP.USER.substring(0, 5) + '***' : 'NOT SET'}`);
+    console.log('📧 Initializing Adaba Farm Email Transporter...');
+    console.log(`   Host: ${config.SMTP.HOST}`);
+    console.log(`   Port: ${config.SMTP.PORT}`);
+    console.log(`   Secure: ${config.SMTP.SECURE}`);
+    console.log(`   User: ${config.SMTP.USER ? config.SMTP.USER.substring(0, 5) + '***' : 'NOT SET'}`);
 
-    if (!config.SINA_SMTP.USER || !config.SINA_SMTP.PASS) {
-      console.warn('⚠️ Sina SMTP credentials not found. Email service may not work.');
-      console.warn('   Please set SINA_SMTP_USER and SINA_SMTP_PASS in .env');
+    if (!config.SMTP.USER || !config.SMTP.PASS) {
+      console.warn('⚠️ SMTP credentials not found. Email service may not work.');
+      console.warn('   Please set EMAIL_USER and EMAIL_PASS in .env');
     }
 
-    // Try primary SMTP configuration (Sina-specific)
+    // Try primary SMTP configuration (Adaba Farm SMTP)
     const primaryTransporter = nodemailer.createTransport({
-      host: config.SINA_SMTP.HOST,
-      port: config.SINA_SMTP.PORT,
-      secure: config.SINA_SMTP.SECURE,
+      host: config.SMTP.HOST,
+      port: config.SMTP.PORT,
+      secure: config.SMTP.SECURE,
       auth: {
-        user: config.SINA_SMTP.USER,
-        pass: config.SINA_SMTP.PASS,
+        user: config.SMTP.USER,
+        pass: config.SMTP.PASS,
       },
       tls: {
-        rejectUnauthorized: config.SINA_SMTP.TLS_REJECT_UNAUTHORIZED,
+        rejectUnauthorized: config.SMTP.TLS_REJECT_UNAUTHORIZED,
       },
     });
 
     try {
       await primaryTransporter.verify();
-      console.log(`✅ Sina SMTP Verified Successfully via ${config.SINA_SMTP.HOST}`);
+      console.log(`✅ SMTP Verified Successfully via ${config.SMTP.HOST}`);
       this.transporter = primaryTransporter;
       return this.transporter;
     } catch (err) {
       console.error('❌ Primary SMTP Verification failed:', err.message);
       console.warn('➡️ Attempting fallback to localhost relay (port 25, no auth)...');
-      
+
       // Fallback to localhost mail relay (common in cPanel/production environments)
       try {
         const fallbackTransporter = nodemailer.createTransport({
@@ -67,8 +67,17 @@ class EmailService {
   }
 
   async sendMail(options) {
+    // Skip actual email sending in localhost development
+    if (process.env.NODE_ENV === 'development' || !process.env.EMAIL_USER || process.env.EMAIL_USER.includes('your-gmail')) {
+      console.log('🧪 [DEV MODE] Simulating email send (not actually sent):');
+      console.log(`   📤 To: ${options.to}`);
+      console.log(`   📧 Subject: ${options.subject}`);
+      console.log(`   ✅ Email would be sent in production`);
+      return { messageId: 'dev-mode-mock-id', accepted: [options.to] };
+    }
+
     const transporter = await this.createTransporter();
-    
+
     try {
       console.log(`📤 Sending email to: ${options.to}`);
       console.log(`   Subject: ${options.subject}`);

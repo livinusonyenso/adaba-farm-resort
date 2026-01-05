@@ -245,6 +245,12 @@ router.get("/", (req, res) => {
   res.send("<h3>✅ Adaba Farm Resort API is active and reachable.</h3>");
 });
 
+// ✅ POST /adabafarmresort/api/subscription
+const subscriptionController = require("./src/controllers/subscription.controller");
+const subscriptionValidator = require("./src/validators/subscription.validator");
+
+router.post("/api/subscription", upload.single("passportPhoto"), subscriptionValidator, subscriptionController.submitSubscriptionForm);
+
 // ✅ POST /adabafarmresort/api/send-email
 router.post("/api/send-email", upload.single("receiptFile"), async (req, res) => {
   try {
@@ -353,6 +359,11 @@ router.post("/api/send-email", upload.single("receiptFile"), async (req, res) =>
 // Mount the router under /adabafarmresort
 app.use("/adabafarmresort", router);
 
+// Add health endpoint under /adabafarmresort as well
+router.get("/health", (req, res) =>
+  res.json({ status: "OK", timestamp: new Date().toISOString() })
+);
+
 // ---------------- Health + Root ----------------
 app.get("/", (req, res) => {
   res.json({
@@ -360,6 +371,8 @@ app.get("/", (req, res) => {
     endpoints: [
       "/adabafarmresort/",
       "/adabafarmresort/api/send-email",
+      "/adabafarmresort/api/subscription",
+      "/adabafarmresort/health",
       "/health",
     ],
   });
@@ -369,25 +382,8 @@ app.get("/health", (req, res) =>
   res.json({ status: "OK", timestamp: new Date().toISOString() })
 );
 
-// ---------------- Sina API Integration ----------------
-const sinaRoutes = require("./src/routes");
-const errorHandler = require("./src/middleware/errorHandler");
-const sinaConfig = require("./src/config");
-
-// Log and validate Sina API configuration
-console.log("\n🔧 Validating Sina API Configuration...");
-sinaConfig.logConfig();
-const configValidation = sinaConfig.validate();
-if (!configValidation.valid) {
-  console.error("⚠️ WARNING: Sina API may not function correctly due to configuration errors!");
-}
-
-// Mount Sina routes under /adabafarmresort/api to match existing structure
-console.log("📍 Mounting Sina routes at: /adabafarmresort/api/sina/*");
-app.use("/adabafarmresort/api", sinaRoutes);
-
 // ---------------- Global Error Handler ----------------
-// Using the centralized error handler from clean architecture
+const errorHandler = require("./src/middleware/errorHandler");
 app.use(errorHandler);
 
 // ---------------- Start Server ----------------

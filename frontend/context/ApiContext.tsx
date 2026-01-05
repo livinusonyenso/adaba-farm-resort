@@ -40,10 +40,8 @@ class ApiService {
   private baseUrl: string;
 
   constructor() {
-    // Temporarily use localhost for testing - change back to deployed URL when backend is fixed
-    // this.baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://kazfieldisl.com/adabafarmresort';
-    // this.baseUrl ='https://kazfieldisl.com/adabafarmresort';
-    this.baseUrl ='http://localhost:3001/adabafarmresort';
+    // Use localhost for development, production URL for deployment
+    this.baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
   }
 
   async submitInvestmentForm(formData: InvestmentFormData, receiptFile?: File): Promise<ApiResponse> {
@@ -62,7 +60,7 @@ class ApiService {
         form.append("receiptFile", receiptFile);
       }
 
-      const response = await fetch(`${this.baseUrl}/api/send-email`, {
+      const response = await fetch(`${this.baseUrl}/adabafarmresort/api/send-email`, {
         method: "POST",
         body: form,
       });
@@ -96,7 +94,7 @@ class ApiService {
         form.append('passportPhoto', passportPhoto);
       }
 
-      const response = await fetch(`${this.baseUrl}/api/sina/subscription`, {
+      const response = await fetch(`${this.baseUrl}/adabafarmresort/api/subscription`, {
         method: 'POST',
         body: form,
       });
@@ -116,7 +114,7 @@ class ApiService {
 
   async checkServerHealth(): Promise<boolean> {
     try {
-      const response = await fetch(`${this.baseUrl}/health`, {
+      const response = await fetch(`${this.baseUrl}/adabafarmresort/health`, {
         method: 'GET',
       });
       return response.ok;

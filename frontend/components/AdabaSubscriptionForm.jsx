@@ -1,15 +1,18 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import SignatureCanvas from 'react-signature-canvas';
 import { useApi } from '../context/ApiContext';
 
 const AdabaSubscriptionForm = () => {
   const { submitSubscriptionForm } = useApi();
+  const signatureRef = useRef(null);
   const [passportPhoto, setPassportPhoto] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState('idle');
   const [submitMessage, setSubmitMessage] = useState('');
   const [fileError, setFileError] = useState('');
+  const [signatureError, setSignatureError] = useState('');
 
   const [formData, setFormData] = useState({
     title: '',
@@ -88,8 +91,22 @@ const AdabaSubscriptionForm = () => {
     }
   };
 
+  const clearSignature = () => {
+    if (signatureRef.current) {
+      signatureRef.current.clear();
+      setSignatureError('');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate signature
+    if (signatureRef.current && signatureRef.current.isEmpty()) {
+      setSignatureError('Please provide your signature');
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      return;
+    }
 
     if (fileError) {
       setSubmitStatus('error');
@@ -100,13 +117,18 @@ const AdabaSubscriptionForm = () => {
     setIsSubmitting(true);
     setSubmitStatus('idle');
     setSubmitMessage('');
+    setSignatureError('');
 
     try {
+      // Get signature as base64 data URL
+      const signatureDataURL = signatureRef.current ? signatureRef.current.toDataURL() : null;
+
       // Flatten nested date objects
       const flattenedData = {
         ...formData,
         dob: formData.dob.full,
         signatureDate: formData.signatureDate.full,
+        signature: signatureDataURL, // Add signature to form data
       };
 
       // Use the API context to submit the form
@@ -649,13 +671,37 @@ const AdabaSubscriptionForm = () => {
 
         {/* Signature Section */}
         <div style={styles.signatureSection}>
-          <div style={styles.signatureField}>
-            <label style={styles.label}>*Signature</label>
-            <div style={styles.signatureLine}></div>
+          <div style={styles.signaturePadContainer}>
+            <div style={styles.signatureHeader}>
+              <label style={styles.label}>*Digital Signature</label>
+              <button
+                type="button"
+                onClick={clearSignature}
+                style={styles.clearButton}
+              >
+                Clear Signature
+              </button>
+            </div>
+            <div style={styles.signaturePadWrapper}>
+              <SignatureCanvas
+                ref={signatureRef}
+                canvasProps={{
+                  style: styles.signaturePad
+                }}
+                backgroundColor="#ffffff"
+                penColor="#000000"
+              />
+            </div>
+            {signatureError && (
+              <p style={styles.errorText}>❌ {signatureError}</p>
+            )}
+            <p style={styles.signatureHint}>
+              Please sign above using your mouse or touchscreen
+            </p>
           </div>
           <div style={styles.fieldGroup}>
             <label style={styles.label}>*Date</label>
-            <input type="date" name="finalDate" style={styles.inputMedium} onChange={handleChange} />
+            <input type="date" name="finalDate" style={styles.inputMedium} onChange={handleChange} required />
           </div>
         </div>
 
@@ -1101,10 +1147,57 @@ const styles = {
   },
   signatureSection: {
     display: 'flex',
-    gap: '40px',
+    flexDirection: 'column',
+    gap: '20px',
     padding: '20px 30px',
-    alignItems: 'flex-end',
     borderBottom: '1px solid #e0e0e0',
+  },
+  signaturePadContainer: {
+    flex: '1',
+    width: '100%',
+  },
+  signatureHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '10px',
+  },
+  signaturePadWrapper: {
+    border: '2px solid #2d5016',
+    borderRadius: '8px',
+    overflow: 'hidden',
+    background: '#ffffff',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+  },
+  signaturePad: {
+    width: '100%',
+    height: '200px',
+    cursor: 'crosshair',
+  },
+  clearButton: {
+    background: '#dc3545',
+    color: '#ffffff',
+    border: 'none',
+    padding: '8px 16px',
+    fontSize: '14px',
+    fontWeight: '600',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+  },
+  signatureHint: {
+    fontSize: '12px',
+    color: '#666',
+    fontStyle: 'italic',
+    marginTop: '8px',
+    marginBottom: 0,
+  },
+  errorText: {
+    color: '#dc3545',
+    fontSize: '13px',
+    marginTop: '5px',
+    marginBottom: 0,
+    fontWeight: '600',
   },
   signatureField: {
     flex: '1',
