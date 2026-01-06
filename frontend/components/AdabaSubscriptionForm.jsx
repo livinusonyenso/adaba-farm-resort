@@ -286,10 +286,27 @@ const AdabaSubscriptionForm = () => {
           </div>
           
           <div style={styles.photoBox}>
-            <div style={styles.photoPlaceholder}>
-              <span style={styles.photoText}>Affix Passport</span>
-              <span style={styles.photoText}>Photograph Here</span>
-            </div>
+            <label htmlFor="passport-photo-header" style={styles.photoPlaceholder}>
+              <input
+                id="passport-photo-header"
+                type="file"
+                accept="image/jpeg,image/jpg,image/png"
+                onChange={handleFileChange}
+                style={{ display: 'none' }}
+              />
+              {passportPhoto ? (
+                <img
+                  src={URL.createObjectURL(passportPhoto)}
+                  alt="Passport"
+                  style={styles.photoPreview}
+                />
+              ) : (
+                <>
+                  <span style={styles.photoText}>Affix Passport</span>
+                  <span style={styles.photoText}>Photograph Here</span>
+                </>
+              )}
+            </label>
           </div>
         </div>
 
@@ -319,50 +336,7 @@ const AdabaSubscriptionForm = () => {
           </div>
         )}
 
-        {/* Passport Photo Upload Section */}
-        <div style={styles.section}>
-          <div style={styles.sectionHeader}>
-            <span style={styles.sectionTitle}>Upload Passport Photograph</span>
-          </div>
-          <div style={styles.fieldRow}>
-            <div style={styles.fieldGroupFull}>
-              <label style={styles.label}>Passport Photograph (JPEG/PNG only, max 5MB)</label>
-              <input
-                type="file"
-                accept="image/jpeg,image/jpg,image/png"
-                onChange={handleFileChange}
-                style={{
-                  width: '100%',
-                  padding: '10px',
-                  border: '2px solid #2d5016',
-                  borderRadius: '4px',
-                  background: '#fffef5',
-                  cursor: 'pointer',
-                }}
-              />
-              {fileError && (
-                <p style={{
-                  color: '#dc3545',
-                  fontSize: '13px',
-                  marginTop: '5px',
-                  marginBottom: 0,
-                }}>
-                  ❌ {fileError}
-                </p>
-              )}
-              {passportPhoto && !fileError && (
-                <p style={{
-                  color: '#28a745',
-                  fontSize: '13px',
-                  marginTop: '5px',
-                  marginBottom: 0,
-                }}>
-                  ✅ File selected: {passportPhoto.name} ({(passportPhoto.size / 1024 / 1024).toFixed(2)} MB)
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
+    
 
         {/* Subscriber's Information */}
         <div style={styles.section}>
@@ -656,7 +630,7 @@ const AdabaSubscriptionForm = () => {
         {/* Declaration */}
         <div style={styles.declarationSection}>
           <p style={styles.declarationText}>
-            I/we <strong>{formData.surname || '.................................'}</strong> hereby affirm that all information provided as a requirement for the land in
+            I/we <strong>{`${formData?.surname} ${formData?.middleName} ${formData?.otherNames} `}</strong> hereby affirm that all information provided as a requirement for the land in
             Adaba Farm & Resort Owode Local Government Area, Ogun State,
             is true and any false or inaccurate information given by me may result in the decline of my application.
           </p>
@@ -969,11 +943,20 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     background: '#f8faf5',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    overflow: 'hidden',
   },
   photoText: {
     fontSize: '11px',
     color: '#666',
     textAlign: 'center',
+    pointerEvents: 'none',
+  },
+  photoPreview: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
   },
   formTitleSection: {
     textAlign: 'center',

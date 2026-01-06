@@ -27,7 +27,7 @@ export default function Home() {
       <Partners/>
       <FAQSection />
       <CTASection />
-      {/* <ContactPage/> */}
+      <ContactPage/>
       <AdabaSubscriptionForm/>
       <Footer />
     </main>
