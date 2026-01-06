@@ -1,20 +1,21 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, ChangeEvent, FormEvent } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import { useApi } from '../context/ApiContext';
+import { SubscriptionFormState, SubmitStatus } from '../types/subscription';
 
 const AdabaSubscriptionForm = () => {
   const { submitSubscriptionForm } = useApi();
-  const signatureRef = useRef(null);
-  const [passportPhoto, setPassportPhoto] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState('idle');
-  const [submitMessage, setSubmitMessage] = useState('');
-  const [fileError, setFileError] = useState('');
-  const [signatureError, setSignatureError] = useState('');
+  const signatureRef = useRef<SignatureCanvas | null>(null);
+  const [passportPhoto, setPassportPhoto] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('idle');
+  const [submitMessage, setSubmitMessage] = useState<string>('');
+  const [fileError, setFileError] = useState<string>('');
+  const [signatureError, setSignatureError] = useState<string>('');
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<SubscriptionFormState>({
     title: '',
     surname: '',
     middleName: '',
@@ -61,12 +62,12 @@ const AdabaSubscriptionForm = () => {
     bank: '',
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     setFileError('');
 
@@ -98,7 +99,7 @@ const AdabaSubscriptionForm = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Validate signature
@@ -192,10 +193,10 @@ const AdabaSubscriptionForm = () => {
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error submitting:', error);
       setSubmitStatus('error');
-      setSubmitMessage(error.message || '❌ Something went wrong. Please try again.');
+      setSubmitMessage(error?.message || '❌ Something went wrong. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -836,7 +837,7 @@ const AdabaSubscriptionForm = () => {
   );
 };
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
   container: {
     minHeight: '100vh',
     background: 'linear-gradient(135deg, #f5f7e8 0%, #e8f0d8 50%, #d4e4c1 100%)',

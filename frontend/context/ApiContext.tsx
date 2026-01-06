@@ -94,7 +94,7 @@ class ApiService {
         form.append('passportPhoto', passportPhoto);
       }
 
-      const response = await fetch(`${this.baseUrl}/adabafarmresort/api/subscription`, {
+      const response = await fetch(`${this.baseUrl} `, {
         method: 'POST',
         body: form,
       });
