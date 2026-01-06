@@ -41,7 +41,8 @@ class ApiService {
 
   constructor() {
     // Use localhost for development, production URL for deployment
-    this.baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+    // this.baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+    this.baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://kazfieldisl.com/adabafarmresort';
   }
 
   async submitInvestmentForm(formData: InvestmentFormData, receiptFile?: File): Promise<ApiResponse> {
@@ -94,7 +95,7 @@ class ApiService {
         form.append('passportPhoto', passportPhoto);
       }
 
-      const response = await fetch(`${this.baseUrl} `, {
+      const response = await fetch(`${this.baseUrl}/api/subscription`, {
         method: 'POST',
         body: form,
       });

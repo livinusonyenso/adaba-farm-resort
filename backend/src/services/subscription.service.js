@@ -21,16 +21,36 @@ class SubscriptionService {
     // Prepare email for owner
     const ownerHtml = subscriptionOwnerTemplate(data, passportPhoto);
 
+    const attachments = [];
+
+    // Add passport photo if provided
+    if (passportPhoto) {
+      attachments.push({
+        filename: passportPhoto.originalname || 'passport.jpg',
+        content: passportPhoto.buffer, // Using buffer since we're using memoryStorage
+        contentType: passportPhoto.mimetype,
+        cid: passportPhoto.originalname // Content ID for embedding in email
+      });
+    }
+
+    // Add signature if provided (convert base64 to buffer)
+    if (data.signature) {
+      const signatureBase64 = data.signature.replace(/^data:image\/\w+;base64,/, '');
+      const signatureBuffer = Buffer.from(signatureBase64, 'base64');
+      attachments.push({
+        filename: 'signature.png',
+        content: signatureBuffer,
+        contentType: 'image/png',
+        cid: 'signature_image'
+      });
+    }
+
     const ownerMailOptions = {
       from: config.EMAIL.FROM_SUBSCRIPTION || config.EMAIL.FROM_SERVICE,
       to: config.EMAIL.OWNER,
       subject: `New Farm Subscription: ${fullName}`,
       html: ownerHtml,
-      attachments: passportPhoto ? [{
-        filename: passportPhoto.originalname,
-        path: passportPhoto.path,
-        contentType: passportPhoto.mimetype
-      }] : []
+      attachments
     };
 
     // Prepare confirmation email for subscriber
