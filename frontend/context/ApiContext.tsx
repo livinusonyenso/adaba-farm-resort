@@ -41,8 +41,8 @@ class ApiService {
 
   constructor() {
     // Use localhost for development, production URL for deployment
-    // this.baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
-    this.baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://kazfieldisl.com/adabafarmresort';
+    this.baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+    // this.baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://kazfieldisl.com/adabafarmresort';
   }
 
   async submitInvestmentForm(formData: InvestmentFormData, receiptFile?: File): Promise<ApiResponse> {

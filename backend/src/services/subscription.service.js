@@ -4,6 +4,7 @@ const config = require('../config');
 
 class SubscriptionService {
   async processSubscription(data, passportPhoto) {
+    // Extract all form fields
     const {
       title, surname, middleName, otherNames, nin, maritalStatus,
       dob, sex, spouseSurname, spouseFirstName, nationality, otherNationality,
@@ -11,14 +12,54 @@ class SubscriptionService {
       postalCode, countryOfResidence, otherCountry, language, email,
       phoneNumber1, phoneNumber2, nokSurname, nokFirstName, nokAddress,
       nokCityTown, nokLga, nokPhoneNumber1, nokPhoneNumber2, noOfAcres,
-      paymentPlan, signatureDate, referredBy, referralDate, referralPhone,
-      referralCid, modeOfPayment, accountName, accountNumber, bank
+      paymentPlan, signatureDate, finalDate, referredBy, referralDateFull, referralPhone,
+      referralCid, modeOfPayment, accountName, accountNumber, bank, signature
     } = data;
 
     // Format full name
     const fullName = `${title || ''} ${surname || ''} ${middleName || ''} ${otherNames || ''}`.trim();
 
-    // Prepare email for owner
+    // Format spouse name
+    const spouseName = `${spouseSurname || ''} ${spouseFirstName || ''}`.trim();
+
+    // Format next of kin name
+    const nokFullName = `${nokSurname || ''} ${nokFirstName || ''}`.trim();
+
+    // Determine nationality display
+    const nationalityDisplay = nationality === 'Others' ? otherNationality : nationality;
+
+    // Determine country display
+    const countryDisplay = countryOfResidence === 'Others' ? otherCountry : countryOfResidence;
+
+    // Log subscription details for debugging
+    console.log('📋 Processing subscription for:', fullName);
+    console.log('   Email:', email);
+    console.log('   Phone:', phoneNumber1, phoneNumber2 ? `/ ${phoneNumber2}` : '');
+    console.log('   NIN:', nin);
+    console.log('   DOB:', dob);
+    console.log('   Sex:', sex);
+    console.log('   Marital Status:', maritalStatus);
+    console.log('   Spouse:', spouseName || 'N/A');
+    console.log('   Nationality:', nationalityDisplay);
+    console.log('   Occupation:', occupation);
+    console.log('   Employer:', employerName);
+    console.log('   Address:', residentialAddress, cityTown, lga, state, postalCode);
+    console.log('   Country:', countryDisplay);
+    console.log('   Language:', language);
+    console.log('   Next of Kin:', nokFullName);
+    console.log('   NOK Phone:', nokPhoneNumber1, nokPhoneNumber2 ? `/ ${nokPhoneNumber2}` : '');
+    console.log('   NOK Address:', nokAddress, nokCityTown, nokLga);
+    console.log('   Acres:', noOfAcres);
+    console.log('   Payment Plan:', paymentPlan);
+    console.log('   Signature Date:', signatureDate);
+    console.log('   Final Date:', finalDate);
+    console.log('   Mode of Payment:', modeOfPayment);
+    console.log('   Bank Details:', accountName, accountNumber, bank);
+    console.log('   Referral:', referredBy, referralDateFull, referralPhone, referralCid);
+    console.log('   Has Signature:', !!signature);
+    console.log('   Has Passport Photo:', !!passportPhoto);
+
+    // Prepare email for owner with all data
     const ownerHtml = subscriptionOwnerTemplate(data, passportPhoto);
 
     const attachments = [];
@@ -27,15 +68,15 @@ class SubscriptionService {
     if (passportPhoto) {
       attachments.push({
         filename: passportPhoto.originalname || 'passport.jpg',
-        content: passportPhoto.buffer, // Using buffer since we're using memoryStorage
+        content: passportPhoto.buffer,
         contentType: passportPhoto.mimetype,
-        cid: passportPhoto.originalname // Content ID for embedding in email
+        cid: 'passport_photo'
       });
     }
 
     // Add signature if provided (convert base64 to buffer)
-    if (data.signature) {
-      const signatureBase64 = data.signature.replace(/^data:image\/\w+;base64,/, '');
+    if (signature) {
+      const signatureBase64 = signature.replace(/^data:image\/\w+;base64,/, '');
       const signatureBuffer = Buffer.from(signatureBase64, 'base64');
       attachments.push({
         filename: 'signature.png',
@@ -48,35 +89,49 @@ class SubscriptionService {
     const ownerMailOptions = {
       from: config.EMAIL.FROM_SUBSCRIPTION || config.EMAIL.FROM_SERVICE,
       to: config.EMAIL.OWNER,
-      subject: `New Farm Subscription: ${fullName}`,
+      subject: `New Farm Subscription: ${fullName} - ${noOfAcres} Acre(s) - ${paymentPlan}`,
       html: ownerHtml,
       attachments
     };
 
-    // Prepare confirmation email for subscriber
+    // Prepare confirmation email for subscriber with comprehensive details
     const applicantHtml = subscriptionApplicantTemplate({
       name: fullName,
       email,
+      phone: phoneNumber1,
       noOfAcres,
-      paymentPlan
+      paymentPlan,
+      signatureDate,
+      address: `${residentialAddress || ''}, ${cityTown || ''}, ${state || ''}`.replace(/^, |, $/g, ''),
+      nationality: nationalityDisplay,
+      nokName: nokFullName,
+      nokPhone: nokPhoneNumber1
     });
 
     const applicantMailOptions = {
       from: config.EMAIL.FROM_SERVICE,
       to: email,
-      subject: 'Subscription Received - Àdàbà Farm and Resort',
+      subject: `Subscription Confirmed - Àdàbà Farm and Resort (${noOfAcres} Acre${noOfAcres > 1 ? 's' : ''})`,
       html: applicantHtml
     };
 
     // Send emails in parallel
+    console.log('📧 Sending emails...');
     await Promise.all([
       emailService.sendMail(ownerMailOptions),
       emailService.sendMail(applicantMailOptions)
     ]);
+    console.log('✅ Emails sent successfully');
 
     return {
       success: true,
-      message: 'Subscription submitted successfully'
+      message: 'Subscription submitted successfully',
+      data: {
+        subscriber: fullName,
+        email,
+        acres: noOfAcres,
+        paymentPlan
+      }
     };
   }
 }

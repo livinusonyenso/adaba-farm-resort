@@ -19,6 +19,8 @@ app.use(
       "https://kazfieldisl.com/adabafarmresort",
       "https://adaba-farm-resort.onrender.com",
       "http://localhost:3000",
+      "http://localhost:3000/subscription",
+      "http://localhost:3000/subscription/",
       "http://localhost:3001",
       process.env.FRONTEND_URL,
     ].filter(Boolean),
