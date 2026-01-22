@@ -59,18 +59,19 @@ class SubscriptionService {
     console.log('   Has Signature:', !!signature);
     console.log('   Has Passport Photo:', !!passportPhoto);
 
-    // Prepare email for owner with all data
+    // Prepare email for admin with all data
     const ownerHtml = subscriptionOwnerTemplate(data, passportPhoto);
 
     const attachments = [];
 
-    // Add passport photo if provided
+    // Add passport photo if provided - both embedded (cid) and as downloadable attachment
     if (passportPhoto) {
+      // Embedded version for display in email
       attachments.push({
-        filename: passportPhoto.originalname || 'passport.jpg',
+        filename: `passport_${surname || 'photo'}_${Date.now()}.${passportPhoto.mimetype.split('/')[1] || 'jpg'}`,
         content: passportPhoto.buffer,
         contentType: passportPhoto.mimetype,
-        cid: 'passport_photo'
+        cid: 'passport_photo' // For embedding in email body
       });
     }
 
@@ -79,17 +80,22 @@ class SubscriptionService {
       const signatureBase64 = signature.replace(/^data:image\/\w+;base64,/, '');
       const signatureBuffer = Buffer.from(signatureBase64, 'base64');
       attachments.push({
-        filename: 'signature.png',
+        filename: `signature_${surname || 'subscriber'}_${Date.now()}.png`,
         content: signatureBuffer,
         contentType: 'image/png',
-        cid: 'signature_image'
+        cid: 'signature_image' // For embedding in email body
       });
     }
 
+    // Admin email address - receives all subscription notifications
+    const adminEmail = config.EMAIL.ADMIN || config.EMAIL.OWNER || 'adabafarmresort@kazfieldisl.com';
+
+    console.log('📧 Admin email recipient:', adminEmail);
+
     const ownerMailOptions = {
       from: config.EMAIL.FROM_SUBSCRIPTION || config.EMAIL.FROM_SERVICE,
-      to: config.EMAIL.OWNER,
-      subject: `New Farm Subscription: ${fullName} - ${noOfAcres} Acre(s) - ${paymentPlan}`,
+      to: adminEmail,
+      subject: `🥥 New Farm Subscription: ${fullName} - ${noOfAcres} Acre(s) - ${paymentPlan}`,
       html: ownerHtml,
       attachments
     };

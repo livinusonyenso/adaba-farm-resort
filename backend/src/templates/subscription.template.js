@@ -381,22 +381,30 @@ exports.subscriptionOwnerTemplate = (data, passportPhoto) => {
               ${passportPhoto || signature ? `
               <div class="images-section">
                 <h3>📷 Uploaded Documents</h3>
+                <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Images are displayed below and also attached for download</p>
                 <table role="presentation" align="center" cellpadding="0" cellspacing="0">
                   <tr>
                     ${passportPhoto ? `
                     <td class="image-container">
                       <span class="image-label">Passport Photo</span>
                       <img src="cid:passport_photo" alt="Passport Photo" class="passport-img" />
+                      <p style="font-size: 11px; color: #2d5016; margin-top: 8px;">📎 Attached for download</p>
                     </td>
                     ` : ''}
                     ${signature ? `
                     <td class="image-container">
                       <span class="image-label">Digital Signature</span>
                       <img src="cid:signature_image" alt="Signature" class="signature-img" />
+                      <p style="font-size: 11px; color: #2d5016; margin-top: 8px;">📎 Attached for download</p>
                     </td>
                     ` : ''}
                   </tr>
                 </table>
+                <div style="margin-top: 15px; padding: 12px; background: #e8f5e9; border-radius: 6px; border: 1px solid #c8e6c9;">
+                  <p style="margin: 0; font-size: 13px; color: #2d5016;">
+                    <strong>💾 Download Files:</strong> The passport photo and signature are attached to this email. Check your email attachments to download them.
+                  </p>
+                </div>
               </div>
               ` : ''}
 

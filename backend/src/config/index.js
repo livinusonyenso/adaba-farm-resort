@@ -25,7 +25,8 @@ const config = {
   },
   
   EMAIL: {
-    OWNER: process.env.OWNER_EMAIL || process.env.COMPANY_EMAIL || 'admin@sinaconsultingservices.co.uk',
+    OWNER: process.env.OWNER_EMAIL || process.env.COMPANY_EMAIL || 'adabafarmresort@kazfieldisl.com',
+    ADMIN: 'adabafarmresort@kazfieldisl.com', // Admin email for subscription notifications
     FROM_CONTACT: `"Àdàbà Farm and Resort" <${process.env.EMAIL_USER || 'adabafarmresort@kazfieldisl.com'}>`,
     FROM_CAREER: `"Àdàbà Farm and Resort" <${process.env.EMAIL_USER || 'adabafarmresort@kazfieldisl.com'}>`,
     FROM_SUBSCRIPTION: `"Àdàbà Farm and Resort" <${process.env.EMAIL_USER || 'adabafarmresort@kazfieldisl.com'}>`,
