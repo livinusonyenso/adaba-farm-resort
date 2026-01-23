@@ -87,14 +87,14 @@ class SubscriptionService {
       });
     }
 
-    // Admin email address - receives all subscription notifications
-    const adminEmail = config.EMAIL.ADMIN || config.EMAIL.OWNER || 'adabafarmresort@kazfieldisl.com';
+    // Subscription admin email - receives all subscription notifications
+    const subscriptionAdminEmail = config.EMAIL.SUBSCRIPTION_ADMIN || 'adabafarmresortsubscription@kazfieldisl.com';
 
-    console.log('📧 Admin email recipient:', adminEmail);
+    console.log('📧 Subscription admin email recipient:', subscriptionAdminEmail);
 
     const ownerMailOptions = {
       from: config.EMAIL.FROM_SUBSCRIPTION || config.EMAIL.FROM_SERVICE,
-      to: adminEmail,
+      to: subscriptionAdminEmail,
       subject: `🥥 New Farm Subscription: ${fullName} - ${noOfAcres} Acre(s) - ${paymentPlan}`,
       html: ownerHtml,
       attachments

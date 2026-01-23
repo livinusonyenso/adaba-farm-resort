@@ -291,7 +291,9 @@ const AdabaSubscriptionForm = () => {
               <input
                 id="passport-photo-header"
                 type="file"
-                accept="image/jpeg,image/jpg,image/png"
+               
+                  accept="image/png,image/jpeg,image/jpg,.png,.jpg,.jpeg"
+
                 onChange={handleFileChange}
                 style={{ display: 'none' }}
               />

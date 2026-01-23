@@ -380,7 +380,7 @@ exports.subscriptionOwnerTemplate = (data, passportPhoto) => {
               <!-- Images Section -->
               ${passportPhoto || signature ? `
               <div class="images-section">
-                <h3>📷 Uploaded Documents</h3>
+                <h3>Uploaded Documents</h3>
                 <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Images are displayed below and also attached for download</p>
                 <table role="presentation" align="center" cellpadding="0" cellspacing="0">
                   <tr>
@@ -410,7 +410,7 @@ exports.subscriptionOwnerTemplate = (data, passportPhoto) => {
 
               <!-- Subscriber's Information -->
               <div class="section">
-                <div class="section-header">👤 Subscriber's Information</div>
+                <div class="section-header">Subscriber's Information</div>
                 <div class="section-body">
                   <table class="field-table" role="presentation">
                     <tr>
@@ -457,7 +457,7 @@ exports.subscriptionOwnerTemplate = (data, passportPhoto) => {
 
               <!-- Contact Information -->
               <div class="section">
-                <div class="section-header">📞 Contact Information</div>
+                <div class="section-header">Contact Information</div>
                 <div class="section-body">
                   <table class="field-table" role="presentation">
                     <tr>
@@ -502,7 +502,7 @@ exports.subscriptionOwnerTemplate = (data, passportPhoto) => {
 
               <!-- Next of Kin -->
               <div class="section">
-                <div class="section-header">👨‍👩‍👧 Next of Kin</div>
+                <div class="section-header">Next of Kin</div>
                 <div class="section-body">
                   <table class="field-table" role="presentation">
                     <tr>
@@ -531,7 +531,7 @@ exports.subscriptionOwnerTemplate = (data, passportPhoto) => {
 
               <!-- Investment Details -->
               <div class="section">
-                <div class="section-header" style="background: linear-gradient(90deg, #f7941d 0%, #ffa726 100%);">💰 Investment Details</div>
+                <div class="section-header" style="background: linear-gradient(90deg, #f7941d 0%, #ffa726 100%);">Investment Details</div>
                 <div class="section-body" style="background: #fffbf0;">
                   <table class="field-table" role="presentation">
                     <tr>
@@ -582,7 +582,7 @@ exports.subscriptionOwnerTemplate = (data, passportPhoto) => {
               ${referredBy ? `
               <!-- Referral Information -->
               <div class="section">
-                <div class="section-header" style="background: linear-gradient(90deg, #9c27b0 0%, #ba68c8 100%);">🤝 Referral Information</div>
+                <div class="section-header" style="background: linear-gradient(90deg, #9c27b0 0%, #ba68c8 100%);">Referral Information</div>
                 <div class="section-body" style="background: #faf5fc;">
                   <table class="field-table" role="presentation">
                     <tr>
@@ -612,7 +612,7 @@ exports.subscriptionOwnerTemplate = (data, passportPhoto) => {
 
               <!-- Important Note -->
               <div class="alert-box alert-warning">
-                <p><strong>💡 Pricing Note:</strong> N200,000 is for documentation and N500,000 is for land preparation, seedling, and cultivation per acre.</p>
+                <p><strong>Pricing Note:</strong> N200,000 is for documentation and N500,000 is for land preparation, seedling, and cultivation per acre.</p>
               </div>
 
             </td>
@@ -621,18 +621,11 @@ exports.subscriptionOwnerTemplate = (data, passportPhoto) => {
           <!-- Timestamp -->
           <tr>
             <td class="timestamp">
-              <p>📅 Submitted on <strong>${formattedSubmissionDate}</strong> at <strong>${formattedSubmissionTime}</strong></p>
+              <p>Submitted on <strong>${formattedSubmissionDate}</strong> at <strong>${formattedSubmissionTime}</strong></p>
             </td>
           </tr>
 
-          <!-- Footer -->
-          <tr>
-            <td class="footer">
-              <p style="font-size: 14px; font-weight: 600; margin-bottom: 10px;">KAZFIELD INTEGRATED SERVICES LTD</p>
-              <p>📍 4, Oluwole Agbede Street, Off Idowu Dabiri Road, Behind Blenco Supermarket, Sangotedo Lagos</p>
-              <p>📞 09077324522, 08024112949 | ✉️ info.kazfield@gmail.com</p>
-            </td>
-          </tr>
+        
 
         </table>
 
@@ -929,7 +922,7 @@ exports.subscriptionApplicantTemplate = ({ name, email, phone, noOfAcres, paymen
 
               <!-- Subscription Details -->
               <div class="details-card">
-                <h3>📋 Your Subscription Details</h3>
+                <h3>Your Subscription Details</h3>
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                   <tr>
                     <td class="detail-label" style="padding: 10px 0; border-bottom: 1px solid #e8e8e8;">Email</td>
@@ -1004,7 +997,7 @@ exports.subscriptionApplicantTemplate = ({ name, email, phone, noOfAcres, paymen
 
               <!-- Bank Details -->
               <div class="bank-section">
-                <h3>💳 Payment Account Details</h3>
+                <h3> Payment Account Details</h3>
 
                 <div class="bank-card">
                   <div class="bank-name">STERLING BANK</div>
@@ -1027,7 +1020,7 @@ exports.subscriptionApplicantTemplate = ({ name, email, phone, noOfAcres, paymen
 
               <!-- Important Note -->
               <div class="alert-box">
-                <p><strong>💡 Important:</strong> N200,000 is for documentation and N500,000 is for land preparation, seedling, and cultivation per acre.</p>
+                <p><strong> Important:</strong> N200,000 is for documentation and N500,000 is for land preparation, seedling, and cultivation per acre.</p>
               </div>
 
               <!-- CTA Section -->
@@ -1046,7 +1039,6 @@ exports.subscriptionApplicantTemplate = ({ name, email, phone, noOfAcres, paymen
               <p>📍 4, Oluwole Agbede Street, Off Idowu Dabiri Road</p>
               <p>Behind Blenco Supermarket, Sangotedo Lagos</p>
               <p style="margin-top: 10px;">📞 09077324522, 08024112949</p>
-              <p>✉️ info.kazfield@gmail.com</p>
             </td>
           </tr>
 
