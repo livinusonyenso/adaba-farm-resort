@@ -13,38 +13,67 @@ const galleryImages = [
       "With high local demand and global market potential, owning a coconut farm today means securing steady returns for years to come. Welcome to Àdàbà Coconut Farm & Resort, located in Owode, Ogun State, less than an hour’s drive from Epe.",
     url: "https://res.cloudinary.com/dikhomv7m/image/upload/%C3%80d%C3%A0b%C3%A0Dove_pg94ra.jpg",
   },
+ 
   {
     id: 2,
-    title: "Lush Coconut Plantation",
-    description: "Our thriving coconut plantation in full bloom",
-    url: "https://images.pexels.com/photos/12564750/pexels-photo-12564750.jpeg",
+    title: "Àdàbà Coconut Farm & Resort",
+    description:
+      "With high local demand and global market potential, owning a coconut farm today means securing steady returns for years to come. Welcome to Àdàbà Coconut Farm & Resort, located in Owode, Ogun State, less than an hour’s drive from Epe.",
+    url: "https://res.cloudinary.com/dikhomv7m/image/upload/v1772632119/WhatsApp_Image_2026-03-03_at_7.11.00_AM_qghoo0.jpg",
   },
   {
     id: 3,
+    title: "Àdàbà Coconut Farm & Resort",
+    description:
+      "With high local demand and global market potential, owning a coconut farm today means securing steady returns for years to come. Welcome to Àdàbà Coconut Farm & Resort, located in Owode, Ogun State, less than an hour’s drive from Epe.",
+    url: "https://res.cloudinary.com/dikhomv7m/image/upload/v1772632117/WhatsApp_Image_2026-03-03_at_7.11.00_AM_1_vlhptx.jpg",
+  },
+  {
+    id: 4,
+    title: "Àdàbà Coconut Farm & Resort",
+    description:
+      "With high local demand and global market potential, owning a coconut farm today means securing steady returns for years to come. Welcome to Àdàbà Coconut Farm & Resort, located in Owode, Ogun State, less than an hour’s drive from Epe.",
+    url: "https://res.cloudinary.com/dikhomv7m/image/upload/v1772632113/WhatsApp_Image_2026-03-03_at_7.11.01_AM_1_duxgmf.jpg",
+  },
+  {
+    id: 5,
+    title: "Lush Coconut Plantation",
+    description: "Our thriving coconut plantation in full bloom",
+     url: "https://res.cloudinary.com/dikhomv7m/image/upload/v1772632113/WhatsApp_Image_2026-03-03_at_7.11.01_AM_yrnbcx.jpg",
+  },
+  {
+    id: 6,
+    title: "Lush Coconut Plantation",
+    description: "Our thriving coconut plantation in full bloom",
+    url: "https://res.cloudinary.com/dikhomv7m/image/upload/v1772632113/WhatsApp_Image_2026-03-03_at_8.27.09_AM_oe2l4j.jpg",
+  },
+ 
+  {
+    id: 8,
     title: "Modern Farming Equipment",
     description: "State-of-the-art equipment for optimal yield",
     url: "https://images.pexels.com/photos/15923487/pexels-photo-15923487.jpeg",
   },
   {
-    id: 4,
+    id: 9,
     title: "Harvest Season",
     description: "Fresh coconuts ready for processing",
     url: "https://images.pexels.com/photos/12421272/pexels-photo-12421272.jpeg",
   },
   {
-    id: 5,
+    id: 10,
     title: "Processing Facility",
     description: "Advanced processing and packaging facility",
     url: "https://images.pexels.com/photos/11495414/pexels-photo-11495414.jpeg",
   },
   {
-    id: 7,
+    id: 11,
     title: "Farm Infrastructure",
     description: "Sustainable infrastructure and irrigation systems",
     url: "https://images.pexels.com/photos/4387821/pexels-photo-4387821.jpeg",
   },
   {
-    id: 8,
+    id: 12,
     title: "Resort Amenities",
     description: "Comfortable facilities for farm visitors",
     url: "https://images.pexels.com/photos/33191056/pexels-photo-33191056.jpeg",

@@ -13,6 +13,7 @@ import Partners from "@/components/Partners";
 import ContactPage from "@/components/ContactPage";
 import InvestmentProjectionTable from "@/components/InvestmentProjectionTable";
 import AdabaSubscriptionForm from "@/components/AdabaSubscriptionForm";
+import PricingFlyer from "@/components/PricingFlyer";
 export default function Home() {
   return (
     <main className="min-h-screen">
@@ -20,6 +21,7 @@ export default function Home() {
       <HeroSection />
       <AboutSection />
       <InvestmentPlans />
+      <PricingFlyer />
       <HowItWorksMain />
       <GallerySection />
       <Why />

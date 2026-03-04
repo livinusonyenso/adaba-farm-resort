@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find \"c:\\\\Users\\\\DELL\\\\Desktop\\\\adaba-farm-resort \\(1\\)\" -type f -name \"*.tsx\" -o -name \"*.ts\" -o -name \"*.jsx\" -o -name \"*.js\")",
+      "Bash(find \"c:\\\\Users\\\\DELL\\\\Desktop\\\\adaba-farm-resort \\(1\\)\" -type f \\\\\\( -name \"*.png\" -o -name \"*.jpg\" -o -name \"*.jpeg\" -o -name \"*.webp\" \\\\\\))",
+      "Bash(ls -la \"c:\\\\Users\\\\DELL\\\\Desktop\\\\adaba-farm-resort \\(1\\)\\\\frontend\\\\components\")"
+    ]
+  }
+}
