@@ -6,47 +6,7 @@ import { X } from "lucide-react";
 import Image from "next/image";
 
 const galleryImages = [
-  {
-    id: 1,
-    title: "Àdàbà Coconut Farm & Resort",
-    description:
-      "With high local demand and global market potential, owning a coconut farm today means securing steady returns for years to come. Welcome to Àdàbà Coconut Farm & Resort, located in Owode, Ogun State, less than an hour’s drive from Epe.",
-    url: "https://res.cloudinary.com/dikhomv7m/image/upload/%C3%80d%C3%A0b%C3%A0Dove_pg94ra.jpg",
-  },
- 
-  {
-    id: 2,
-    title: "Àdàbà Coconut Farm & Resort",
-    description:
-      "With high local demand and global market potential, owning a coconut farm today means securing steady returns for years to come. Welcome to Àdàbà Coconut Farm & Resort, located in Owode, Ogun State, less than an hour’s drive from Epe.",
-    url: "https://res.cloudinary.com/dikhomv7m/image/upload/v1772632119/WhatsApp_Image_2026-03-03_at_7.11.00_AM_qghoo0.jpg",
-  },
-  {
-    id: 3,
-    title: "Àdàbà Coconut Farm & Resort",
-    description:
-      "With high local demand and global market potential, owning a coconut farm today means securing steady returns for years to come. Welcome to Àdàbà Coconut Farm & Resort, located in Owode, Ogun State, less than an hour’s drive from Epe.",
-    url: "https://res.cloudinary.com/dikhomv7m/image/upload/v1772632117/WhatsApp_Image_2026-03-03_at_7.11.00_AM_1_vlhptx.jpg",
-  },
-  {
-    id: 4,
-    title: "Àdàbà Coconut Farm & Resort",
-    description:
-      "With high local demand and global market potential, owning a coconut farm today means securing steady returns for years to come. Welcome to Àdàbà Coconut Farm & Resort, located in Owode, Ogun State, less than an hour’s drive from Epe.",
-    url: "https://res.cloudinary.com/dikhomv7m/image/upload/v1772632113/WhatsApp_Image_2026-03-03_at_7.11.01_AM_1_duxgmf.jpg",
-  },
-  {
-    id: 5,
-    title: "Lush Coconut Plantation",
-    description: "Our thriving coconut plantation in full bloom",
-     url: "https://res.cloudinary.com/dikhomv7m/image/upload/v1772632113/WhatsApp_Image_2026-03-03_at_7.11.01_AM_yrnbcx.jpg",
-  },
-  {
-    id: 6,
-    title: "Lush Coconut Plantation",
-    description: "Our thriving coconut plantation in full bloom",
-    url: "https://res.cloudinary.com/dikhomv7m/image/upload/v1772632113/WhatsApp_Image_2026-03-03_at_8.27.09_AM_oe2l4j.jpg",
-  },
+
  
   {
     id: 8,
