@@ -5,25 +5,25 @@ import { CheckCircle, TrendingUp, Clock, MapPin, Leaf, Calendar, ChevronLeft, Ch
 import Image from "next/image";
 
 const flyerSlides = [
-  {
-    type: "pricing",
-    image: "https://res.cloudinary.com/dikhomv7m/image/upload/%C3%80d%C3%A0b%C3%A0Dove_pg94ra.jpg",
-    badge: "🔥 PRE-LAUNCH PRICE",
-    badgeStyle: "bg-amber-400 text-amber-900",
-    label: "Per Acre — Limited 200 Acres Only",
-    price: "₦3,700,000",
-    deposit: "₦1,000,000",
-    roiMin: "₦6,000,000",
-    roiMax: "₦12,000,000",
-    tagline: "We farm, you earn without stress.",
-    features: [
-      "60 hybrid coconut trees per acre",
-      "ROI: ₦6M – ₦12M per annum (gross)",
-      "200 acres only at this prelaunch price",
-      "₦1M initial deposit to reserve",
-      "30% processing & management fee applies",
-    ],
-  },
+  // {
+  //   type: "pricing",
+  //   image: "https://res.cloudinary.com/dikhomv7m/image/upload/%C3%80d%C3%A0b%C3%A0Dove_pg94ra.jpg",
+  //   badge: "🔥 PRE-LAUNCH PRICE",
+  //   badgeStyle: "bg-amber-400 text-amber-900",
+  //   label: "Per Acre — Limited 200 Acres Only",
+  //   price: "₦3,700,000",
+  //   deposit: "₦1,000,000",
+  //   roiMin: "₦6,000,000",
+  //   roiMax: "₦12,000,000",
+  //   tagline: "We farm, you earn without stress.",
+  //   features: [
+  //     "60 hybrid coconut trees per acre",
+  //     "ROI: ₦6M – ₦12M per annum (gross)",
+  //     "200 acres only at this prelaunch price",
+  //     "₦1M initial deposit to reserve",
+  //     "30% processing & management fee applies",
+  //   ],
+  // },
   {
     type: "pricing",
     image: "https://res.cloudinary.com/dikhomv7m/image/upload/v1772632119/WhatsApp_Image_2026-03-03_at_7.11.00_AM_qghoo0.jpg",
