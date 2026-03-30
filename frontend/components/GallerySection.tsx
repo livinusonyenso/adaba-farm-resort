@@ -6,38 +6,67 @@ import { X } from "lucide-react";
 import Image from "next/image";
 
 const galleryImages = [
-
- 
-  {
+ {
     id: 8,
     title: "Modern Farming Equipment",
     description: "State-of-the-art equipment for optimal yield",
-    url: "https://images.pexels.com/photos/15923487/pexels-photo-15923487.jpeg",
+    url: "https://res.cloudinary.com/dikhomv7m/image/upload/v1774904696/WhatsApp_Image_2026-03-28_at_9.27.10_PM_2_p3jlde.jpg", // Add your Cloudinary URL here
   },
   {
     id: 9,
     title: "Harvest Season",
     description: "Fresh coconuts ready for processing",
-    url: "https://images.pexels.com/photos/12421272/pexels-photo-12421272.jpeg",
+    url: "https://res.cloudinary.com/dikhomv7m/image/upload/v1774904698/WhatsApp_Image_2026-03-28_at_9.27.08_PM_nl6uzk.jpg", // Add your Cloudinary URL here
   },
   {
     id: 10,
     title: "Processing Facility",
     description: "Advanced processing and packaging facility",
-    url: "https://images.pexels.com/photos/11495414/pexels-photo-11495414.jpeg",
+    url: "https://res.cloudinary.com/dikhomv7m/image/upload/v1774904704/WhatsApp_Image_2026-03-28_at_9.27.09_PM_1_hi80he.jpg", // Add your Cloudinary URL here
   },
   {
     id: 11,
     title: "Farm Infrastructure",
     description: "Sustainable infrastructure and irrigation systems",
-    url: "https://images.pexels.com/photos/4387821/pexels-photo-4387821.jpeg",
+    url: "https://res.cloudinary.com/dikhomv7m/image/upload/v1774904699/WhatsApp_Image_2026-03-28_at_9.27.09_PM_xhmprw.jpg", // Add your Cloudinary URL here
   },
   {
     id: 12,
     title: "Resort Amenities",
     description: "Comfortable facilities for farm visitors",
-    url: "https://images.pexels.com/photos/33191056/pexels-photo-33191056.jpeg",
+    url: "https://res.cloudinary.com/dikhomv7m/image/upload/v1774904695/WhatsApp_Image_2026-03-28_at_9.27.11_PM_1_wmbnyi.jpg", // Add your Cloudinary URL here
   },
+ 
+  {
+    id: 13,
+    title: "Modern Farming Equipment",
+    description: "State-of-the-art equipment for optimal yield",
+    url: "https://res.cloudinary.com/dikhomv7m/image/upload/v1774904695/WhatsApp_Image_2026-03-28_at_9.27.10_PM_1_ed8x9a.jpg",
+  },
+  {
+    id: 14,
+    title: "Harvest Season",
+    description: "Fresh coconuts ready for processing",
+    url: "https://images.pexels.com/photos/12421272/pexels-photo-12421272.jpeg",
+  },
+  {
+    id: 15,
+    title: "Processing Facility",
+    description: "Advanced processing and packaging facility",
+    url: "https://images.pexels.com/photos/11495414/pexels-photo-11495414.jpeg",
+  },
+  {
+    id: 16,
+    title: "Farm Infrastructure",
+    description: "Sustainable infrastructure and irrigation systems",
+    url: "https://images.pexels.com/photos/4387821/pexels-photo-4387821.jpeg",
+  },
+  // {
+  //   id: 12,
+  //   title: "Resort Amenities",
+  //   description: "Comfortable facilities for farm visitors",
+  //   url: "https://images.pexels.com/photos/33191056/pexels-photo-33191056.jpeg",
+  // },
 ];
 
 export default function GallerySection() {

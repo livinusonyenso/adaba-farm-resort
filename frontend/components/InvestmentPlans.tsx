@@ -4,7 +4,7 @@ export default function InvestmentPlans() {
   const plan = {
     title: "Starter",
     acreage: 1,
-    price: 3700000,
+    price: 5000000,
     roi: "6m – 12m",
     maturity: "4–5 years",
     duration: "50 years and above",
